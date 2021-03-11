@@ -10,8 +10,6 @@
 </br>高校科研项目管理系统</br></h4>
 <p align="center">
                  
-[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
-![Last commit](https://img.shields.io/github/last-commit/Reagan1947/MathstudioWiki?style=flat-square)
              
 ## 1. 关于Research-Campus   
 
