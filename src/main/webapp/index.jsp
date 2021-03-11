@@ -11,6 +11,9 @@
     <%--    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/cover/">--%>
     <!-- Bootstrap core CSS -->
     <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+
+
 
     <style>
         .bd-placeholder-img {
@@ -39,16 +42,25 @@
             display: inline-flex;
         }
 
-        #nav-brand:hover #border-bottom-need {
-            border-bottom: .25rem solid #ff914d;
-            color: #1979ff;
+        /*Nav brand hover style*/
+        #nav-brand:hover #border-bottom-need,
+        #nav-brand:focus #border-bottom-need{
+            border-bottom-color: rgba(255, 255, 255, .25);
+            transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+            /*color: #1979ff;*/
             /*opacity: 1;*/
             /*transition-duration: 0.1s;*/
         }
-        #nav-brand:hover #border-un-need{
-            color: #1979ff;
-            /*opacity: 1;*/
-            /*transition-duration: 0.1s;*/
+        /*#nav-brand:hover #border-un-need{*/
+        /*    color: #1979ff;*/
+        /*    !*opacity: 1;*!*/
+        /*    !*transition-duration: 0.1s;*!*/
+        /*}*/
+
+
+        a {
+            text-decoration: none;
+            font-style: normal;
         }
     </style>
 
@@ -83,8 +95,9 @@
     </main>
 
     <footer class="mt-auto text-white-50">
-        <p>Copyright © 2021 Apple Inc. 保留所有权利。 <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a
-                href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p>
+        <p><a class="text-white" href="https://github.com/Reagan1947/Research-Campus">
+            <i class="bi bi-github"></i> Reagan1947/Research-Campus
+        </a></p>
     </footer>
 </div>
 
