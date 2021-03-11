@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--配置properties-->
+    <!--    <properties>
+            <property name="driver" value="com.mysql.jdbc.Driver"></property>
+            <property name="url" value="jdbc:mysql://localhost:3306/eesy_mybatis"></property>
+            <property name="username" value="root"></property>
+            <property name="password" value="1234"></property>
+        </properties>-->
+    <!--配置环境-->
+    <environments default="mysql">
+        <!-- 配置mysql的环境-->
+        <environment id="mysql">
+            <!-- 配置事务 -->
+            <transactionManager type="JDBC"/>
+
+            <!--配置连接池-->
+            <dataSource type="POOLED">
+                <!--       <property name="driver" value="${driver}"></property>
+                       <property name="url" value="${url}"></property>
+                       <property name="username" value="${username}"></property>
+                       <property name="password" value="${password}"></property>-->
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql:///ssm"/>
+                <property name="username" value="root"/>
+                <property name="password" value="root"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <!-- 配置映射文件的位置 -->
+    <mappers>
+        <!--        <mapper class="com.xl.dao.AccountDao"/>-->
+        <package name="com.research_campus.dao"/>
+    </mappers>
+</configuration>

@@ -1,0 +1,43 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+          http://www.springframework.org/schema/security
+          http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+
+    <bean id="passwordEncoder" class="org.springframework.security.crypto.password.NoOpPasswordEncoder"/>
+
+
+    <security:http security="none" pattern="/login.html"/>
+    <security:http security="none" pattern="/index.jsp"/>
+
+    <!-- 设置静态资源不过滤 -->
+    <security:http pattern="/static/images/**" security="none"/>
+    <security:http pattern="/css/**" security="none"/>
+    <security:http pattern="/images/**" security="none"/>
+    <security:http pattern="/js/**" security="none"/>
+
+
+    <!-- use-expressions:Spring 表达式语言配置访问控制 -->
+    <security:http auto-config="true" use-expressions="false">
+
+        <!-- 配置权限拦截，访问所有url，都需要用户登录，且拥有ROLE_USER权限 -->
+        <security:intercept-url pattern="/**" access="ROLE_USER" />
+
+    </security:http>
+
+
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider>
+            <!-- 配置默认用户，用户名：admin 密码：123456 拥有权限：ROLE_USER -->
+            <security:user-service>
+                <security:user name="admin" password="123456"
+                               authorities="ROLE_USER" />
+            </security:user-service>
+        </security:authentication-provider>
+
+    </security:authentication-manager>
+
+</beans>
