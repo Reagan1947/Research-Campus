@@ -14,10 +14,10 @@
     <security:http security="none" pattern="/index.jsp"/>
 
     <!-- 设置静态资源不过滤 -->
-    <security:http pattern="/static/images/**" security="none"/>
-    <security:http pattern="/css/**" security="none"/>
-    <security:http pattern="/images/**" security="none"/>
-    <security:http pattern="/js/**" security="none"/>
+    <security:http pattern="/bootstrap/**" security="none"/>
+    <security:http pattern="/custom/**" security="none"/>
+<!--    <security:http pattern="/images/**" security="none"/>-->
+<!--    <security:http pattern="/js/**" security="none"/>-->
 
 
     <!-- use-expressions:Spring 表达式语言配置访问控制 -->

@@ -25,9 +25,10 @@
     <mvc:annotation-driven/>
     <!-- 过滤静态资源 -->
 <!--    <mvc:resources location="/static/css" mapping="/static/**" />-->
-    <mvc:resources location="/static/css/" mapping="/css/**" />
-    <mvc:resources location="/static/images/" mapping="/images/**" />
-    <mvc:resources location="/static/js/" mapping="/js/**" />
+    <mvc:resources location="/custom/css/" mapping="/custom/css/**" />
+    <mvc:resources location="/custom/img/" mapping="/custom/img/**" />
+    <mvc:resources location="/custom/font/" mapping="/custom/font/**" />
+    <mvc:resources location="/bootstrap/css/" mapping="/bootstrap/css/**" />
 
 
 </beans>

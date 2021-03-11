@@ -1,175 +1,93 @@
 <%@ page contentType="text/html;charset=utf-8" %>
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en" class="h-100">
 <head>
-    <meta charset="UTF-8">
-    <script src="./js/vue.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.80.0">
+    <title>Research Campus Login Page</title>
+    <%--    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/cover/">--%>
+    <!-- Bootstrap core CSS -->
+    <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- import CSS -->
-    <link rel="stylesheet" href="./css/index.css">
-    <!-- import Vue before Element -->
-    <!-- import JavaScript -->
-    <script src="./js/index.js"></script>
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
 
-</head>
-<body>
-<%--<img  src="<%=request.getContextPath()%>/static/images/icon_03.svg" alt="Smiley face" width="42" height="42">--%>
-
-<el-container id="main_page">
-    <el-menu :default-active="activeIndex" id="menu" mode="horizontal" @select="handleSelect"
-             style="z-index:999; background-color:#ffffffde; position:relative; top:-10px; border-bottom:none;">
-        <el-menu-item id="menu_icon">
-<%--            <el-image :src="url_icon" style="height: 38px"></el-image>--%>
-            <img  src="./images/icon_03.svg" alt="Smiley face" width="42" height="42">
-        </el-menu-item>
-        <el-menu-item index="1">登录</el-menu-item>
-        <el-menu-item index="2">创建您的Research ID</el-menu-item>
-        <el-menu-item index="3">常见问题解答</el-menu-item>
-    </el-menu>
-    <el-main id="test">
-        <div style="position: absolute; top:200px; z-index:2; text-align: center; width:1200px; margin:auto;">
-            <div id="login_form" style="text-align: center; width:480px; margin:auto;">
-                <p style="font-size:40px; font-weight:600; color: white; margin:5px 0 8px 0;">Research ID</p>
-                <p style="font-size:17px; font-weight:500; color: white; margin:0 0 15px 0;">管理您的Research账户</p>
-                <el-input v-model="input" placeholder="Research ID" style="width:300px"
-                          :suffix-icon="login_icon"></el-input>
-            </div>
-        </div>
-        <div id="cover_container" style="width:1200px; height:660px">
-<%--            <el-image :src="url_main" fit="fill" id="main_cover" style="height:100%; width:100%; padding: 0"></el-image>--%>
-        </div>
-        <div id="login_infor_container">
-            <p id="login_infor">提供完善的科研项目管理服务</p>
-            <p style="width: 460px; margin:auto; font-size: 17px; margin-bottom:20px">使用一个 Research ID 和密码即可访问所有
-                Research 服务。 <a href="">了解有关 Research ID 的更多信息<i style="font-size:15px" class="el-icon-arrow-right"></i></a>
-            </p>
-            <i class="el-icon-chat-line-square infor_icon"></i>
-            <i class="el-icon-finished infor_icon"></i>
-            <i class="el-icon-key infor_icon"></i>
-            <i class="el-icon-notebook-2 infor_icon"></i>
-            <i class="el-icon-coin infor_icon"></i>
-            <i class="el-icon-data-analysis infor_icon"></i>
-            <p id="log_infor_end"><a href="">创建您的 Research ID<i style="font-size:15px" class="el-icon-arrow-right"></i></a>
-            </p>
-        </div>
-    </el-main>
-    <el-footer>
-        <div id="foot_container">
-            <p class="foot_infor">项目前端开源地址：<a href="">RESEARCH-VUE-Element UI</a>
-                项目开源证书：<a href="">MIT</a>
-            </p>
-            <p class="foot_infor">Copyright © 2021 lEE. 保留所有权利。</p>
-        </div>
-    </el-footer>
-</el-container>
-</body>
-
-<script>
-    new Main = {
-        el:'#app',
-        data() {
-            return {
-                activeIndex: '1',
-                activeIndex2: '1',
-                input: '',
-                // url_icon: require('./static/images/icon_03.svg'),
-                // url_main: require('./images/login_banner_01.jpeg'),
-                login_icon: 'el-icon-right'
-            }
-        },
-        methods: {
-            handleSelect(key, keyPath) {
-                console.log(key, keyPath)
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
             }
         }
-    }
+        @font-face {
+            font-family: Advent-Pro-Bold;
+            src: url("./custom/font/Advent-Pro-Bold.ttf") format("truetype");
+        }
+        #nav-brand {
+            font-family: Advent-Pro-Bold, "Segoe UI", sans-seri, serif;
+            display: inline-flex;
+        }
+        #border-bottom-need {
+            border-bottom: .25rem solid #FFFFFF;
+            display: inline-flex;
+        }
+
+        #nav-brand:hover #border-bottom-need {
+            border-bottom: .25rem solid #ff914d;
+            color: #1979ff;
+            /*opacity: 1;*/
+            /*transition-duration: 0.1s;*/
+        }
+        #nav-brand:hover #border-un-need{
+            color: #1979ff;
+            /*opacity: 1;*/
+            /*transition-duration: 0.1s;*/
+        }
+    </style>
 
 
+    <!-- Custom styles for this template -->
+    <link href="./custom/css/cover.css" rel="stylesheet">
+</head>
+<body class="d-flex h-100 text-center text-white bg-dark">
 
-</script>
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="mb-auto">
+        <div>
+            <h3 id="nav-brand" class="float-md-start mb-0">
+                <div id="border-bottom-need">Re</div>
+                <div id="border-un-need">search</div>
+            </h3>
+            <nav class="nav nav-masthead justify-content-center float-md-end">
+                <a class="nav-link active" aria-current="page" href="#">登录</a>
+                <a class="nav-link" href="#">创建您的Research ID</a>
+                <a class="nav-link" href="#">常见问题解答</a>
+            </nav>
+        </div>
+    </header>
 
-<style lang="less" scoped>
-    #main_page {
-        width: 1200px;
-        margin: 0 auto;
-    }
+    <main class="px-3">
+        <h1>Cover your page.</h1>
+        <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the
+            text, and add your own fullscreen background photo to make it your own.</p>
+        <p class="lead">
+            <a href="#" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Learn more</a>
+        </p>
+    </main>
 
-    #menu_icon {
-        width: 150px;
-        /*margin-right: 1200-150-68-175.156-124px;*/
-    }
+    <footer class="mt-auto text-white-50">
+        <p>Copyright © 2021 Apple Inc. 保留所有权利。 <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a
+                href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p>
+    </footer>
+</div>
 
-    #test {
-        position: relative;
-        top: -100px;
-        padding: 0;
-    }
 
-    #login_infor {
-        font-size: 40px;
-        font-weight: 600;
-        margin-bottom: 10px;
-        padding-top: 35px;
-        margin-top: 0;
-    }
-
-    #login_infor_container {
-        text-align: center;
-    }
-
-    /*包含以下四种的链接*/
-    a {
-        text-decoration: none;
-        color: #1979ff;
-    }
-
-    /*正常的未被访问过的链接*/
-    a:link {
-        text-decoration: none;
-    }
-
-    /*已经访问过的链接*/
-    a:visited {
-        text-decoration: none;
-    }
-
-    /*鼠标划过(停留)的链接*/
-    a:hover {
-        text-decoration: underline;
-    }
-
-    /* 正在点击的链接*/
-    a:active {
-        text-decoration: none;
-    }
-
-    .infor_icon {
-        font-size: 100px;
-        margin: 20px;
-    / / color: #1979ff;
-    }
-
-    #foot_container {
-        height: 70px;
-        background-color: #f5f5f7;
-    }
-
-    #log_infor_end {
-        padding-bottom: 80px;
-        font-size: 17px;
-    }
-
-    #foot_container {
-        font-size: 12px;
-        color: #86868b;
-        padding: 15px 0 0 20px;
-        font-weight: 400;
-    }
-
-    .foot_infor {
-        margin: 5px;
-        padding: 0;
-    }
-</style>
-
+</body>
 </html>
