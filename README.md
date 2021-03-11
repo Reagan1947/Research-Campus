@@ -1,12 +1,12 @@
 <h1 align="center">
   <br>
-  <img src="https://github.com/Reagan1947/MathstudioWiki/blob/master/docs/_media/mathstudio_logo.png" alt="MathStudioWiki" width="170">
+  <img src="https://github.com/Reagan1947/Research-Campus/blob/master/src/main/webapp/static/images/icon_03.svg" alt="Research-Campus" width="170">
   <br>
-  MathStudio With ZH
+  Research Campus
   <br>
 </h1>
 
-<h4 align="center" font-weight:bold;">MathStudio Wiki</br>
+<h4 align="center" font-weight:bold;"></br>
                                      中文手册汉化项目</br></h4>
 <p align="center">
                  
