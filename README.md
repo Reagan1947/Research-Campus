@@ -13,23 +13,31 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 ![Last commit](https://img.shields.io/github/last-commit/Reagan1947/MathstudioWiki?style=flat-square)
              
-## 1. 关于汉化小组   
+## 1. 关于Research-Campus   
 
-> 尽管可选择的移动端科学计算软件众多，但MathStudio因其强大的功能，无疑已成为基本科学计算的首选工具。但其也有一定的入门门槛，目前可参考的关于MathStudio的中文资料也较为匮乏。因而希望通过对中文手册的汉化，让更多人能够了解、使用MathStudio。
+> 科研管理系统(科研项目管理暨绩效考核系统，SRM)，是应用于各个科研院所及高校等研究机构进行科研项目管理、科研成果管理及绩效考核管理等全方位科研管理的一套信息化系统。
 
-关于MathStudio有任何问题，或希望参与中文手册汉化项目，欢迎加入讨论群(Tencent QQ)：639657877。
+Research-Capmus旨创建一个应用于高校科研项目管理的B-S架构服务系统
 
-## 2. 项目结构
+## 2. 项目依赖
 
 本项目目前基于以下项目构建：
 
-- docsify：将MarkDown文件即使解析为文档
-- vercel：快速部署工具
-- Github：代码托管平台
+- Spring：Java IOC与AOP集成框架
+- SpringMVC：提供全功能MVC
+- MyBatis：数据库管理工具
+- SpringSecurity：Spring下安全管理框架
+- AdminLTE：后台前端页面框架
+- Activiti：流程管理框架
 
-## 3. 开始贡献文档汉化
+项目最终构建：
+
+- SpringBoot:
+- VUE:
+- SpringSecurity:
+- Activiti:
+
+## 3. 
 
 // 待完善
 
-
-## 4. 贡献人员
