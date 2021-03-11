@@ -1,13 +1,13 @@
 <h1 align="center">
   <br>
   <img src="https://github.com/Reagan1947/Research-Campus/blob/master/src/main/webapp/static/images/icon_03.svg" alt="Research-Campus" width="170">
-  <br>
+<!--   <br>
   Research Campus
-  <br>
+  <br> -->
 </h1>
 
-<h4 align="center" font-weight:bold;"></br>
-                                     中文手册汉化项目</br></h4>
+<h4 align="center" font-weight:bold;">Research Manage System Of University
+</br>高校科研项目管理系统</br></h4>
 <p align="center">
                  
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
