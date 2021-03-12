@@ -12,8 +12,9 @@
     <%--    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/cover/">--%>
     <!-- Bootstrap core CSS -->
     <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <script type="text/javascript" src="custom/js/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript" src="custom/js/pro"></script>
+    <script type="text/javascript" src="./custom/js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="./bootstrap/js/bootstrap.bundle.min.js"></script>
+<%--    <script type="text/javascript" src="./custom/js/popper.min.js"></script>--%>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -137,6 +138,10 @@
             font-family: 'Roboto', sans-serif;
         }
 
+        .display-block {
+            display: block;
+        }
+
 
 
         .ahashakeheartache {
@@ -176,7 +181,6 @@
     <link href="./custom/css/cover.css" rel="stylesheet">
 </head>
 <body class="d-flex h-100 text-center text-white bg-dark">
-
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     <header class="mb-auto">
         <div>
@@ -197,7 +201,7 @@
         <h1 id="create-id-info">Research ID</h1>
         <p class="lead" id="create-id-info-after">管理您的Research ID</p>
 
-        <form>
+        <form class="needs-validation" novalidate>
             <div class="container">
                 <div class="row justify-content-md-center">
                     <div class="col col-7" id="input-container">
@@ -205,20 +209,26 @@
                             <input type="text" class="form-control research-id-input" placeholder="Research ID" name="username"
                                    aria-label="Dollar amount (with dot and two decimal places)" id="research-id-input">
                             <span class="input-group-text input-icon"><i class="bi bi-person-badge"></i></span>
+                            <div class="invalid-tooltip" id="id-tooplip">
+                                请输入Research ID
+                            </div>
                         </div>
 
                         <div class="gap-for"></div>
 
                         <div class="input-group input-group-lg">
                             <input type="text" class="form-control research-id-input" placeholder="密码" name="password"
-                                   aria-label="Dollar amount (with dot and two decimal places)" id="password-input">
+                                   aria-label="Dollar amount (with dot and two decimal places)" id="password-input" required>
                             <span class="input-group-text input-icon"><i class="bi bi-lock"></i></span>
+                            <div class="invalid-tooltip" id="password-tooltip">
+                                请输入Research ID账户密码.
+                            </div>
                         </div>
 
                         <div class="form-check" id="rem-me-check">
                             <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
                             <label class="form-check-label" for="defaultCheck1">
-                                记住我的Research ID
+                                <a data-bs-toggle="tooltip" data-bs-placement="bottom" title="选择此项，将保持三天自动登录">记住我的Research ID</a>
                             </label>
                         </div>
 
@@ -226,9 +236,9 @@
 
                         <div class="d-grid gap-2">
                             <button type="button" class="btn  btn-primary" onclick="login()">登录</button>
-<%--                            <input type="submit" />--%>
+                            <%--                            <input type="submit" />--%>
 
-                        <%-- <button class="btn btn-primary" type="button">Button</button>--%>
+                            <%-- <button class="btn btn-primary" type="button">Button</button>--%>
                         </div>
 
                         <div class="gap-for"></div>
@@ -270,11 +280,20 @@
     function login() {
         var username = $.trim($("#research-id-input").val());
         var password = $.trim($("#password-input").val());
-        if (username == "") {
-            alert("请输入用户名");
-            return false;
-        } else if (password == "") {
-            alert("请输入密码");
+        var tag = 0;
+        if (username === "") {
+            $('#id-tooplip').addClass('display-block');
+            setTimeout(function(){
+                $('#id-tooplip').removeClass('display-block');
+            },1500);
+            tag = 1;
+        } if (password === "") {
+            $('#password-tooltip').addClass('display-block');
+            setTimeout(function(){
+                $('#password-tooltip').removeClass('display-block');
+            },1500);
+            tag = 1;
+        } if(tag === 1) {
             return false;
         }
         //ajax去服务器端校验
@@ -286,7 +305,7 @@
             data: data,
             dataType: 'json',
             success: function (data) {
-                console.log(data); //打印服务端返回的数据(调试用)
+                // console.log(data); //打印服务端返回的数据(调试用)
                 if (data.code === 400) {
                     shakeInputBox();
                 }

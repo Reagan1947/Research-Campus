@@ -30,6 +30,8 @@
     <mvc:resources location="/custom/font/" mapping="/custom/font/**" />
     <mvc:resources location="/custom/js/" mapping="/custom/js/**" />
     <mvc:resources location="/bootstrap/css/" mapping="/bootstrap/css/**" />
+    <mvc:resources location="/bootstrap/js/" mapping="/bootstrap/js/**" />
+
 
 
 </beans>
