@@ -33,9 +33,10 @@ public class UserServiceImpl implements IUserService {
         UserInfo userInfo = null;
         try {
             userInfo = userDao.findUserByUserName(username);
-            System.out.println("---------------------------------------------------------------");
-            System.out.println(userInfo);
-            System.out.println("---------------------------------------------------------------");
+            // debug for
+            // System.out.println("---------------------------------------------------------------");
+            // System.out.println(userInfo);
+            //  System.out.println("---------------------------------------------------------------");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -47,11 +48,12 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 返回一个List集合，集合中装入角色描述
+     *
      * @param roles
      */
     public List<SimpleGrantedAuthority> getAuthority(List<Role> roles) {
         List<SimpleGrantedAuthority> list = new ArrayList<>();
-        for(Role role:roles){
+        for (Role role : roles) {
             list.add((new SimpleGrantedAuthority("ROLE_" + role.getRoleName())));
         }
 

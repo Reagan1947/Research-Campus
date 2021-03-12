@@ -28,6 +28,7 @@
         <security:intercept-url pattern="/**" access="ROLE_USER" />
         <security:form-login login-page='/index.jsp'
                              login-processing-url="/login.do"
+                             authentication-failure-forward-url="/login.fail"
                     default-target-url="/homepage.html"
                     authentication-failure-url="/login.html?error=true" />
         <security:logout logout-success-url="/login.html" />

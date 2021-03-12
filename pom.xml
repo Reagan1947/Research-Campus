@@ -169,6 +169,13 @@
             <version>${spring.security.version}</version>
         </dependency>
 
+        <!-- json for JSONObject();-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.46</version>
+        </dependency>
+
     </dependencies>
 
     <build>

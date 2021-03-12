@@ -13,6 +13,8 @@
     <!-- Bootstrap core CSS -->
     <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script type="text/javascript" src="custom/js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="custom/js/popper.min.js"></script>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
@@ -79,6 +81,20 @@
             padding-right: 62px !important;
         }
 
+        /*error 颜色变化样式*/
+        .research-id-input-error {
+            color: #212529;
+            background-color: #fff;
+            border-color: #d7bac2;
+            outline: 0;
+            box-shadow: 0 0 0 0.25rem rgb(204 61 80 / 38%);
+        }
+
+        .border-red {
+            border: 1px solid #d7bac2 !important;
+        }
+        /*error 颜色样式变化 END*/
+
         .gap-for {
             height: 13px;
             display: block;
@@ -122,6 +138,37 @@
         }
 
 
+
+        .ahashakeheartache {
+            -webkit-animation: kf_shake 0.4s 1 linear;
+            -moz-animation: kf_shake 0.4s 1 linear;
+            -o-animation: kf_shake 0.4s 1 linear;
+        }
+        @-webkit-keyframes kf_shake {
+            0% { -webkit-transform: translate(30px); }
+            20% { -webkit-transform: translate(-30px); }
+            40% { -webkit-transform: translate(15px); }
+            60% { -webkit-transform: translate(-15px); }
+            80% { -webkit-transform: translate(8px); }
+            100% { -webkit-transform: translate(0px); }
+        }
+        @-moz-keyframes kf_shake {
+            0% { -moz-transform: translate(30px); }
+            20% { -moz-transform: translate(-30px); }
+            40% { -moz-transform: translate(15px); }
+            60% { -moz-transform: translate(-15px); }
+            80% { -moz-transform: translate(8px); }
+            100% { -moz-transform: translate(0px); }
+        }
+        @-o-keyframes kf_shake {
+            0% { -o-transform: translate(30px); }
+            20% { -o-transform: translate(-30px); }
+            40% { -o-transform: translate(15px); }
+            60% { -o-transform: translate(-15px); }
+            80% { -o-transform: translate(8px); }
+            100% { -o-origin-transform: translate(0px); }
+        }
+
     </style>
 
 
@@ -150,7 +197,7 @@
         <h1 id="create-id-info">Research ID</h1>
         <p class="lead" id="create-id-info-after">管理您的Research ID</p>
 
-        <form action="${pageContext.request.contextPath}/login.do" method="post">
+        <form>
             <div class="container">
                 <div class="row justify-content-md-center">
                     <div class="col col-7" id="input-container">
@@ -178,8 +225,10 @@
                         <div class="big-gap-for"></div>
 
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn  btn-primary">登录</button>
-                            <%--                        <button class="btn btn-primary" type="button">Button</button>--%>
+                            <button type="button" class="btn  btn-primary" onclick="login()">登录</button>
+<%--                            <input type="submit" />--%>
+
+                        <%-- <button class="btn btn-primary" type="button">Button</button>--%>
                         </div>
 
                         <div class="gap-for"></div>
@@ -202,6 +251,49 @@
 
 
 <script type="text/javascript">
+    // 登录窗口shake动画
+    function shakeInputBox(){
+        // alert("toch")
+        // e.preventDefault();
+        $('.research-id-input').addClass('research-id-input-error')
+        $('.input-icon').addClass('border-red')
+        $('form').addClass('ahashakeheartache');
+    }
+
+    // 表格shake后的样式清理
+    $('form').on('webkitAnimationEnd oanimationend msAnimationEnd animationend', function(e){
+        $('form').delay(200).removeClass('ahashakeheartache');
+        $('.research-id-input').removeClass('research-id-input-error')
+        $('.input-icon').removeClass('border-red')
+    });
+
+    function login() {
+        var username = $.trim($("#research-id-input").val());
+        var password = $.trim($("#password-input").val());
+        if (username == "") {
+            alert("请输入用户名");
+            return false;
+        } else if (password == "") {
+            alert("请输入密码");
+            return false;
+        }
+        //ajax去服务器端校验
+        var data = {username: username, password: password};
+
+        $.ajax({
+            type: "POST",
+            url: '${pageContext.request.contextPath}/login.do',
+            data: data,
+            dataType: 'json',
+            success: function (data) {
+                console.log(data); //打印服务端返回的数据(调试用)
+                if (data.code === 400) {
+                    shakeInputBox();
+                }
+            }
+        });
+    }
+
 
 </script>
 
