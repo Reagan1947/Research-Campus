@@ -28,6 +28,7 @@
     <mvc:resources location="/custom/css/" mapping="/custom/css/**" />
     <mvc:resources location="/custom/img/" mapping="/custom/img/**" />
     <mvc:resources location="/custom/font/" mapping="/custom/font/**" />
+    <mvc:resources location="/custom/js/" mapping="/custom/js/**" />
     <mvc:resources location="/bootstrap/css/" mapping="/bootstrap/css/**" />
 
 
