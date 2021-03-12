@@ -83,15 +83,18 @@
             height: 13px;
             display: block;
         }
+
         #input-container {
             text-align: center;
             margin: auto;
         }
+
         .form-check {
             width: fit-content;
             text-align: center;
             margin: auto;
         }
+
         #rem-me-check {
             float: left;
             margin-bottom: 10px;
@@ -99,17 +102,21 @@
             font-size: 15px;
             color: white;
         }
+
         .big-gap-for {
             height: 60px;
         }
+
         #forget-inf {
             color: #0070c9;
             font-size: 15px;
         }
+
         #forget-inf:hover {
             color: #0070c9;
-            text-decoration:underline;
+            text-decoration: underline;
         }
+
         body {
             font-family: 'Roboto', sans-serif;
         }
@@ -143,43 +150,45 @@
         <h1 id="create-id-info">Research ID</h1>
         <p class="lead" id="create-id-info-after">管理您的Research ID</p>
 
-        <div class="container">
-            <div class="row justify-content-md-center">
-                <div class="col col-7" id="input-container">
-                    <div class="input-group input-group-lg">
-                        <input type="text" class="form-control research-id-input" placeholder="Research ID"
-                               aria-label="Dollar amount (with dot and two decimal places)" id="research-id-input">
-                        <span class="input-group-text input-icon"><i class="bi bi-person-badge"></i></span>
+        <form action="${pageContext.request.contextPath}/login.do" method="post">
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col col-7" id="input-container">
+                        <div class="input-group input-group-lg">
+                            <input type="text" class="form-control research-id-input" placeholder="Research ID" name="username"
+                                   aria-label="Dollar amount (with dot and two decimal places)" id="research-id-input">
+                            <span class="input-group-text input-icon"><i class="bi bi-person-badge"></i></span>
+                        </div>
+
+                        <div class="gap-for"></div>
+
+                        <div class="input-group input-group-lg">
+                            <input type="text" class="form-control research-id-input" placeholder="密码" name="password"
+                                   aria-label="Dollar amount (with dot and two decimal places)" id="password-input">
+                            <span class="input-group-text input-icon"><i class="bi bi-lock"></i></span>
+                        </div>
+
+                        <div class="form-check" id="rem-me-check">
+                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                            <label class="form-check-label" for="defaultCheck1">
+                                记住我的Research ID
+                            </label>
+                        </div>
+
+                        <div class="big-gap-for"></div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn  btn-primary">登录</button>
+                            <%--                        <button class="btn btn-primary" type="button">Button</button>--%>
+                        </div>
+
+                        <div class="gap-for"></div>
+
+                        <p><a id="forget-inf" href="">忘记Research ID或密码?</a></p>
                     </div>
-
-                    <div class="gap-for"></div>
-
-                    <div class="input-group input-group-lg">
-                        <input type="text" class="form-control research-id-input" placeholder="密码"
-                               aria-label="Dollar amount (with dot and two decimal places)" id="password-input">
-                        <span class="input-group-text input-icon"><i class="bi bi-lock"></i></span>
-                    </div>
-
-                    <div class="form-check" id="rem-me-check">
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                        <label class="form-check-label" for="defaultCheck1">
-                            记住我的Research ID
-                        </label>
-                    </div>
-
-                    <div class="big-gap-for"></div>
-
-                    <div class="d-grid gap-2">
-                        <button class="btn  btn-primary" type="button">登录</button>
-<%--                        <button class="btn btn-primary" type="button">Button</button>--%>
-                    </div>
-
-                    <div class="gap-for"></div>
-
-                    <p><a id="forget-inf" href="">忘记Research ID或密码?</a> </p>
                 </div>
             </div>
-        </div>
+        </form>
 
     </main>
 
@@ -191,6 +200,10 @@
 </div>
 </body>
 
+
+<script type="text/javascript">
+
+</script>
 
 
 </html>

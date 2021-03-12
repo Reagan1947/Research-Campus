@@ -23,7 +23,7 @@
     <!--配置连接池-->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
-        <property name="jdbcUrl" value="jdbc:mysql:///ssm"/>
+        <property name="jdbcUrl" value="jdbc:mysql:///research_campus_db?useUnicode=true&amp;characterEncoding=utf8"/>
         <property name="user" value="root"/>
         <property name="password" value="root"/>
     </bean>
@@ -35,7 +35,7 @@
 
     <!--配置AccountDao接口所在包-->
     <bean id="mapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="cn.itcast.dao"/>
+        <property name="basePackage" value="com.research_campus.dao"/>
     </bean>
 
     <!--配置Spring框架声明式事务管理-->

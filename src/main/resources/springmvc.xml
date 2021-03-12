@@ -24,7 +24,7 @@
     <!--开启SpringMVC注解的支持-->
     <mvc:annotation-driven/>
     <!-- 过滤静态资源 -->
-<!--    <mvc:resources location="/static/css" mapping="/static/**" />-->
+    <!-- <mvc:resources location="/static/css" mapping="/static/**" />-->
     <mvc:resources location="/custom/css/" mapping="/custom/css/**" />
     <mvc:resources location="/custom/img/" mapping="/custom/img/**" />
     <mvc:resources location="/custom/font/" mapping="/custom/font/**" />
