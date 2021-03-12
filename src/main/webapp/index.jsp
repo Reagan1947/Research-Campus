@@ -14,7 +14,7 @@
     <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script type="text/javascript" src="./custom/js/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="./bootstrap/js/bootstrap.bundle.min.js"></script>
-<%--    <script type="text/javascript" src="./custom/js/popper.min.js"></script>--%>
+    <%--    <script type="text/javascript" src="./custom/js/popper.min.js"></script>--%>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -94,6 +94,7 @@
         .border-red {
             border: 1px solid #d7bac2 !important;
         }
+
         /*error 颜色样式变化 END*/
 
         .gap-for {
@@ -143,35 +144,73 @@
         }
 
 
-
         .ahashakeheartache {
             -webkit-animation: kf_shake 0.4s 1 linear;
             -moz-animation: kf_shake 0.4s 1 linear;
             -o-animation: kf_shake 0.4s 1 linear;
         }
+
         @-webkit-keyframes kf_shake {
-            0% { -webkit-transform: translate(30px); }
-            20% { -webkit-transform: translate(-30px); }
-            40% { -webkit-transform: translate(15px); }
-            60% { -webkit-transform: translate(-15px); }
-            80% { -webkit-transform: translate(8px); }
-            100% { -webkit-transform: translate(0px); }
+            0% {
+                -webkit-transform: translate(30px);
+            }
+            20% {
+                -webkit-transform: translate(-30px);
+            }
+            40% {
+                -webkit-transform: translate(15px);
+            }
+            60% {
+                -webkit-transform: translate(-15px);
+            }
+            80% {
+                -webkit-transform: translate(8px);
+            }
+            100% {
+                -webkit-transform: translate(0px);
+            }
         }
+
         @-moz-keyframes kf_shake {
-            0% { -moz-transform: translate(30px); }
-            20% { -moz-transform: translate(-30px); }
-            40% { -moz-transform: translate(15px); }
-            60% { -moz-transform: translate(-15px); }
-            80% { -moz-transform: translate(8px); }
-            100% { -moz-transform: translate(0px); }
+            0% {
+                -moz-transform: translate(30px);
+            }
+            20% {
+                -moz-transform: translate(-30px);
+            }
+            40% {
+                -moz-transform: translate(15px);
+            }
+            60% {
+                -moz-transform: translate(-15px);
+            }
+            80% {
+                -moz-transform: translate(8px);
+            }
+            100% {
+                -moz-transform: translate(0px);
+            }
         }
+
         @-o-keyframes kf_shake {
-            0% { -o-transform: translate(30px); }
-            20% { -o-transform: translate(-30px); }
-            40% { -o-transform: translate(15px); }
-            60% { -o-transform: translate(-15px); }
-            80% { -o-transform: translate(8px); }
-            100% { -o-origin-transform: translate(0px); }
+            0% {
+                -o-transform: translate(30px);
+            }
+            20% {
+                -o-transform: translate(-30px);
+            }
+            40% {
+                -o-transform: translate(15px);
+            }
+            60% {
+                -o-transform: translate(-15px);
+            }
+            80% {
+                -o-transform: translate(8px);
+            }
+            100% {
+                -o-origin-transform: translate(0px);
+            }
         }
 
     </style>
@@ -206,7 +245,8 @@
                 <div class="row justify-content-md-center">
                     <div class="col col-7" id="input-container">
                         <div class="input-group input-group-lg">
-                            <input type="text" class="form-control research-id-input" placeholder="Research ID" name="username"
+                            <input type="text" class="form-control research-id-input" placeholder="Research ID"
+                                   name="username"
                                    aria-label="Dollar amount (with dot and two decimal places)" id="research-id-input">
                             <span class="input-group-text input-icon"><i class="bi bi-person-badge"></i></span>
                             <div class="invalid-tooltip" id="id-tooplip">
@@ -218,7 +258,8 @@
 
                         <div class="input-group input-group-lg">
                             <input type="text" class="form-control research-id-input" placeholder="密码" name="password"
-                                   aria-label="Dollar amount (with dot and two decimal places)" id="password-input" required>
+                                   aria-label="Dollar amount (with dot and two decimal places)" id="password-input"
+                                   required>
                             <span class="input-group-text input-icon"><i class="bi bi-lock"></i></span>
                             <div class="invalid-tooltip" id="password-tooltip">
                                 请输入Research ID账户密码.
@@ -228,7 +269,8 @@
                         <div class="form-check" id="rem-me-check">
                             <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
                             <label class="form-check-label" for="defaultCheck1">
-                                <a data-bs-toggle="tooltip" data-bs-placement="bottom" title="选择此项，将保持三天自动登录">记住我的Research ID</a>
+                                <a data-bs-toggle="tooltip" data-bs-placement="bottom" title="选择此项，将保持三天自动登录">记住我的Research
+                                    ID</a>
                             </label>
                         </div>
 
@@ -262,7 +304,7 @@
 
 <script type="text/javascript">
     // 登录窗口shake动画
-    function shakeInputBox(){
+    function shakeInputBox() {
         // alert("toch")
         // e.preventDefault();
         $('.research-id-input').addClass('research-id-input-error')
@@ -271,7 +313,7 @@
     }
 
     // 表格shake后的样式清理
-    $('form').on('webkitAnimationEnd oanimationend msAnimationEnd animationend', function(e){
+    $('form').on('webkitAnimationEnd oanimationend msAnimationEnd animationend', function (e) {
         $('form').delay(200).removeClass('ahashakeheartache');
         $('.research-id-input').removeClass('research-id-input-error')
         $('.input-icon').removeClass('border-red')
@@ -283,17 +325,19 @@
         var tag = 0;
         if (username === "") {
             $('#id-tooplip').addClass('display-block');
-            setTimeout(function(){
+            setTimeout(function () {
                 $('#id-tooplip').removeClass('display-block');
-            },1500);
+            }, 1500);
             tag = 1;
-        } if (password === "") {
+        }
+        if (password === "") {
             $('#password-tooltip').addClass('display-block');
-            setTimeout(function(){
+            setTimeout(function () {
                 $('#password-tooltip').removeClass('display-block');
-            },1500);
+            }, 1500);
             tag = 1;
-        } if(tag === 1) {
+        }
+        if (tag === 1) {
             return false;
         }
         //ajax去服务器端校验
@@ -308,6 +352,8 @@
                 // console.log(data); //打印服务端返回的数据(调试用)
                 if (data.code === 400) {
                     shakeInputBox();
+                } else if (data.code === 200) {
+                    window.location.href="${pageContext.request.contextPath}/pages/test.jsp";
                 }
             }
         });

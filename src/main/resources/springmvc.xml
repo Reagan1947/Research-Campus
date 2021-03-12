@@ -31,6 +31,13 @@
     <mvc:resources location="/custom/js/" mapping="/custom/js/**" />
     <mvc:resources location="/bootstrap/css/" mapping="/bootstrap/css/**" />
     <mvc:resources location="/bootstrap/js/" mapping="/bootstrap/js/**" />
+    <mvc:resources location="/plugins/fontawesome-free/css/" mapping="/plugins/fontawesome-free/css/**" />
+    <mvc:resources location="/dist/css/" mapping="/dist/css/**" />
+    <mvc:resources location="/dist/js/" mapping="/dist/js/**" />
+    <mvc:resources location="/dist/img/" mapping="/dist/img/**" />
+    <mvc:resources location="/plugins/jquery/" mapping="/plugins/jquery/**" />
+    <mvc:resources location="/plugins/bootstrap/js/" mapping="/plugins/bootstrap/js/**" />
+    <mvc:resources location="/plugins/fontawesome-free/webfonts/" mapping="/plugins/fontawesome-free/webfonts/**" />
 
 
 
