@@ -33,7 +33,7 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">主页<h1>${sessionScope.uuid}</h1>
+                            <li class="breadcrumb-item"><a href="#">主页
                             </a></li>
                             <li class="breadcrumb-item active">发票</li>
                         </ol>

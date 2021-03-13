@@ -13,7 +13,6 @@
     <!-- 页面Head信息 / -->
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-<h1>${sessionScope.uuid}</h1>
 <div class="wrapper" style="background-color: #f4f6f9;">
     <!-- 页面头部 -->
     <jsp:include page="P_header.jsp"/>
