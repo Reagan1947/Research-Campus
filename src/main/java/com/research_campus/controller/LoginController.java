@@ -1,9 +1,11 @@
 package com.research_campus.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.qcloud.cos.COSClient;
 import com.research_campus.domain.UserInfo;
 import com.research_campus.service.IUserInfService;
 import com.research_campus.service.IUserService;
+import com.research_campus.utils.tencenCloudCos.CosClientTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -47,9 +49,12 @@ public class LoginController {
         response.getWriter().print(json.toJSONString());
     }
 
+    IUserInfService userInfService;
 
     @Autowired
-    IUserInfService userInfService;
+    public void setUserInfService(IUserInfService userInfService) {
+        this.userInfService = userInfService;
+    }
 
     @RequestMapping("/page.main")
     public String toMainPage(Authentication authentication, HttpServletRequest request) throws Exception {
@@ -60,4 +65,6 @@ public class LoginController {
 
         return "../../pages/test";
     }
+
+
 }
