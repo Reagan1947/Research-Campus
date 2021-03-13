@@ -21,6 +21,11 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- value 最大上传文件大小 -->
+        <property name="maxUploadSize" value="-1"/>
+    </bean>
+
     <!--开启SpringMVC注解的支持-->
     <mvc:annotation-driven/>
     <!-- 过滤静态资源 -->

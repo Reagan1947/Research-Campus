@@ -13,13 +13,13 @@ public class tencentCloudCosTest {
 
 
 
-    public static void main(String[] args) {
-
-        CosClientTool clientTool = new CosClientTool();
-
-        String uuid = "3d69a8ae83bd11eb95e3d43a65083902";
-        String filePath = "E:\\IdeaProjects\\Research-Campus\\src\\main\\webapp\\dist\\img\\avatar.png";
-        COSClient cosClient = clientTool.getCosClient();
-        clientTool.uploadFile(filePath, cosClient, uuid);
-    }
+//    public static void main(String[] args) {
+//
+//        CosClientTool clientTool = new CosClientTool();
+//
+//        String uuid = "3d69a8ae83bd11eb95e3d43a65083902";
+//        String filePath = "E:\\IdeaProjects\\Research-Campus\\src\\main\\webapp\\dist\\img\\avatar.png";
+//        COSClient cosClient = clientTool.getCosClient();
+////        clientTool.uploadFile(filePath, cosClient, uuid);
+//    }
 }

@@ -42,6 +42,20 @@
             </div><!-- /.container-fluid -->
         </section>
 
+
+        <form action="${pageContext.request.contextPath }/fileUpload.do"
+              method="post" enctype="multipart/form-data">
+            选择文件:<input type="file" name="uploadFile" width="120px"> <input
+                type="submit" value="上传">
+        </form>
+        <hr>
+        <form action="${pageContext.request.contextPath }/file/down.chao"
+              method="get">
+            <input type="submit" value="下载">
+        </form>
+        </html>
+
+
     </div>
     <!-- 页面footer -->
     <jsp:include page="P_footer.jsp"/>
