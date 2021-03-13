@@ -12,7 +12,7 @@
     <jsp:include page="P_common_head.jsp"/>
     <!-- 页面Head信息 / -->
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
     <!-- 页面头部 -->
     <jsp:include page="P_header.jsp"/>
@@ -52,8 +52,18 @@
     </aside>
     <!-- /.control-sidebar -->
 </div>
-    <!-- 页面js -->
-    <jsp:include page="P_foot_js.jsp"/>
-    <!-- 页面jsr / -->
+
+<!-- 页面js -->
+<jsp:include page="P_foot_js.jsp"/>
+<!-- 页面jsr / -->
+
+<script>
+    $(function() {
+        //The passed argument has to be at least a empty object or a object with your desired options
+        $("body").overlayScrollbars({ });
+    });
+</script>
+
+
 </body>
 </html>

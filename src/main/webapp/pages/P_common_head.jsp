@@ -19,3 +19,9 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/dist/css/adminlte.min.css">
 <!-- 离线 Google 字体: Source Sans Pro -->
 <link href="${pageContext.request.contextPath}/dist/css/google.css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+<!-- Plugin CSS -->
+<link type="text/css" href="${pageContext.request.contextPath}/OverlayScrollbars/css/OverlayScrollbars.min.css" rel="stylesheet"/>
+<!-- jQuery JS -->
+<script type="text/javascript" src="${pageContext.request.contextPath}/custom/js/jquery-3.6.0.min.js"></script>
+<!-- Plugin JS -->
+<script type="text/javascript" src="${pageContext.request.contextPath}/OverlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>

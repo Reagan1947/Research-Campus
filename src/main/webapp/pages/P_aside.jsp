@@ -7,14 +7,27 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- 主侧边栏容器 -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+<style>
+    @font-face {
+        font-family: Advent-Pro-Bold;
+        src: url("${pageContext.request.contextPath}/custom/font/Advent-Pro-Bold.ttf") format("truetype");
+    }
+</style>
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- 品牌 Logo -->
-    <a href="../../index3.html" class="brand-link">
-        <img src="${pageContext.request.contextPath}/dist/img/AdminLTELogo.png"
+    <a href="${pageContext.request.contextPath}/custom/img/index3.html" class="brand-link" style="padding-bottom: 5px;
+    padding-top: 14px;">
+        <img src="${pageContext.request.contextPath}/custom/img/icon_simple.svg"
              alt="AdminLTE Logo"
-             class="brand-image img-circle elevation-3"
-             style="opacity: .8">
-        <span class="brand-text font-weight-light">AdminLTE 3</span>
+             class="brand-image  elevation-3"
+             style="/*opacity: .8 8*/ box-shadow: none!important;">
+        <span class="brand-text font-weight-light"
+              style="font-family: Advent-Pro-Bold, 'Segoe UI', sans-seri, sans-serif;
+                        color: #1979ff; font-size: 25px; position: relative; bottom: 8px;
+                        left: -12px;">
+            search - Campus
+        </span>
     </a>
 
     <!-- Sidebar -->
@@ -22,7 +35,8 @@
         <!-- Sidebar user (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="${pageContext.request.contextPath}/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="用户头像">
+                <img src="${pageContext.request.contextPath}/dist/img/user2-160x160.jpg" class="img-circle elevation-2"
+                     alt="用户头像">
             </div>
             <div class="info">
                 <a href="#" class="d-block">Alexander Pierce</a>
