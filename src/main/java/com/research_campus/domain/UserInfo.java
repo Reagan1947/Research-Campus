@@ -12,6 +12,7 @@ public class UserInfo {
     private String username;
     private String password;
     private String phoneNumber;
+    private String uuid;
     private Integer status;
     private List<Role> roles;
 
@@ -69,5 +70,13 @@ public class UserInfo {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

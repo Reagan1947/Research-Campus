@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <!-- 主侧边栏容器 -->
 <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 <style>
@@ -16,7 +17,7 @@
 </style>
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- 品牌 Logo -->
-    <a href="${pageContext.request.contextPath}/custom/img/index3.html" class="brand-link" style="padding-bottom: 5px;
+    <a href="#" class="brand-link" style="padding-bottom: 5px;
     padding-top: 14px;">
         <img src="${pageContext.request.contextPath}/custom/img/icon_simple.svg"
              alt="AdminLTE Logo"
@@ -39,7 +40,9 @@
                      alt="用户头像">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
+                <a href="${pageContext.request.contextPath}/profile.detail" class="d-block">
+                    <security:authentication property="principal.username"></security:authentication>
+                </a>
             </div>
         </div>
 

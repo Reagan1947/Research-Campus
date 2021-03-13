@@ -25,6 +25,7 @@ public interface IUserDao {
             @Result(property = "password", column = "password"),
             @Result(property = "phoneNumber", column = "phoneNumber"),
             @Result(property = "status", column = "status"),
+            @Result(property = "uuid", column = "uuid"),
             @Result(property = "roles", column = "id", javaType = java.util.List.class, many = @Many(select = "com.research_campus.dao.IRoleDao.findRoleByUserId"))
     })
     UserInfo findUserByUserName(String username);

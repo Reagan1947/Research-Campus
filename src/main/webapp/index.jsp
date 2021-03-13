@@ -277,7 +277,11 @@
                         <div class="big-gap-for"></div>
 
                         <div class="d-grid gap-2">
-                            <button type="button" class="btn  btn-primary" onclick="login()">登录</button>
+                            <button type="button" class="btn  btn-primary" onclick="login()" id="login-button">
+                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"
+                                      id="login-loading" style="width: 1.07rem; height: 1.07rem; display: none"></span>
+                                登录
+                            </button>
                             <%--                            <input type="submit" />--%>
 
                             <%-- <button class="btn btn-primary" type="button">Button</button>--%>
@@ -343,6 +347,9 @@
         //ajax去服务器端校验
         var data = {username: username, password: password};
 
+        $('#login-loading').css('display','inline-block');
+        $('#login-button').attr("disabled",true);
+
         $.ajax({
             type: "POST",
             url: '${pageContext.request.contextPath}/login.do',
@@ -352,8 +359,10 @@
                 // console.log(data); //打印服务端返回的数据(调试用)
                 if (data.code === 400) {
                     shakeInputBox();
+                    $('#login-loading').css('display','none');
+                    $('#login-button').removeAttr("disabled");
                 } else if (data.code === 200) {
-                    window.location.href="${pageContext.request.contextPath}/pages/test.jsp";
+                    window.location.href="${pageContext.request.contextPath}/page.main";
                 }
             }
         });
