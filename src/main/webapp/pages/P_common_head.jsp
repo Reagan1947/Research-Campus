@@ -29,3 +29,4 @@
 <script src="${pageContext.request.contextPath}/cropperJs/cropper.js"></script><!-- Cropper.js is required -->
 <link  href="${pageContext.request.contextPath}/cropperJs/cropper.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath}/cropperJs/jquery-cropper.js"></script>
+<script src="${pageContext.request.contextPath}/cropperJs/bsmodal.min.js"></script>
