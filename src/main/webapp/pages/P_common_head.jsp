@@ -25,3 +25,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/custom/js/jquery-3.6.0.min.js"></script>
 <!-- Plugin JS -->
 <script type="text/javascript" src="${pageContext.request.contextPath}/OverlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- Cropper need -->
+<script src="${pageContext.request.contextPath}/cropperJs/cropper.js"></script><!-- Cropper.js is required -->
+<link  href="${pageContext.request.contextPath}/cropperJs/cropper.css" rel="stylesheet">
+<script src="${pageContext.request.contextPath}/cropperJs/jquery-cropper.js"></script>
