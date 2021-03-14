@@ -45,5 +45,7 @@
     <mvc:resources location="/plugins/fontawesome-free/webfonts/" mapping="/plugins/fontawesome-free/webfonts/**" />
     <mvc:resources location="/OverlayScrollbars/css/" mapping="/OverlayScrollbars/css/**" />
     <mvc:resources location="/OverlayScrollbars/js/" mapping="/OverlayScrollbars/js/**" />
+    <mvc:resources location="/cropperJs/" mapping="/cropperJs/**" />
+
 
 </beans>

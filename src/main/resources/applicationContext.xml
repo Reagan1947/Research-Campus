@@ -57,4 +57,15 @@
         <aop:advisor advice-ref="txAdvice" pointcut="execution(* com.research_campus.service.impl.*ServiceImpl.*(..))"/>
     </aop:config>
 
+    <!-- COSTool 依赖注入-->
+    <bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
+            <list>
+                <value>classpath*:tencentCloudCos.properties</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+        <property name="properties" ref="configProperties" />
+    </bean>
 </beans>
