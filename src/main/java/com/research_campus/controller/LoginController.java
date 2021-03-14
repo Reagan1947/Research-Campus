@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -57,8 +56,6 @@ public class LoginController {
         this.userInfService = userInfService;
     }
 
-
-    @CrossOrigin
     @RequestMapping("/page.main")
     public String toMainPage(Authentication authentication, HttpServletRequest request) throws Exception {
         UserInfo userInfo = userInfService.findUserInfByUsername(authentication.getName());
