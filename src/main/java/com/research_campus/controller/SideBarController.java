@@ -39,7 +39,7 @@ public class SideBarController {
 //        System.out.println(userInfo.getEmail());
 //        System.out.println("--------------------------------------");
 
-        return modelandview;
+        return
     }
 
 }
