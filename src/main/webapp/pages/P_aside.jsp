@@ -15,7 +15,7 @@
         src: url("${pageContext.request.contextPath}/custom/font/Advent-Pro-Bold.ttf") format("truetype");
     }
 </style>
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+<aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color: #444444!important;">
     <!-- 品牌 Logo -->
     <a href="#" class="brand-link" style="padding-bottom: 5px;
     padding-top: 14px;">
@@ -295,7 +295,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-header">示例</li>
+                <li class="nav-header">关于我</li>
                 <li class="nav-item">
                     <a href="../calendar.html" class="nav-link">
                         <i class="nav-icon far fa-calendar-alt"></i>
@@ -306,10 +306,10 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="../gallery.html" class="nav-link">
-                        <i class="nav-icon far fa-image"></i>
+                    <a href="${pageContext.request.contextPath}/profile.detail" class="nav-link">
+                        <i class="nav-icon fas fa-id-card-alt"></i>
                         <p>
-                            相册
+                            个人资料与活动
                         </p>
                     </a>
                 </li>

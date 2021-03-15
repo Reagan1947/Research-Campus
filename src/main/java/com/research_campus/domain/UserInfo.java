@@ -13,6 +13,11 @@ public class UserInfo {
     private String password;
     private String phoneNumber;
     private String uuid;
+    private String chineseName;
+    private Competent competent;
+    private String explanatory;
+    private List<Department> department;
+    private List<Subject> subject;
     private Integer status;
     private List<Role> roles;
 
@@ -78,5 +83,53 @@ public class UserInfo {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getChineseName() {
+        return chineseName;
+    }
+
+    public void setChineseName(String chineseName) {
+        this.chineseName = chineseName;
+    }
+
+    public String getExplanatory() {
+        return explanatory;
+    }
+
+    public void setExplanatory(String explantory) {
+        this.explanatory = explantory;
+    }
+
+    public Competent getCompetent() {
+        return competent;
+    }
+
+    public void setCompetent(Competent competent) {
+        this.competent = competent;
+    }
+
+    public List<Department> getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(List<Department> department) {
+        this.department = department;
+    }
+
+    public List<Subject> getSubject() {
+        return subject;
+    }
+
+    public void setSubject(List<Subject> subject) {
+        this.subject = subject;
     }
 }

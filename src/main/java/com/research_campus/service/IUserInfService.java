@@ -14,5 +14,13 @@ public interface IUserInfService {
      * @return UserInfo 对象
      * @param username 用户名
      */
-    public UserInfo findUserInfByUsername(String username);
+    UserInfo findUserInfByUsername(String username);
+
+    /**
+     * 根据用户名查询用户基础信息
+     * @param username 用户名
+     * @return 用户UserInfo对象
+     */
+    UserInfo findUserInfByUsernameBase(String username);
+
 }

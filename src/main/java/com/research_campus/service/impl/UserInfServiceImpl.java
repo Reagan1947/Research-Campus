@@ -13,14 +13,30 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserInfServiceImpl implements IUserInfService {
 
-    @Autowired
+
     IUserDao userDao;
+
+    @Autowired
+    public UserInfServiceImpl(IUserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Override
     public UserInfo findUserInfByUsername(String username) {
         UserInfo userInfo = null;
         try {
             userInfo = userDao.findUserByUserName(username);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userInfo;
+    }
+
+    @Override
+    public UserInfo findUserInfByUsernameBase(String username) {
+        UserInfo userInfo = null;
+        try {
+            userInfo = userDao.findUserByUserNameBase(username);
         } catch (Exception e) {
             e.printStackTrace();
         }
