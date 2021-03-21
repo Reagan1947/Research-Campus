@@ -29,3 +29,6 @@
 <script src="${pageContext.request.contextPath}/cropperJs/cropper.js"></script><!-- Cropper.js is required -->
 <link  href="${pageContext.request.contextPath}/cropperJs/cropper.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath}/cropperJs/jquery-cropper.js"></script>
+<!-- toastr -->
+<script type="text/javascript" src="${pageContext.request.contextPath}/plugins/toastr/toastr.min.js"></script>
+<link  href="${pageContext.request.contextPath}/plugins/toastr/toastr.css" rel="stylesheet">
