@@ -29,6 +29,9 @@
 <script src="${pageContext.request.contextPath}/cropperJs/cropper.js"></script><!-- Cropper.js is required -->
 <link  href="${pageContext.request.contextPath}/cropperJs/cropper.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath}/cropperJs/jquery-cropper.js"></script>
-<!-- toastr -->
-<script type="text/javascript" src="${pageContext.request.contextPath}/plugins/toastr/toastr.min.js"></script>
-<link  href="${pageContext.request.contextPath}/plugins/toastr/toastr.css" rel="stylesheet">
+
+<!-- necessary stylesheets bpmn编辑器 -->
+<%--<link rel="stylesheet" href="https://unpkg.com/bpmn-js@8.2.2/dist/assets/diagram-js.css" />--%>
+<%--<link rel="stylesheet" href="https://unpkg.com/bpmn-js@8.2.2/dist/assets/bpmn-font/css/bpmn.css" />--%>
+
+<%--<script src="https://unpkg.com/bpmn-js@8.2.2/dist/bpmn-modeler.development.js"></script>--%>

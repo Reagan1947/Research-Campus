@@ -88,7 +88,7 @@
                     <div class="col-md-8">
                         <div>
                             <img id="image" alt="" width="100px"
-                                 src="https://${sessionScope.bucketName}.cos.${sessionScope.region}.myqcloud.com/${sessionScope.uuid}" crossorigin="anonymous">
+                                 src="https://${sessionScope.bucketName}.cos.${sessionScope.region}.myqcloud.com/${sessionScope.uuid}">
 
 
                             <label class="btn btn-primary btn-upload" style="margin-top: 10px;" for="inputImage"

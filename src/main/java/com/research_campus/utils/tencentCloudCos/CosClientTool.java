@@ -12,7 +12,6 @@ import com.qcloud.cos.region.Region;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Base64Utils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -62,23 +61,23 @@ public class CosClientTool {
         return new COSClient(cred, clientConfig);
     }
 
-    public PutObjectResult uploadFileWithExtension(String uuid, String uploadFile, String extension) throws IOException {
+    public PutObjectResult uploadFileWithExtension(String uuid, MultipartFile uploadFile, String extension) throws IOException {
         // 加上文件名extension作为key
         String key = uuid + "." + extension;
 
         return uploadFileCommon(key, uploadFile);
     }
 
-    public PutObjectResult uploadFileWithoutExtension(String uuid, String uploadFile) throws IOException {
+    public PutObjectResult uploadFileWithoutExtension(String uuid, MultipartFile uploadFile) throws IOException {
 
         // uuid 作为key
         return uploadFileCommon(uuid, uploadFile);
     }
 
-    public PutObjectResult uploadFileCommon(String key, String uploadFile) throws IOException {
+    public PutObjectResult uploadFileCommon(String key, MultipartFile uploadFile) throws IOException {
         COSClient cosClient = getCosClient();
         // byte化上传数据
-        byte [] byteArr = Base64Utils.decode(uploadFile.getBytes("UTF-8"));
+        byte [] byteArr = uploadFile.getBytes();
         // 获取上传文件长度
         int fileLength = byteArr.length;
         // 创建ObjectMetadata对象
