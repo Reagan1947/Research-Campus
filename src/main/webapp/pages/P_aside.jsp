@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!-- 主侧边栏容器 -->
 <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 <style>
@@ -15,6 +16,7 @@
         src: url("${pageContext.request.contextPath}/custom/font/Advent-Pro-Bold.ttf") format("truetype");
     }
 </style>
+
 <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color: #444444!important;">
     <!-- 品牌 Logo -->
     <a href="#" class="brand-link" style="padding-bottom: 5px;
@@ -295,7 +297,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-header">关于我</li>
+                <li class="nav-header">个人及活动</li>
                 <li class="nav-item">
                     <a href="../calendar.html" class="nav-link">
                         <i class="nav-icon far fa-calendar-alt"></i>
@@ -342,8 +344,8 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item has-treeview menu-open">
-                    <a href="#" class="nav-link active">
+                <li class="nav-item has-treeview ">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-book"></i>
                         <p>
                             页面
@@ -352,7 +354,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="../examples/invoice.html" class="nav-link active">
+                            <a href="../examples/invoice.html" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>发票</p>
                             </a>
@@ -484,11 +486,11 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-header">杂项</li>
+                <li class="nav-header">系统管理</li>
                 <li class="nav-item">
-                    <a href="/AdminLTE/AdminLTE-3.x/docs/" class="nav-link">
-                        <i class="nav-icon fas fa-file"></i>
-                        <p>文档</p>
+                    <a href="${pageContext.request.contextPath}/buildBPMN" class="nav-link">
+                        <i class="nav-icon fas fa-project-diagram"></i>
+                        <p>流程创建</p>
                     </a>
                 </li>
                 <li class="nav-header">多级示例</li>
@@ -581,3 +583,11 @@
     </div>
     <!-- /.sidebar -->
 </aside>
+
+<script>
+    window.onload=function(){
+        var host_link = window.location.pathname;
+        var activate_a = $("a[href='"+ host_link +"']");
+        activate_a.addClass("active");
+    }
+</script>

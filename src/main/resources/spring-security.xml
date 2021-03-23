@@ -16,7 +16,17 @@
     <!-- 设置静态资源不过滤 -->
     <security:http pattern="/bootstrap/**" security="none"/>
     <security:http pattern="/custom/**" security="none"/>
-<!--    <security:http pattern="/images/**" security="none"/>-->
+    <security:http pattern="/bpmn/**" security="none"/>
+    <security:http pattern="/canvg/**" security="none"/>
+    <security:http pattern="/cropperJs/**" security="none"/>
+    <security:http pattern="/dist/**" security="none"/>
+    <security:http pattern="/localstorage/**" security="none"/>
+    <security:http pattern="/OverlayScrollbars/**" security="none"/>
+    <security:http pattern="/plugins/**" security="none"/>
+    <security:http pattern="/layer/**" security="none"/>
+    <security:http pattern="/vendor/**" security="none"/>
+
+    <!--    <security:http pattern="/images/**" security="none"/>-->
 <!--    <security:http pattern="/js/**" security="none"/>-->
 
 

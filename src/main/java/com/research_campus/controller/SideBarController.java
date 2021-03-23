@@ -42,4 +42,12 @@ public class SideBarController {
         return modelandview;
     }
 
+    @RequestMapping("/buildBPMN")
+    public String directToBuildBPMN(HttpServletRequest request) throws Exception{
+
+        // 定位到buildBPMN界面
+
+        return "../../pages/buildBPMN";
+    }
+
 }

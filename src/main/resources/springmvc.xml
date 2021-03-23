@@ -47,6 +47,10 @@
     <mvc:resources location="/OverlayScrollbars/css/" mapping="/OverlayScrollbars/css/**" />
     <mvc:resources location="/OverlayScrollbars/js/" mapping="/OverlayScrollbars/js/**" />
     <mvc:resources location="/cropperJs/" mapping="/cropperJs/**" />
+    <mvc:resources location="/vendor/" mapping="/vendor/**" />
+    <mvc:resources location="/vendor/bpmn-font/css/" mapping="/vendor/bpmn-font/css/**" />
+    <mvc:resources location="/vendor/bpmn-font/font/" mapping="/vendor/bpmn-font/font/**" />
+
 
 
 </beans>
