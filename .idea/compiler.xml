@@ -6,8 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="ssm" />
         <module name="Research-Campus" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="research_campus" target="1.8" />
+      <module name="research_campus(com.research_campus)" target="8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

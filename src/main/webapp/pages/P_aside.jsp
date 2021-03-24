@@ -38,7 +38,7 @@
         <!-- Sidebar user (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="https://${sessionScope.bucketName}.cos.${sessionScope.region}.myqcloud.com/${sessionScope.uuid}" class="img-circle elevation-2"
+                <img src="https://${sessionScope.bucketName}.cos.${sessionScope.region}.myqcloud.com/${sessionScope.uuid}" class="img-circle elevation-2 userIcon"
                      alt="用户头像">
             </div>
             <div class="info">

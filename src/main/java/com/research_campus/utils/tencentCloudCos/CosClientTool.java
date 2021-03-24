@@ -4,16 +4,11 @@ import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
 import com.qcloud.cos.auth.BasicCOSCredentials;
 import com.qcloud.cos.auth.COSCredentials;
-import com.qcloud.cos.model.ObjectMetadata;
-import com.qcloud.cos.model.PutObjectRequest;
-import com.qcloud.cos.model.PutObjectResult;
-import com.qcloud.cos.model.StorageClass;
+import com.qcloud.cos.model.*;
 import com.qcloud.cos.region.Region;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Base64Utils;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 
@@ -105,5 +100,21 @@ public class CosClientTool {
         // http://{buckname}-{appid}.cosgz.myqcloud.com/image/1545012027692.jpg
 
         return putObjectResult;
+    }
+
+    public COSObjectInputStream downloadObject(String uuid) throws IOException {
+        COSClient cosClient = getCosClient();
+
+        GetObjectRequest getObjectRequest = new GetObjectRequest(PBucketName, uuid);
+        COSObject cosObject = cosClient.getObject(getObjectRequest);
+        COSObjectInputStream cosObjectInput = cosObject.getObjectContent();
+        // 下载对象的 CRC64
+        String crc64Ecma = cosObject.getObjectMetadata().getCrc64Ecma();
+        // 关闭输入流
+        cosObjectInput.close();
+        // Debug
+        System.out.println(crc64Ecma);
+
+        return cosObjectInput;
     }
 }
