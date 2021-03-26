@@ -65,7 +65,7 @@ public class LoginController {
         session.setAttribute("bucketName", PBucketName);
         session.setAttribute("region", PRegion);
 
-        return "../../pages/test";
+        return "test";
     }
 
 

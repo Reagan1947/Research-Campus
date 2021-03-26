@@ -1,9 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <!-- 页面Head信息 -->
-    <jsp:include page="P_common_head.jsp"/>
-    <!-- 页面Head信息 / -->
+
+    <!-- 页面head信息 -->
+    <jsp:include page="admin_head.jsp"/>
+
+    <!-- 设置每个页面的Title -->
+    <title>Test Page</title>
 
     <style>
         #imgReader {
@@ -27,15 +30,15 @@
     </style>
 
 </head>
+
+<!-- 公共body配置 -->
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
-    <!-- 页面头部 -->
-    <jsp:include page="P_header.jsp"/>
-    <!-- 页面头部 / -->
+    <!-- 页面导航栏 -->
+    <jsp:include page="admin_navbar.jsp"/>
 
     <!-- 页面侧边栏 -->
-    <jsp:include page="P_aside.jsp"/>
-    <!-- 页面侧边栏 / -->
+    <jsp:include page="admin_sidebar.jsp"/>
 
     <!-- Content Wrapper. 包含页面内容 -->
     <div class="content-wrapper">
@@ -118,10 +121,12 @@
                                          src="https://${sessionScope.bucketName}.cos.${sessionScope.region}.myqcloud.com/${sessionScope.uuid}">
 
 
-                                    <label class="btn btn-primary btn-upload" for="inputImage" title="Upload image file">
+                                    <label class="btn btn-primary btn-upload" for="inputImage"
+                                           title="Upload image file">
                                         <input type="file" class="sr-only" id="inputImage" name="file"
                                                accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
-                                        <span class="docs-tooltip" data-toggle="tooltip" title="Import image with Blob URLs">
+                                        <span class="docs-tooltip" data-toggle="tooltip"
+                                              title="Import image with Blob URLs">
                                         <span class="fa fa-upload"></span>
                                 </span>
                                     </label>
@@ -130,7 +135,7 @@
                             </div>
                             <div class="col-md-4" style="text-align: center;">
                                 <!-- 裁剪预览 -->
-                                <div class="previewBox" ></div>
+                                <div class="previewBox"></div>
                                 <div class="previewBoxRound" style="width: 150px; height: 150px"></div>
                             </div>
 
@@ -149,7 +154,7 @@
 
     </div>
     <!-- 页面footer -->
-    <jsp:include page="P_footer.jsp"/>
+    <jsp:include page="admin_footer.jsp"/>
     <!-- 页面footer / -->
 
     <!-- Control Sidebar -->
@@ -160,7 +165,7 @@
 </div>
 
 <!-- 页面js -->
-<jsp:include page="P_foot_js.jsp"/>
+<jsp:include page="admin_foot.jsp"/>
 <!-- 页面jsr / -->
 
 <script>

@@ -4,6 +4,7 @@ import com.research_campus.dao.IUserDao;
 import com.research_campus.domain.Role;
 import com.research_campus.domain.UserInfo;
 import com.research_campus.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,11 +23,9 @@ import java.util.List;
 @Transactional
 public class UserServiceImpl implements IUserService {
 
-    private final IUserDao userDao;
+    @Autowired
+    private IUserDao userDao;
 
-    public UserServiceImpl(IUserDao userDao) {
-        this.userDao = userDao;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

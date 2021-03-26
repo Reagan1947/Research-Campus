@@ -9,12 +9,12 @@
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.80.0">
     <title>Research Campus Login Page</title>
-    <%--    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/cover/">--%>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/cover/">
     <!-- Bootstrap core CSS -->
     <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script type="text/javascript" src="./custom/js/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="./bootstrap/js/bootstrap.bundle.min.js"></script>
-    <%--    <script type="text/javascript" src="./custom/js/popper.min.js"></script>--%>
+    <script type="text/javascript" src="./custom/js/popper.min.js"></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -88,7 +88,7 @@
             background-color: #fff;
             border-color: #d7bac2;
             outline: 0;
-            box-shadow: 0 0 0 0.25rem rgb(204 61 80 / 38%);
+            box-shadow: 0 0 0 0.25rem rgb(204 61 80);
         }
 
         .border-red {
@@ -240,7 +240,7 @@
         <h1 id="create-id-info">Research ID</h1>
         <p class="lead" id="create-id-info-after">管理您的Research ID</p>
 
-        <form class="needs-validation" novalidate>
+        <form class="needs-validation" novalidate action="" method="post">
             <div class="container">
                 <div class="row justify-content-md-center">
                     <div class="col col-7" id="input-container">

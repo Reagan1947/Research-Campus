@@ -10,7 +10,7 @@
 <html>
 <head>
     <!-- 页面Head信息 -->
-    <jsp:include page="P_common_head.jsp"/>
+    <jsp:include page="admin_head.jsp"/>
     <!-- 页面Head信息 / -->
 
     <style>
@@ -146,11 +146,10 @@
 
 <div class="wrapper" style="background-color: #f4f6f9;">
     <!-- 页面头部 -->
-    <jsp:include page="P_header.jsp"/>
-    <!-- 页面头部 / -->
+    <jsp:include page="admin_navbar.jsp"/>
+
     <!-- 页面侧边栏 -->
-    <jsp:include page="P_aside.jsp"/>
-    <!-- 页面侧边栏 / -->
+    <jsp:include page="admin_sidebar.jsp"/>
 
     <!-- Content Wrapper. 包含页面内容 -->
     <div class="content-wrapper" style="min-height: inherit!important;">
@@ -173,6 +172,7 @@
 
         <!-- 主体内容 -->
         <section class="content">
+
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-3">
@@ -540,27 +540,21 @@
     <!-- /.content-wrapper -->
 
 </div>
-<!-- 页面footer -->
-<jsp:include page="P_footer.jsp"/>
-<!-- 页面footer / -->
 
-<!-- Control Sidebar -->
-<aside class="control-sidebar control-sidebar-dark">
+    <!-- 页面footer -->
+    <jsp:include page="admin_footer.jsp"/>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
     <!-- 控制侧边栏内容在这里 -->
 </aside>
 <!-- /.control-sidebar -->
 </div>
 
 <!-- 页面js -->
-<jsp:include page="P_foot_js.jsp"/>
+<jsp:include page="admin_foot.jsp"/>
 <!-- 页面jsr / -->
 
-<script>
-    $(function () {
-        //The passed argument has to be at least a empty object or a object with your desired options
-        $("body").overlayScrollbars({});
-    });
-</script>
 
 <script>
     window.addEventListener('DOMContentLoaded', function () {
