@@ -37,7 +37,6 @@
     <mvc:resources location="/bootstrap/css/" mapping="/bootstrap/css/**" />
     <mvc:resources location="/bootstrap/js/" mapping="/bootstrap/js/**" />
     <mvc:resources location="/plugins/fontawesome-free/css/" mapping="/plugins/fontawesome-free/css/**" />
-    <mvc:resources location="/plugins/toastr/" mapping="/plugins/toastr/**" />
     <mvc:resources location="/dist/css/" mapping="/dist/css/**" />
     <mvc:resources location="/dist/js/" mapping="/dist/js/**" />
     <mvc:resources location="/dist/img/" mapping="/dist/img/**" />
