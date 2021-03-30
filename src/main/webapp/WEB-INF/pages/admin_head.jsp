@@ -29,13 +29,10 @@
 <link  href="${pageContext.request.contextPath}/cropperJs/cropper.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath}/cropperJs/jquery-cropper.js"></script>
 
-<!-- jsGrid -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/plugins/jsgrid/jsgrid.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/plugins/jsgrid/jsgrid-theme.min.css">
-
 <!-- 去掉浏览器自带样式 -->
 <style>
     form {
         margin-block-end: 0;
     }
+    html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td,p { margin: 0; padding: 0; border: 0; outline: 0; font-size: 100%; vertical-align: baseline; background: transparent; }
 </style>

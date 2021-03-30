@@ -10,7 +10,7 @@
 <html>
 <head>
     <!-- 页面Head信息 -->
-    <jsp:include page="admin_head.jsp"/>
+    <jsp:include page="P_common_head.jsp"/>
     <!-- 页面Head信息 / -->
 
     <style>
@@ -88,7 +88,7 @@
                     <div class="col-md-8">
                         <div>
                             <img id="image" alt="" width="100px"
-                                 src="https://${sessionScope.bucketName}.cos.${sessionScope.region}.myqcloud.com/${sessionScope.uuid}" crossorigin="">
+                                 src="https://${sessionScope.bucketName}.cos.${sessionScope.region}.myqcloud.com/${sessionScope.uuid}" crossorigin="anonymous">
 
 
                             <label class="btn btn-primary btn-upload" style="margin-top: 10px;" for="inputImage"
@@ -146,10 +146,11 @@
 
 <div class="wrapper" style="background-color: #f4f6f9;">
     <!-- 页面头部 -->
-    <jsp:include page="admin_navbar.jsp"/>
-
+    <jsp:include page="P_header.jsp"/>
+    <!-- 页面头部 / -->
     <!-- 页面侧边栏 -->
-    <jsp:include page="admin_sidebar.jsp"/>
+    <jsp:include page="P_aside.jsp"/>
+    <!-- 页面侧边栏 / -->
 
     <!-- Content Wrapper. 包含页面内容 -->
     <div class="content-wrapper" style="min-height: inherit!important;">
@@ -172,7 +173,6 @@
 
         <!-- 主体内容 -->
         <section class="content">
-
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-3">
@@ -182,7 +182,7 @@
                             <div class="card-body box-profile">
                                 <div class="text-center">
                                     <div id="image-div">
-                                        <img class="profile-user-img img-fluid img-circle userIcon"
+                                        <img class="profile-user-img img-fluid img-circle"
                                              src="https://${sessionScope.bucketName}.cos.${sessionScope.region}.myqcloud.com/${sessionScope.uuid}"
                                              alt="User profile picture">
 
@@ -540,28 +540,34 @@
     <!-- /.content-wrapper -->
 
 </div>
+<!-- 页面footer -->
+<jsp:include page="P_footer.jsp"/>
+<!-- 页面footer / -->
 
-    <!-- 页面footer -->
-    <jsp:include page="admin_footer.jsp"/>
-
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
     <!-- 控制侧边栏内容在这里 -->
 </aside>
 <!-- /.control-sidebar -->
 </div>
 
 <!-- 页面js -->
-<jsp:include page="admin_foot.jsp"/>
+<jsp:include page="P_foot_js.jsp"/>
 <!-- 页面jsr / -->
 
+<script>
+    $(function () {
+        //The passed argument has to be at least a empty object or a object with your desired options
+        $("body").overlayScrollbars({});
+    });
+</script>
 
 <script>
     window.addEventListener('DOMContentLoaded', function () {
         var image = document.getElementById('image');
         var inputImage = document.getElementById('inputImage');
         var URL = window.URL || window.webkitURL;
-        var originalImageSrc = image.src;
+        var originalImageSrc = image.src
         var uploadedImageType = 'image/jpeg';
         var uploadedImageURL;
         var cropBoxData;
@@ -579,7 +585,7 @@
             minContainerHeight: 530,
             minCropBoxWidth: 150,
             minCropBoxHeight: 150,
-            // checkCrossOrigin: false,
+            checkCrossOrigin: false,
             dragMode: 'move',
             preview: [document.querySelector('.previewBox'), document.querySelector('.previewBoxRound')],
             ready: function () {
@@ -591,10 +597,7 @@
         $('#modal-lg').on('shown.bs.modal', function () {
             cropper = new Cropper(image, options);
         }).on('hidden.bs.modal', function () {
-            // alert(originalImageSrc);
             image.src = originalImageSrc;
-            // $('.userIcon').attr('src',originalImageSrc + '?' +Math.random())
-            console.log(originalImageSrc)
             cropBoxData = cropper.getCropBoxData();
             canvasData = cropper.getCanvasData();
             cropper.destroy();
