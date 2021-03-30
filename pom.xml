@@ -296,6 +296,13 @@
             <version>${activiti-version}</version>
         </dependency>
 
+        <!-- 跨域过滤器 -->
+        <dependency>
+            <groupId>com.thetransactioncompany</groupId>
+            <artifactId>cors-filter</artifactId>
+            <version>2.6</version>
+        </dependency>
+
     </dependencies>
 
     <build>
