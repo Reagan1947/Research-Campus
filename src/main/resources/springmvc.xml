@@ -37,6 +37,8 @@
     <mvc:resources location="/bootstrap/css/" mapping="/bootstrap/css/**" />
     <mvc:resources location="/bootstrap/js/" mapping="/bootstrap/js/**" />
     <mvc:resources location="/plugins/fontawesome-free/css/" mapping="/plugins/fontawesome-free/css/**" />
+    <mvc:resources location="/plugins/fontawesome-free/webfonts/" mapping="/plugins/fontawesome-free/webfonts/**" />
+
     <mvc:resources location="/plugins/toastr/" mapping="/plugins/toastr/**" />
     <mvc:resources location="/dist/css/" mapping="/dist/css/**" />
     <mvc:resources location="/dist/js/" mapping="/dist/js/**" />
@@ -45,10 +47,7 @@
     <mvc:resources location="/plugins/bootstrap/js/" mapping="/plugins/bootstrap/js/**" />
     <mvc:resources location="/plugins/overlayScrollbars/js/" mapping="/plugins/overlayScrollbars/js/**" />
     <mvc:resources location="/plugins/overlayScrollbars/css/" mapping="/plugins/overlayScrollbars/css/**" />
-
-    <mvc:resources location="/plugins/fontawesome-free/webfonts/" mapping="/plugins/fontawesome-free/webfonts/**" />
-<!--    <mvc:resources location="/OverlayScrollbars/css/" mapping="/OverlayScrollbars/css/**" />-->
-<!--    <mvc:resources location="/OverlayScrollbars/js/" mapping="/OverlayScrollbars/js/**" />-->
+    <mvc:resources location="/plugins/jsgrid/" mapping="/plugins/jsgrid/**" />
     <mvc:resources location="/cropperJs/" mapping="/cropperJs/**" />
     <mvc:resources location="/vendor/" mapping="/vendor/**" />
     <mvc:resources location="/vendor/bpmn-font/css/" mapping="/vendor/bpmn-font/css/**" />

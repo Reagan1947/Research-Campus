@@ -60,8 +60,8 @@ public class FileUploadController {
 
         }
 
-        jsonObject .put("code", 200);
-        jsonObject .put("Msg", "上传成功");
+        jsonObject.put("code", 200);
+        jsonObject.put("Msg", "上传成功");
         assert putObjectResult != null;
         String eTag = putObjectResult.getETag();
 

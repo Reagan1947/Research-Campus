@@ -23,7 +23,7 @@
         <mysql.version>8.0.23</mysql.version>
         <jackson.version>2.7.4</jackson.version>
         <mybatis.version>3.4.2</mybatis.version>
-        <activiti-version>5.21.0</activiti-version>
+        <activiti-version>5.23.0</activiti-version>
         <spring.security.version>5.0.1.RELEASE</spring.security.version>
     </properties>
 
@@ -245,7 +245,7 @@
         <dependency>
             <groupId>org.activiti</groupId>
             <artifactId>activiti-engine</artifactId>
-            <version>5.23.0</version>
+            <version>${activiti-version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>spring-beans</artifactId>
@@ -274,8 +274,14 @@
 
         <dependency>
             <groupId>org.activiti</groupId>
+            <artifactId>activiti-image-generator</artifactId>
+            <version>${activiti-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.activiti</groupId>
             <artifactId>activiti-bpmn-converter</artifactId>
-            <version>5.23.0</version>
+            <version>${activiti-version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>slf4j-api</artifactId>
@@ -286,8 +292,14 @@
 
         <dependency>
             <groupId>org.activiti</groupId>
+            <artifactId>activiti-process-validation</artifactId>
+            <version>${activiti-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.activiti</groupId>
             <artifactId>activiti-json-converter</artifactId>
-            <version>5.23.0</version>
+            <version>${activiti-version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>slf4j-api</artifactId>
@@ -295,11 +307,18 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-root</artifactId>
+            <version>${activiti-version}</version>
+        </dependency>
+
         <!--activiti和Spring整合依赖-->
         <dependency>
             <groupId>org.activiti</groupId>
             <artifactId>activiti-spring</artifactId>
-            <version>5.23.0</version>
+            <version>${activiti-version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>spring-beans</artifactId>
@@ -324,11 +343,11 @@
             </exclusions>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.mybatis</groupId>-->
-<!--            <artifactId>mybatis</artifactId>-->
-<!--            <version>3.4.5</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.mybatis</groupId>-->
+        <!--            <artifactId>mybatis</artifactId>-->
+        <!--            <version>3.4.5</version>-->
+        <!--        </dependency>-->
 
         <!-- 文件上传支持 -->
         <dependency>

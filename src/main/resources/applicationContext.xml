@@ -35,7 +35,7 @@
         <!--配置事务-->
         <property name="transactionManager" ref="transactionManager"/>
         <!--数据生成策略    true   false   create   drop-create -->
-        <property name="databaseSchemaUpdate" value="drop-create"/>
+        <property name="databaseSchemaUpdate" value="true"/>
     </bean>
 
     <!--配置ProcessEngine-->

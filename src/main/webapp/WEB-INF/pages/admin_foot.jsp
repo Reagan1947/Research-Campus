@@ -15,5 +15,19 @@
 <!-- toastr -->
 <script type="text/javascript" src="${pageContext.request.contextPath}/plugins/toastr/toastr.min.js"></script>
 
-<!-- 用于演示 AdminLTE  -->
+<!-- jsGrid -->
+<script src="${pageContext.request.contextPath}/plugins/jsgrid/demos/db.js"></script>
+<script src="${pageContext.request.contextPath}/plugins/jsgrid/jsgrid.min.js"></script>
+
+<!-- 用于演示 AdminLTE -->
 <script src="${pageContext.request.contextPath}/dist/js/demo.js"></script>
+
+<!-- 用于 边栏的激活 -->
+<script>
+    $(document).ready(function() {
+        var host_link = window.location.pathname;
+        var activate_a = $("a[href='" + host_link + "']");
+        console.log(host_link);
+        activate_a.addClass("active");
+    });
+</script>

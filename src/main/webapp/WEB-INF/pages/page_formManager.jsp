@@ -46,13 +46,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>流程列表与操作</h1>
+                        <h1>表单管理</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">主页
                             </a></li>
-                            <li class="breadcrumb-item active">流程列表与操作</li>
+                            <li class="breadcrumb-item active">表单管理</li>
                         </ol>
                     </div>
                 </div>
@@ -65,39 +65,49 @@
                     <!-- left column -->
                     <div class="col-md-12">
                         <!-- general form elements -->
-                        <div class="card card-primary card-outline">
-                            <div class="card-header">
-                                <h3 class="card-title">上传流程文件</h3>
-                            </div>
-                            <form>
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <%--                                        <label for="exampleInputFile">上传流程文件并部署</label>--%>
-                                        <div class="col-md-6" style="padding-left: 0">
+<%--                        <div class="card card-primary card-outline">--%>
+<%--                            <div class="card-header">--%>
+<%--                                <h3 class="card-title">上传流程文件</h3>--%>
+<%--                            </div>--%>
+<%--                            <form>--%>
+<%--                                <div class="card-body">--%>
+<%--                                    <div class="form-group">--%>
+<%--                                        &lt;%&ndash;                                        <label for="exampleInputFile">上传流程文件并部署</label>&ndash;%&gt;--%>
+<%--                                        <div class="col-md-6" style="padding-left: 0">--%>
 
-                                            <div class="input-group">
-                                                <div class="custom-file">
-                                                    <input type="file" class="custom-file-input" id="exampleInputFile">
-                                                    <label class="custom-file-label"
-                                                           for="exampleInputFile">选择.BPMN流程文件</label>
-                                                </div>
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text">上传</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- /.card-body -->
-                            </form>
-                        </div>
+<%--                                            <div class="input-group">--%>
+<%--                                                <div class="custom-file">--%>
+<%--                                                    <input type="file" class="custom-file-input" id="exampleInputFile">--%>
+<%--                                                    <label class="custom-file-label"--%>
+<%--                                                           for="exampleInputFile">选择.BPMN流程文件</label>--%>
+<%--                                                </div>--%>
+<%--                                                <div class="input-group-append">--%>
+<%--                                                    <span class="input-group-text">上传</span>--%>
+<%--                                                </div>--%>
+<%--                                            </div>--%>
+<%--                                        </div>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
+<%--                                <!-- /.card-body -->--%>
+<%--                            </form>--%>
+<%--                        </div>--%>
                     </div>
                 </div>
 
                 <!-- 表格开始 -->
                 <div class="card card-primary card-outline">
                     <div class="card-header">
-                        <h3 class="card-title">流程列表与操作</h3>
+                        <h3 class="card-title" style="margin-top: 5px;">表单列表</h3>
+                        <!-- 右侧按钮 -->
+                        <div style="float: right">
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default"><i class="fas fa-filter"></i></button>
+                                    <button type="button" class="btn btn-default"><i class="fas fa-sync-alt"></i></button>
+                                    <button type="button" class="btn btn-default"><i class="fas fa-plus"></i></button>
+                                </div>
+                            </td>
+                        </div>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">

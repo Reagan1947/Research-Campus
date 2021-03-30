@@ -57,5 +57,13 @@ public class SideBarController {
         return "page_deploymentBPM";
     }
 
+    @RequestMapping("/formManager")
+    public String directToFormManager(HttpServletRequest request) throws Exception{
+
+        // 定位到deploymentBPMN界面
+
+        return "page_formManager";
+    }
+
 
 }

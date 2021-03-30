@@ -21,9 +21,9 @@
     }
 </style>
 <%-- style="background-color: #444444!important;--%>
-<aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color: #3c3f41!important;">
+<aside class="main-sidebar elevation-4 sidebar-light-primary">
     <!-- 品牌 Logo -->
-    <a href="#" class="brand-link" style="padding-bottom: 5px;padding-top: 14px;">
+    <a href="#" class="brand-link navbar-white" style="padding-bottom: 5px;padding-top: 14px;">
         <img src="${pageContext.request.contextPath}/custom/img/icon_simple.svg"
              alt="AdminLTE Logo"
              class="brand-image  elevation-3"
@@ -494,13 +494,20 @@
                 <li class="nav-item">
                     <a href="${pageContext.request.contextPath}/buildBPMN" class="nav-link">
                         <i class="nav-icon fas fa-project-diagram"></i>
-                        <p>流程创建</p>
+                        <p>流程创建工具</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="${pageContext.request.contextPath}/deploymentBPMN" class="nav-link">
-                        <i class="nav-icon fas fa-infinity"></i>
-                        <p>流程部署与管理</p>
+                        <i class="nav-icon fas fa-tasks"></i>
+                        <p>流程列表与操作</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="${pageContext.request.contextPath}/formManager" class="nav-link">
+                        <i class="nav-icon fas fa-columns"></i>
+<%--                        <i class="fas fa-columns"></i>--%>
+                        <p>表单管理</p>
                     </a>
                 </li>
                 <li class="nav-header">多级示例</li>
@@ -593,11 +600,3 @@
     </div>
     <!-- /.sidebar -->
 </aside>
-
-<script>
-    window.onload = function () {
-        var host_link = window.location.pathname;
-        var activate_a = $("a[href='" + host_link + "']");
-        activate_a.addClass("active");
-    }
-</script>
