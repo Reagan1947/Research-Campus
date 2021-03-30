@@ -33,7 +33,7 @@ public class SideBarController {
         UserInfo userInfo = userInfService.findUserInfByUsernameBase(authentication.getName());
         ModelAndView modelandview = new ModelAndView();
         modelandview.addObject("userInfo", userInfo);
-        modelandview.setViewName("../../pages/profile");
+        modelandview.setViewName("page_profile");
 //        System.out.println("--------------------------------------");
 //        System.out.println(userInfo.getEmail());
 //        System.out.println("--------------------------------------");
@@ -46,7 +46,24 @@ public class SideBarController {
 
         // 定位到buildBPMN界面
 
-        return "../../pages/buildBPMN";
+        return "page_buildBPMN";
     }
+
+    @RequestMapping("/deploymentBPMN")
+    public String directToDeployment(HttpServletRequest request) throws Exception{
+
+        // 定位到deploymentBPMN界面
+
+        return "page_deploymentBPM";
+    }
+
+    @RequestMapping("/formManager")
+    public String directToFormManager(HttpServletRequest request) throws Exception{
+
+        // 定位到deploymentBPMN界面
+
+        return "page_formManager";
+    }
+
 
 }

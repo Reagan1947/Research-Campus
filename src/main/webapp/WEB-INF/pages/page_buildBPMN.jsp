@@ -2,7 +2,7 @@
 <html>
 <head>
     <!-- 页面Head信息 -->
-    <jsp:include page="P_common_head.jsp"/>
+    <jsp:include page="admin_head.jsp"/>
     <!-- 页面Head信息 / -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/custom/css/diagram-js.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/vendor/bpmn-font/css/bpmn-embedded.css"/>
@@ -53,11 +53,11 @@
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
     <!-- 页面头部 -->
-    <jsp:include page="P_header.jsp"/>
+    <jsp:include page="admin_navbar.jsp"/>
     <!-- 页面头部 / -->
 
     <!-- 页面侧边栏 -->
-    <jsp:include page="P_aside.jsp"/>
+    <jsp:include page="admin_sidebar.jsp"/>
     <!-- 页面侧边栏 / -->
 
     <!-- Content Wrapper. 包含页面内容 -->
@@ -67,13 +67,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>流程创建</h1>
+                        <h1>流程创建工具</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">主页
                             </a></li>
-                            <li class="breadcrumb-item active">流程创建</li>
+                            <li class="breadcrumb-item active">流程创建工具</li>
                         </ol>
                     </div>
                 </div>
@@ -154,7 +154,7 @@
 
 </div>
 <!-- 页面footer -->
-<jsp:include page="P_footer.jsp"/>
+<jsp:include page="admin_footer.jsp"/>
 <!-- 页面footer / -->
 
 <!-- Control Sidebar -->
@@ -165,7 +165,7 @@
 </div>
 
 <!-- 页面js -->
-<jsp:include page="P_foot_js.jsp"/>
+<jsp:include page="admin_foot.jsp"/>
 <!-- 页面jsr / -->
 <script>
     $(function () {

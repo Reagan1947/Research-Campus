@@ -88,7 +88,7 @@
                     <div class="col-md-8">
                         <div>
                             <img id="image" alt="" width="100px"
-                                 src="https://${sessionScope.bucketName}.cos.${sessionScope.region}.myqcloud.com/${sessionScope.uuid}" crossorigin="">
+                                 src="https://${sessionScope.bucketName}.cos.${sessionScope.region}.myqcloud.com/${sessionScope.uuid}" crossorigin="anonymous">
 
 
                             <label class="btn btn-primary btn-upload" style="margin-top: 10px;" for="inputImage"
@@ -182,7 +182,7 @@
                             <div class="card-body box-profile">
                                 <div class="text-center">
                                     <div id="image-div">
-                                        <img class="profile-user-img img-fluid img-circle userIcon"
+                                        <img class="profile-user-img img-fluid img-circle"
                                              src="https://${sessionScope.bucketName}.cos.${sessionScope.region}.myqcloud.com/${sessionScope.uuid}"
                                              alt="User profile picture">
 
@@ -567,7 +567,7 @@
         var image = document.getElementById('image');
         var inputImage = document.getElementById('inputImage');
         var URL = window.URL || window.webkitURL;
-        var originalImageSrc = image.src;
+        var originalImageSrc = image.src
         var uploadedImageType = 'image/jpeg';
         var uploadedImageURL;
         var cropBoxData;
@@ -585,7 +585,7 @@
             minContainerHeight: 530,
             minCropBoxWidth: 150,
             minCropBoxHeight: 150,
-            // checkCrossOrigin: false,
+            checkCrossOrigin: false,
             dragMode: 'move',
             preview: [document.querySelector('.previewBox'), document.querySelector('.previewBoxRound')],
             ready: function () {
@@ -597,10 +597,7 @@
         $('#modal-lg').on('shown.bs.modal', function () {
             cropper = new Cropper(image, options);
         }).on('hidden.bs.modal', function () {
-            // alert(originalImageSrc);
             image.src = originalImageSrc;
-            // $('.userIcon').attr('src',originalImageSrc + '?' +Math.random())
-            console.log(originalImageSrc)
             cropBoxData = cropper.getCropBoxData();
             canvasData = cropper.getCanvasData();
             cropper.destroy();
