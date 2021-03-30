@@ -239,11 +239,11 @@
             <version>${activiti-version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.activiti</groupId>
-            <artifactId>activiti-root</artifactId>
-            <version>${activiti-version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.activiti</groupId>-->
+<!--            <artifactId>activiti-root</artifactId>-->
+<!--            <version>${activiti-version}</version>-->
+<!--        </dependency>-->
 
         <!--activiti和Spring整合依赖-->
         <dependency>
