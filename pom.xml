@@ -278,6 +278,7 @@
             <version>${activiti-version}</version>
         </dependency>
 
+        <!-- CORS -->
         <dependency>
             <groupId>com.thetransactioncompany</groupId>
             <artifactId>cors-filter</artifactId>
