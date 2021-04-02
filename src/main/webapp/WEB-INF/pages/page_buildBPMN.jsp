@@ -3,6 +3,8 @@
 <head>
     <!-- 页面Head信息 -->
     <jsp:include page="admin_head.jsp"/>
+    <title>创建流程</title>
+
     <!-- 页面Head信息 / -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/custom/css/diagram-js.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/vendor/bpmn-font/css/bpmn-embedded.css"/>
@@ -67,13 +69,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>流程创建工具</h1>
+                        <h1>创建流程</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">主页
                             </a></li>
-                            <li class="breadcrumb-item active">流程创建工具</li>
+                            <li class="breadcrumb-item active">创建流程</li>
                         </ol>
                     </div>
                 </div>

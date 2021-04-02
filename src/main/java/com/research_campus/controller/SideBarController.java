@@ -65,5 +65,12 @@ public class SideBarController {
         return "page_formManager";
     }
 
+    @RequestMapping("/bpmnList")
+    public String directToBpmnList(HttpServletRequest request) throws Exception{
+
+        // 定位到deploymentBPMN界面
+
+        return "page_bpmnList";
+    }
 
 }

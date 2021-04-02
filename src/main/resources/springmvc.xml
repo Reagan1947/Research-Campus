@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="
         http://www.springframework.org/schema/beans
@@ -12,7 +13,7 @@
 
     <!--开启注解扫描，只扫描Controller注解-->
     <context:component-scan base-package="com.research_campus">
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
     <!--配置的视图解析器对象-->
@@ -30,29 +31,30 @@
     <mvc:annotation-driven/>
     <!-- 过滤静态资源 -->
     <!-- <mvc:resources location="/static/css" mapping="/static/**" />-->
-    <mvc:resources location="/custom/css/" mapping="/custom/css/**" />
-    <mvc:resources location="/custom/img/" mapping="/custom/img/**" />
-    <mvc:resources location="/custom/font/" mapping="/custom/font/**" />
-    <mvc:resources location="/custom/js/" mapping="/custom/js/**" />
-    <mvc:resources location="/bootstrap/css/" mapping="/bootstrap/css/**" />
-    <mvc:resources location="/bootstrap/js/" mapping="/bootstrap/js/**" />
-    <mvc:resources location="/plugins/fontawesome-free/css/" mapping="/plugins/fontawesome-free/css/**" />
-    <mvc:resources location="/plugins/fontawesome-free/webfonts/" mapping="/plugins/fontawesome-free/webfonts/**" />
+    <mvc:resources location="/custom/css/" mapping="/custom/css/**"/>
+    <mvc:resources location="/custom/img/" mapping="/custom/img/**"/>
+    <mvc:resources location="/custom/font/" mapping="/custom/font/**"/>
+    <mvc:resources location="/custom/js/" mapping="/custom/js/**"/>
+    <mvc:resources location="/bootstrap/css/" mapping="/bootstrap/css/**"/>
+    <mvc:resources location="/bootstrap/js/" mapping="/bootstrap/js/**"/>
+    <mvc:resources location="/plugins/fontawesome-free/css/" mapping="/plugins/fontawesome-free/css/**"/>
+    <mvc:resources location="/plugins/fontawesome-free/webfonts/" mapping="/plugins/fontawesome-free/webfonts/**"/>
 
-    <mvc:resources location="/plugins/toastr/" mapping="/plugins/toastr/**" />
-    <mvc:resources location="/dist/css/" mapping="/dist/css/**" />
-    <mvc:resources location="/dist/js/" mapping="/dist/js/**" />
-    <mvc:resources location="/dist/img/" mapping="/dist/img/**" />
-    <mvc:resources location="/plugins/jquery/" mapping="/plugins/jquery/**" />
-    <mvc:resources location="/plugins/bootstrap/js/" mapping="/plugins/bootstrap/js/**" />
-    <mvc:resources location="/plugins/overlayScrollbars/js/" mapping="/plugins/overlayScrollbars/js/**" />
-    <mvc:resources location="/plugins/overlayScrollbars/css/" mapping="/plugins/overlayScrollbars/css/**" />
-    <mvc:resources location="/plugins/jsgrid/" mapping="/plugins/jsgrid/**" />
-    <mvc:resources location="/cropperJs/" mapping="/cropperJs/**" />
-    <mvc:resources location="/vendor/" mapping="/vendor/**" />
-    <mvc:resources location="/vendor/bpmn-font/css/" mapping="/vendor/bpmn-font/css/**" />
-    <mvc:resources location="/vendor/bpmn-font/font/" mapping="/vendor/bpmn-font/font/**" />
-
-
+    <mvc:resources location="/plugins/toastr/" mapping="/plugins/toastr/**"/>
+    <mvc:resources location="/dist/css/" mapping="/dist/css/**"/>
+    <mvc:resources location="/dist/js/" mapping="/dist/js/**"/>
+    <mvc:resources location="/dist/img/" mapping="/dist/img/**"/>
+    <mvc:resources location="/plugins/jquery/" mapping="/plugins/jquery/**"/>
+    <mvc:resources location="/plugins/bootstrap/js/" mapping="/plugins/bootstrap/js/**"/>
+    <mvc:resources location="/plugins/overlayScrollbars/js/" mapping="/plugins/overlayScrollbars/js/**"/>
+    <mvc:resources location="/plugins/overlayScrollbars/css/" mapping="/plugins/overlayScrollbars/css/**"/>
+    <mvc:resources location="/plugins/jsgrid/" mapping="/plugins/jsgrid/**"/>
+    <mvc:resources location="/cropperJs/" mapping="/cropperJs/**"/>
+    <mvc:resources location="/vendor/" mapping="/vendor/**"/>
+    <mvc:resources location="/vendor/bpmn-font/css/" mapping="/vendor/bpmn-font/css/**"/>
+    <mvc:resources location="/vendor/bpmn-font/font/" mapping="/vendor/bpmn-font/font/**"/>
+    <mvc:resources location="/plugins/moment/" mapping="/plugins/moment/**"/>
+    <mvc:resources location="/plugins/inputmask/" mapping="/plugins/inputmask/**"/>
+    <mvc:resources location="/plugins/bs-custom-file-input/" mapping="/plugins/bs-custom-file-input/**"/>
 
 </beans>
