@@ -60,7 +60,7 @@ public class SideBarController {
     @RequestMapping("/formManager")
     public String directToFormManager(HttpServletRequest request) throws Exception{
 
-        // 定位到deploymentBPMN界面
+        // 定位到FormManager界面
 
         return "page_formManager";
     }
@@ -68,7 +68,7 @@ public class SideBarController {
     @RequestMapping("/bpmnList")
     public String directToBpmnList(HttpServletRequest request) throws Exception{
 
-        // 定位到deploymentBPMN界面
+        // 定位到BpmnList界面
 
         return "page_bpmnList";
     }

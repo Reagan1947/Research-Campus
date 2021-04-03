@@ -148,7 +148,7 @@
                 <li class="nav-item">
                     <a href="${pageContext.request.contextPath}/deploymentBPMN" class="nav-link">
                         <i class="nav-icon fas fa-tasks"></i>
-                        <p>流程列表与操作</p>
+                        <p>流程定义与操作</p>
                     </a>
                 </li>
                 <li class="nav-item">

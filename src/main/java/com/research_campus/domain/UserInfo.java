@@ -7,7 +7,7 @@ import java.util.List;
  * @author buwan
  */
 public class UserInfo {
-    private String id;
+    private Integer id;
     private String email;
     private String username;
     private String password;
@@ -21,11 +21,11 @@ public class UserInfo {
     private Integer status;
     private List<Role> roles;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

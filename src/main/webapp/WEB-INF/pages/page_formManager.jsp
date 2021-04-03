@@ -25,6 +25,23 @@
         .previewBoxRound {
             border-radius: 50%; /*设置为圆形*/
         }
+        .col-form-label {
+            margin-left: 5px;
+            margin-bottom: 8px;
+        }
+
+        .infoTextarea.change::-webkit-input-placeholder{
+            color:black!important;
+        }
+        .infoTextarea.change::-moz-placeholder{   /* Mozilla Firefox 19+ */
+            color:black!important;
+        }
+        .infoTextarea.change:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+            color:black!important;
+        }
+        .infoTextarea.change:-ms-input-placeholder{  /* Internet Explorer 10-11 */
+            color:black!important;
+        }
 
     </style>
 
@@ -116,15 +133,15 @@
                             <div class="row">
                                 <div class="col-1">
                                     <lable class="col-form-label">表单名称</lable>
-                                    <input type="text" class="form-control" placeholder="formName">
+                                    <input type="text" class="form-control forPlaceholder" placeholder="formName">
                                 </div>
                                 <div class="col-1">
                                     <lable class="col-form-label">创建时间</lable>
-                                    <input type="text" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask>
+                                    <input type="text" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask placeholder="dd/mm/yyyy">
                                 </div>
                                 <div class="col-2">
                                     <lable class="col-form-label">表单描述</lable>
-                                    <input type="text" class="form-control" placeholder="formDesc">
+                                    <input type="text" class="form-control forPlaceholder" placeholder="formDesc">
                                 </div>
 
                                 <div class="col-6" style="margin-top: 24px;">
@@ -273,7 +290,7 @@
     });
 
     window.onload = function () {
-        $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' });
+        // $('#datemask').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' });
         $('[data-mask]').inputmask();
 
         // 当状态表示1时候 表示已部署 此时部署按钮不可用
@@ -283,8 +300,20 @@
 
     $(document).ready(function(){
         $("#filterButton").click(function(){
-            $("#filterBar").toggle();
+            $("#filterBar").slideToggle(250);
         });
+    });
+
+    $("input").focus(function(){
+        var elem = $( this );
+        if(elem.hasClass('forPlaceholder')){
+            elem.addClass('infoTextarea change');
+        }    });
+    $("input").blur(function(){
+        var elem = $( this );
+        if(elem.hasClass('infoTextarea change') && elem.hasClass('forPlaceholder')){
+            elem.removeClass('infoTextarea change');
+        }
     });
 </script>
 </body>

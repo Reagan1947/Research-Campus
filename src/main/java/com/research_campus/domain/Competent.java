@@ -7,16 +7,16 @@ import java.util.List;
  * @author buwan
  */
 public class Competent {
-    private String id;
+    private Integer id;
     private String competentName;
     private String competentDesc;
     private List<UserInfo> users;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

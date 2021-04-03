@@ -28,15 +28,15 @@
 
 <!-- bs-custom-file-input -->
 <script src="${pageContext.request.contextPath}/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+
+<!-- datatables -->
+<script src="https://cdn.datatables.net/v/bs4/dt-1.10.18/b-1.5.6/sc-2.0.0/sl-1.3.0/datatables.min.js"></script>
+
+<!-- propper -->
+<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+
 <!-- 用于 边栏的激活 -->
 <script>
-    // $(document).ready(function() {
-    //     var host_link = window.location.pathname;
-    //     var activate_a = $("a[href='" + host_link + "']");
-    //     console.log(host_link);
-    //     activate_a.addClass("active");
-    // });
-
     $(function () {
         var url = window.location;
         // for single sidebar menu
@@ -53,3 +53,5 @@
             .addClass('active');
     });
 </script>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/b-1.5.6/sc-2.0.0/sl-1.3.0/datatables.min.css"></link>

@@ -8,16 +8,16 @@ import java.util.List;
  */
 public class Subject {
 
-    private String id;
+    private Integer id;
     private String subjectName;
     private String subjectDesc;
     private List<UserInfo> users;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -2,21 +2,32 @@ package com.research_campus.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.qcloud.cos.model.ObjectMetadata;
+import com.qcloud.cos.model.PutObjectResult;
+import com.research_campus.domain.BpmnList;
+import com.research_campus.service.IActivitiService;
 import com.research_campus.utils.activiti.ActivitiMapTool;
+import com.research_campus.utils.activiti.IDGenerator;
+import com.research_campus.utils.tencentCloudCos.CosClientTool;
+import jdk.nashorn.internal.ir.RuntimeNode;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.repository.ProcessDefinitionQuery;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,6 +41,8 @@ import java.util.Map;
  */
 @Controller
 public class ActivitiController {
+    private static final Logger LOGGER = Logger.getLogger(ActivitiController.class);
+
 
     ProcessEngine processEngine;
 
@@ -44,6 +57,20 @@ public class ActivitiController {
     @Autowired
     public void setRepositoryService(RepositoryService repositoryService) {
         this.repositoryService = repositoryService;
+    }
+
+    IActivitiService activitiService;
+
+    @Autowired
+    public ActivitiController(IActivitiService activitiService) {
+        this.activitiService = activitiService;
+    }
+
+    CosClientTool clientTool;
+
+    @Autowired
+    public void setClientTool(CosClientTool clientTool) {
+        this.clientTool = clientTool;
     }
 
     /**
@@ -80,7 +107,7 @@ public class ActivitiController {
      * @param response 上传文件对象
      */
 
-    @RequestMapping(value = "/uploadBPMN")
+    @RequestMapping(value = "/uploadAndDepBPMN")
     @ResponseBody
     public void deploymentProcessDefinitionClasspath(MultipartFile uploadBpmn, MultipartFile uploadPng, String processName, HttpServletResponse response) throws IOException {
         // 获取ClasspathResource 并进行部署
@@ -104,22 +131,90 @@ public class ActivitiController {
                     .addInputStream(resourceNameBpmn, inputStreamBpmn)
                     .addInputStream(resourceNamePng, inputStreamPng)
                     .deploy();
+        }catch (Exception e){
+            json.put("code", 400);
+            json.put("Msg", "创建失败");
+            e.printStackTrace();
+        }
 
-            json.put("code", 200);
-            json.put("Msg", "创建成功");
+        json.put("code", 200);
+        json.put("Msg", "创建成功");
+        assert deployment != null;
+        System.out.println("部署ID："+deployment.getId());
+        System.out.println("部署名称:"+deployment.getName());
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        response.getWriter().print(json.toJSONString());
+    }
+
+    @RequestMapping(value = "/uploadBPMN")
+    @ResponseBody
+    public void uploadBPMN(MultipartFile uploadBpmn, MultipartFile uploadSvg, String processName, String processDesc, HttpServletResponse response, HttpServletRequest request) throws IOException {
+        PutObjectResult putObjectResultBpmn;
+        PutObjectResult putObjectResultPng;
+
+        // bpmn上传
+        String resourceNameBpmn = uploadBpmn.getOriginalFilename();
+
+        // png上传文件名
+        String resourceNameSvg = uploadSvg.getOriginalFilename();
+
+        JSONObject json = new JSONObject();
+        HttpSession session = request.getSession();
+        String uuid = IDGenerator.getUuid();
+
+        // 在数据库中保存BPMN数据
+        try {
+            BpmnList bpmnList = new BpmnList();
+            bpmnList.setBpmnName(processName);
+            bpmnList.setUploadUserId((Integer) session.getAttribute("userId"));
+            bpmnList.setBpmnDesc(processDesc);
+            bpmnList.setBpmnStatus(0);
+            bpmnList.setBpmnUUID(uuid);
+            bpmnList.setBpmnFileName(resourceNameBpmn);
+            bpmnList.setSvgFileName(resourceNameSvg);
+
+            activitiService.bpmnListAddData(bpmnList);
+
+            // 上传对象到腾讯云
+            putObjectResultBpmn = clientTool.uploadFileWithExtension(uuid, uploadBpmn, "bpmn", "bpmn");
+            putObjectResultPng = clientTool.uploadFileWithExtension(uuid, uploadSvg, "svg", "bpmn");
+
+            LOGGER.info(putObjectResultBpmn);
+            LOGGER.info(putObjectResultPng);
 
         }catch (Exception e){
             json.put("code", 400);
             json.put("Msg", "创建失败");
             e.printStackTrace();
-        } finally {
-            assert deployment != null;
-            System.out.println("部署ID："+deployment.getId());
-            System.out.println("部署名称:"+deployment.getName());
+        }
+            json.put("code", 200);
+            json.put("Msg", "创建成功");
             response.setCharacterEncoding("UTF-8");
             response.setContentType("text/html;charset=UTF-8");
             response.getWriter().print(json.toJSONString());
-        }
     }
 
+    @RequestMapping(value = "/getBPMNList")
+    @ResponseBody
+    public List<BpmnList> getBpmnList() throws IOException {
+        return activitiService.getBpmnList();
+    }
+
+    @RequestMapping("/showBPMN")
+    public ModelAndView directToShowBpmn(String uuid, HttpServletRequest request) throws Exception{
+
+        // 定位到show BPMN界面
+
+        // 根据uuid查询流程图的具体信息
+        BpmnList bpmnList = activitiService.getBpmnListByUuid(uuid);
+
+        ModelAndView mv = new ModelAndView();
+        //添加模型数据 可以是任意的POJO对象
+        mv.addObject(bpmnList);
+        //设置逻辑视图名，视图解析器会根据该名字解析到具体的视图页面
+        mv.setViewName("page_showBPMN");
+
+        return mv;
+    }
 }

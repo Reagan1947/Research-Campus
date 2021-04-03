@@ -61,6 +61,7 @@ public class LoginController {
         UserInfo userInfo = userInfService.findUserInfByUsername(authentication.getName());
         HttpSession session = request.getSession();
         session.setAttribute("username", userInfo.getUserName());
+        session.setAttribute("userId", userInfo.getId());
         session.setAttribute("uuid", userInfo.getUuid());
         session.setAttribute("bucketName", PBucketName);
         session.setAttribute("region", PRegion);

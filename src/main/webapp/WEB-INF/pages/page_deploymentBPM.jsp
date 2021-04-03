@@ -6,7 +6,7 @@
     <jsp:include page="admin_head.jsp"/>
 
     <!-- 设置每个页面的Title -->
-    <title>创建流程</title>
+    <title>流程定义与操作</title>
 
     <style>
         #imgReader {
@@ -49,7 +49,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>流程列表与操作</h1>
+                        <h1>流程定义与操作</h1>
                         <button onclick="fun()">loadjsgrid;
                         </button>
                     </div>
@@ -57,7 +57,7 @@
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">主页
                             </a></li>
-                            <li class="breadcrumb-item active">流程列表与操作</li>
+                            <li class="breadcrumb-item active">流程定义与操作</li>
                         </ol>
                     </div>
                 </div>
@@ -301,7 +301,7 @@
 <script>
     $("#uploadBpmnFile").click(function () {
         $.ajax({
-            url: "${pageContext.request.contextPath}/uploadBPMN",
+            url: "${pageContext.request.contextPath}/uploadAndDepBPMN",
             type: "POST",
             data: new FormData($("#bpmnForm")[0]),
             processData: false,//告诉ajax不要处理和编码这些数据，直接提交

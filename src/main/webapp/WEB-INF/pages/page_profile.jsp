@@ -653,7 +653,7 @@
                 }),
                 processData: false,
                 success: function (data) {
-                    // alert(data.code);
+                    alert(data.code);
                     if (data.code === 400) {
                         console.log(data);
                         toastr.error("用户头像上传失败，请重试！")
