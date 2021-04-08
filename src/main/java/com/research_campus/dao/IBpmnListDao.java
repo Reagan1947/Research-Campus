@@ -1,6 +1,7 @@
 package com.research_campus.dao;
 
 import com.research_campus.domain.BpmnList;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 
@@ -34,4 +35,18 @@ public interface IBpmnListDao {
      */
     @Select("SELECT * FROM bpmnlist WHERE bpmnUUID=#{uuid}")
     BpmnList getBpmnListByUuid(String uuid);
+
+    /**
+     * 根据UUID 删除BPMN
+     * @param bpmnUuid 流程图uuid
+     */
+    @Delete("DELETE FROM bpmnlist WHERE bpmnUUID=#{bpmnUuid}")
+    void deleteBpmn(String bpmnUuid);
+
+    /**
+     * 根据 UUID 更改BPMNlist
+     * @param bpmnList bpmn list 实例
+     */
+    @Delete("UPDATE bpmnlist SET bpmnName=#{bpmnName}, bpmnDesc=#{bpmnDesc}, bpmnFileName=#{bpmnFileName}, svgFileName=#{svgFileName}, bpmnStatus=#{bpmnStatus} WHERE bpmnUUID=#{bpmnUUID}")
+    void changeBpmnInfByUuid(BpmnList bpmnList);
 }

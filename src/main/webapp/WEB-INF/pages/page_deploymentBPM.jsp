@@ -50,7 +50,6 @@
                 <div class="row mb-2">
                     <div class="col-sm-6">
                         <h1>流程定义与操作</h1>
-                        <button onclick="fun()">loadjsgrid;
                         </button>
                     </div>
                     <div class="col-sm-6">
@@ -314,10 +313,6 @@
             }
         });
     });
-
-    function fun() {
-        toastr.success("用户头像上传成功！")
-    }
 </script>
 
 </body>

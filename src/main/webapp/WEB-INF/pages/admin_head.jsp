@@ -5,10 +5,10 @@
 
 <!-- favicon -->
 <link rel="shortcut icon" href="${pageContext.request.contextPath}/custom/img/favicon-32x32.png" type="image/x-icon">
-<link rel="apple-touch-icon" sizes="180x180" href="${pageContext.request.contextPath}/custom/img/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="${pageContext.request.contextPath}/custom/img/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="${pageContext.request.contextPath}/custom/img/favicon-16x16.png">
-<link rel="manifest" href="${pageContext.request.contextPath}/custom/img/site.webmanifest">
+<%--<link rel="apple-touch-icon" sizes="180x180" href="${pageContext.request.contextPath}/custom/img/apple-touch-icon.png">--%>
+<%--<link rel="icon" type="image/png" sizes="32x32" href="${pageContext.request.contextPath}/custom/img/favicon-32x32.png">--%>
+<%--<link rel="icon" type="image/png" sizes="16x16" href="${pageContext.request.contextPath}/custom/img/favicon-16x16.png">--%>
+<%--<link rel="manifest" href="${pageContext.request.contextPath}/custom/img/site.webmanifest">--%>
 
 <!-- 开启浏览器自适应 -->
 <meta name="viewport" content="width=device-width, initial-scale=1">

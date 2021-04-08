@@ -37,8 +37,19 @@
 
 <!-- 用于 边栏的激活 -->
 <script>
+
+    function deleteParagram(){
+        var url = window.location.href;                    //获取当前页面的url
+        if(url.indexOf("?")!==-1){                        //判断是否存在参数
+           url =  url.replace(/(\?|#)[^'"]*/, '');           //去除参数
+        }
+
+        return url;
+    }
+
     $(function () {
-        var url = window.location;
+        var url = deleteParagram();
+        console.log("当前URL：" + url)
         // for single sidebar menu
         $('ul.nav-sidebar a').filter(function () {
             return this.href == url;

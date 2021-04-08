@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <html>
 <head>
     <!-- 页面Head信息 -->
@@ -50,6 +52,10 @@
             margin-bottom: -3px;
             margin-right: 3px;
         }
+        .os-padding {
+            z-index: auto !important;
+        }
+
     </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -69,7 +75,9 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>创建流程</h1>
+                        <h1>创建流程
+                            <span style="margin-left: 5px; display: inline-block; text-decoration:underline; font-size: 15px;"><a href="${pageContext.request.contextPath}/bpmnList">← 返回流程列表</a></span>
+                        </h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -81,6 +89,44 @@
                 </div>
             </div><!-- /.container-fluid -->
         </section>
+
+        <div id="base_url" style="display: none">
+            https://${sessionScope.bucketName}.cos.${sessionScope.region}.myqcloud.com/bpmn/
+        </div>
+
+        <div class="modal fade" id="modal-lg" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">保存流程至系统</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clearForm()">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- 内容开始 -->
+                        <form id="bpmnForm">
+                            <div class="form-group">
+                                <label>流程名称</label>
+                                <input type="text" class="form-control" placeholder="process name" id="processName"  name="processName">
+                            </div>
+                            <div class="form-group">
+                                <label>流程描述</label>
+                                <textarea class="form-control" rows="3" placeholder="process description" id="processDesc"  name="processDesc"></textarea>
+                                <%--                                <input type="text" class="form-control" placeholder="process description" id="processDesc"  name="processDesc">--%>
+                            </div>
+                        </form>
+                        <!-- 内容结束 -->
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clearForm()">关闭</button>
+                        <button type="button" class="btn btn-primary" onclick="saveToSystem()" id="uploadBpmnFile" data-dismiss="modal">保存</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
 
         <section class="content">
             <div class="container-fluid">
@@ -132,14 +178,13 @@
                                         <i class="fas fa-download"></i> 下载 SVG Image 图像
                                     </a>
                                 </li>
-                                <%--                                    <li>--%>
-                                <%--                                        <a id="js-clear-svg" href title="清空画布">--%>
-                                <%--                                            清空画布--%>
-                                <%--                                        </a>--%>
-                                <%--                                    </li>--%>
+                                <li>
+                                    <a id="js-save-system" data-toggle="modal" data-target="#modal-lg" href="javascript:void(0);" title="保存文件">
+                                        <i class="fas fa-save"></i>  保存流程至系统
+                                    </a>
+                                </li>
                                 <span style="color: #d7d7d7;"> Powered by bpmn.io.</span>
                             </ul>
-
 
                         </div>
                     </div>
@@ -174,9 +219,46 @@
         //The passed argument has to be at least a empty object or a object with your desired options
         $("body").overlayScrollbars({});
     });
+
+    function saveToSystem(){
+        var svg_href = $('#js-download-svg').attr('href');
+        var bpmn_href = $('#js-download-diagram').attr('href');
+        var bpmnName = $(" input[ name='processName' ] ").val();
+        var bpmnDesc = $('#processDesc').val();
+
+        var json_data = {svg_data:decodeURIComponent(svg_href), bpmn_data:decodeURIComponent(bpmn_href), bpmn_name:bpmnName, bpmn_desc:bpmnDesc}
+
+        $.ajax({
+            //发送请求URL，可使用相对路径也可使用绝对路径
+            url:"${pageContext.request.contextPath}/saveBPMNEdit",
+            //发送方式为GET，也可为POST，需要与后台对应
+            type:'POST',
+            data:JSON.stringify(json_data),
+            dataType:'json',
+            contentType:"application/json;charset=utf-8",
+            //后台返回成功后处理数据，data为后台返回的json格式数据
+            success: function (data) {
+                if (data.code === 400) {
+                    console.log(data);
+                    toastr.error("流程保存失败！")
+                } else if (data.code === 200) {
+                    console.log(data);
+                    toastr.success("流程保存成功！")
+                }
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+    }
 </script>
 
 <script src="${pageContext.request.contextPath}/custom/js/app.js"></script>
 
+<script>
+    function clearForm(){
+        $('#bpmnForm').get(0).reset();
+    }
+</script>
 </body>
 </html>

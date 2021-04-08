@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <html>
 <head>
     <!-- 页面Head信息 -->
@@ -83,6 +85,9 @@
             /*right: 6px;*/
 
         }
+        .bpmn_margin_need {
+            min-height: 180px;
+        }
     </style>
 
 </head>
@@ -121,7 +126,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">导入流程</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clearForm()">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
@@ -129,7 +134,7 @@
                         <!-- 内容开始 -->
                         <form id="bpmnForm">
                             <div class="form-group">
-                                <label>流程定义名称</label>
+                                <label>流程名称</label>
                                 <input type="text" class="form-control" placeholder="process name" id="processName"  name="processName">
                             </div>
                             <div class="form-group">
@@ -165,7 +170,7 @@
                         <!-- 内容结束 -->
                     </div>
                     <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clearForm()">关闭</button>
                         <button type="button" class="btn btn-primary" id="uploadBpmnFile" data-dismiss="modal">上传流程</button>
                     </div>
                 </div>
@@ -308,7 +313,7 @@
                     'render': function(data, type, full, meta){
                         if (type === 'display'){
                             // data = '<i class="fa fa-user fa-fw"></i>';
-                            data = '<img src="https://${sessionScope.bucketName}.cos.${sessionScope.region}.myqcloud.com/bpmn/' + encodeURIComponent(full['bpmnUUID']) + '.png" class="avatar">';
+                            data = '<img src="https://${sessionScope.bucketName}.cos.${sessionScope.region}.myqcloud.com/bpmn/' + encodeURIComponent(full['bpmnUUID']) + '.svg" class="avatar bpmn_margin_need">';
                         }
 
                         return data;
@@ -373,12 +378,18 @@
                     "render" : function(data, type,row) {
                         // var id = '"' + row.id + '"';
                         var uuid = '"' + row.bpmnUUID + '"';
+                        var bpmnStatus = '"' + row.bpmnStatus + '"';
+                        var status_tag = ''
+                        if(bpmnStatus === '"1"'){
+                           status_tag = 'disabled'
+                        }
                         var html = "<div class='btn-group'>" +
-                        "<button type='button' onclick='toShowBpmn("+ uuid + ")' class='btn btn-sm btn-default'><i class='fas fa-search'></i> 查看</button>" +
-                            "<button type='button' class='btn btn-sm btn-default'><i class='far fa-trash-alt'></i> 删除</button>" +
-                            "<button type='button' class='btn btn-sm btn-default'><i class='fas fa-edit'></i> 编辑</button>" +
-                            "<button type='button' class='btn btn-sm btn-default'><i class='fas fa-check'></i> 部署</button>" +
+                        "<button type='button' onclick='toShowBpmn("+ uuid + ")' class='btn btn-sm btn-default' id='toShowBpmn'><i class='fas fa-search'></i> 查看</button>" +
+                            "<button type='button' onclick='deleteBpmn("+ uuid + ")' class='btn btn-sm btn-default'><i class='far fa-trash-alt'></i> 删除</button>" +
+                            "<button type='button' onclick='reviewBpmn("+ uuid + ")' class='btn btn-sm btn-default'><i class='fas fa-edit'></i> 编辑</button>" +
+                            "<button type='button' onclick='depBpmn("+ uuid + ")' "+ status_tag +" class='btn btn-sm btn-default bpmnStatus'><i class='fas fa-check'></i> 部署</button>" +
                             "</div>"
+                        $('.status_1').attr("disabled", "disabled");
                         return html;
                     }
                 },
@@ -416,17 +427,26 @@
                         column_0.visible(true)
                     }
 
+
                     $(".cards").find("tr").hover(function () {
-                        var txt1 = "<div class='btn-group test'>" +
-                            "<button type='button' class='btn btn-default'><i class='fas fa-search'></i></button>" +
-                            "<button type='button' class='btn btn-default'><i class='far fa-trash-alt'></i></button>" +
-                            "<button type='button' class='btn btn-default'><i class='fas fa-edit'></i></button>" +
-                            "<button type='button' class='btn btn-default'><i class='fas fa-check'></i></button>" +
+                        var uuid_row = table.row( this ).data()['bpmnUUID'];
+                        var bpmnStatus = table.row( this ).data()['bpmnStatus'];
+                        var uuid_string = '"' + uuid_row + '"';
+                        var bpmnStatus_string = '"' + bpmnStatus + '"';
+                        var status_tag = ''
+                        if(bpmnStatus_string === '"1"'){
+                            status_tag = 'disabled'
+                        }
+                        var txt2 = "<div class='btn-group test'>" +
+                            "<button type='button' onclick='toShowBpmn("+ uuid_string + ")' class='btn btn-default'><i class='fas fa-search'></i></button>" +
+                            "<button type='button' onclick='deleteBpmn("+ uuid_string + ")' class='btn btn-default'><i class='far fa-trash-alt'></i></button>" +
+                            "<button type='button' onclick='reviewBpmn("+ uuid_string + ")' class='btn btn-default'><i class='fas fa-edit'></i></button>" +
+                            "<button type='button' onclick='depBpmn("+ uuid_string + ")'  "+ status_tag + " class='btn btn-default'><i class='fas fa-check'></i></button>" +
                             "</div>";
                         $(this).css("position", "relative");
                         $(this).css("border-color", "#999999");
 
-                        $(this).append(txt1);
+                        $(this).append(txt2);
                         // alert($(this).children('td').eq(1).attr("data-label"));
                         // var column = table.column(0);
                         // column.visible(false);
@@ -459,6 +479,10 @@
                     if(column_0.visible()===true){
                         column_0.visible(false)
                     }
+                    $('tbody tr').find('.test').each(function () {
+                        $(this).remove();
+                    })
+
                 }
             }
         })
@@ -501,6 +525,7 @@
                     console.log(data);
                     // $('#image-uploading').fadeOut("slow");
                     toastr.success("流程文件上传成功！")
+                    $('#example').DataTable().ajax.reload();
                 }
             },
             error: function (e) {
@@ -514,6 +539,86 @@
         var searchUrl = encodeURI("${pageContext.request.contextPath}/showBPMN?uuid=" + uuid); //使用encodeURI编码
         location.href = searchUrl;
     }
+
+    function reviewBpmn(uuid) {
+        var searchUrl = encodeURI("${pageContext.request.contextPath}/reviewBPMN?uuid=" + uuid); //使用encodeURI编码
+        location.href = searchUrl;
+    }
+
+    function deleteBpmn(uuid) {
+        var json_data = {bpmnUuid:uuid}
+        $.ajax({
+            //发送请求URL，可使用相对路径也可使用绝对路径
+            url:"${pageContext.request.contextPath}/deleteBPMN",
+            //发送方式为GET，也可为POST，需要与后台对应
+            type:'POST',
+            data:JSON.stringify(json_data),
+            dataType:'json',
+            contentType:"application/json;charset=utf-8",
+            //后台返回成功后处理数据，data为后台返回的json格式数据
+            success: function (data) {
+                if (data.code === 400) {
+                    console.log(data);
+                    toastr.error("BPMN流程删除失败！")
+                } else if (data.code === 200) {
+                    console.log(data);
+                    $('#example').DataTable().ajax.reload();
+                    // $('#image-uploading').fadeOut("slow");
+                    toastr.success("BPMN流程删除成功！")
+                }
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+    }
+
+    function clearForm(){
+        $('#bpmnForm').get(0).reset();
+    }
+
+    function depBpmn(uuid){
+        var json_data = {bpmnUuid:uuid}
+
+        $.ajax({
+                //发送请求URL，可使用相对路径也可使用绝对路径
+                url:"${pageContext.request.contextPath}/depBPMN",
+                //发送方式为GET，也可为POST，需要与后台对应
+                type:'POST',
+                data:JSON.stringify(json_data),
+                dataType:'json',
+                contentType:"application/json;charset=utf-8",
+                //后台返回成功后处理数据，data为后台返回的json格式数据
+                success: function (data) {
+                    if (data.code === 400) {
+                        console.log(data);
+                        toastr.error("流程部署失败!")
+                    } else if (data.code === 200) {
+                        console.log(data);
+                        $('#example').DataTable().ajax.reload();
+                        // $('#image-uploading').fadeOut("slow");
+                        toastr.success("流程部署成功")
+                    }
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            });
+    }
+
+    function setBpmnStatus(bpmnStatus){
+        if(bpmnStatus === 1){
+            $(this).attr("disabled","disabled");
+        }
+        alert("touch");
+    }
+
+    function fun_test(){
+        alert("touch");
+    }
+</script>
+
+<script>
 </script>
 
 

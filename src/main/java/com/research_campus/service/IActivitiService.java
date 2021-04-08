@@ -28,4 +28,15 @@ public interface IActivitiService {
      */
     BpmnList getBpmnListByUuid(String uuid);
 
+    /**
+     * 删除BPMN 通过 UUID
+     * @param bpmnUuid BPMN list UUID
+     */
+    void deleteBpmnByUuid(String bpmnUuid);
+
+    /**
+     * 更改BPMN 的属性 通过uuid
+     * @param bpmnList 流程的uuid
+     */
+    void changeBpmnByUuid(BpmnList bpmnList);
 }

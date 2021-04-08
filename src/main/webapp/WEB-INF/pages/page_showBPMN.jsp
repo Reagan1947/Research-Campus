@@ -60,6 +60,51 @@
             </div><!-- /.container-fluid -->
         </section>
 
+        <div class="modal fade" id="modal-lg" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">更改流程属性</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="setDefault()">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- 内容开始 -->
+                        <form id="bpmnForm">
+                            <div class="form-group">
+                                <label>流程名称</label>
+                                <input type="text" class="form-control" placeholder="BPMN Name" id="bpmnName"  name="bpmnName" value="${bpmnList.bpmnName}">
+                            </div>
+                            <div class="form-group">
+                                <label>流程UUID</label>
+                                <input type="text" class="form-control" placeholder="BPMN UUID" id="bpmnUuid"  name="bpmnUuid" value="${bpmnList.bpmnUUID}">
+                            </div>
+                            <div class="form-group">
+                                <label>流程文件名</label>
+                                <input type="text" class="form-control" placeholder="BPMN File Name" id="bpmnFileName"  name="bpmnFileName" value="${bpmnList.bpmnFileName}">
+                            </div>
+                            <div class="form-group">
+                                <label>SVG文件名</label>
+                                <input type="text" class="form-control" placeholder="Svg File Name" id="svgFileName"  name="svgFileName" value="${bpmnList.svgFileName}">
+                            </div>
+                            <div class="form-group">
+                                <label>流程描述</label>
+                                <textarea class="form-control" rows="3" placeholder="Bpmn Description" id="bpmnDesc"  name="bpmnDesc"></textarea>
+                            </div>
+                        </form>
+                        <!-- 内容结束 -->
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="setDefault()">关闭</button>
+                        <button type="button" class="btn btn-primary" id="alterBpmnInf" onclick="changeBPMNInf('${bpmnList.bpmnUUID}')" data-dismiss="modal">更改流程属性</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
@@ -89,13 +134,13 @@
                             </td>
                             <td>
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-default"><i class="fas fa-cogs"></i> 属性设置
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-lg" onclick=""><i class="fas fa-cogs"></i> 属性设置
                                     </button>
-                                    <button type="button" class="btn btn-default"><i class="fas fa-trash-alt"></i> 删除
+                                    <button type="button" class="btn btn-default" onclick="deleteBpmn('${bpmnList.bpmnUUID}')"><i class="fas fa-trash-alt"></i> 删除
                                     </button>
-                                    <button type="button" class="btn btn-default"><i class="fas fa-download"></i> 下载BPMN
+                                    <button type="button" class="btn btn-default" onclick="downloadBPMN()"><i class="fas fa-download"></i> 下载BPMN
                                     </button>
-                                    <button type="button" class="btn btn-default"><i class="fas fa-edit"></i> 编辑
+                                    <button type="button" class="btn btn-default" onclick="reviewBpmn('${bpmnList.bpmnUUID}')"><i class="fas fa-edit"></i> 编辑
                                     </button>
                                     <button type="button" class="btn btn-default"><i class="fas fa-check"></i> 发布
                                     </button>
@@ -111,10 +156,10 @@
                             <span><i class="far fa-clock fa-fw"></i> ${bpmnList.uploadDate}</span>
                             <span style="margin-left: 10px; font-size: 14px;"><i class="far fa-bookmark fa-fw"></i>
                             <c:if test="${bpmnList.bpmnDesc != null}">
-                                <span>当前流程尚未添加流程描述，可在属性设置中添加。</span>
+                                <span>${bpmnList.bpmnDesc}</span>
                             </c:if>
                             <c:if test="${bpmnList.bpmnDesc == null}">
-                                <span>${bpmnList.bpmnDesc}</span>
+                                <span>当前流程尚未添加流程描述，可在属性设置中添加。</span>
                             </c:if>
                             </span>
                         </div>
@@ -162,7 +207,76 @@
         var searchUrl = window.location.href;
         var searchData = searchUrl.split("="); //截取 url中的“=”,获得“=”后面的参数
         var uuid = decodeURI(searchData[1]); //decodeURI解码
+        console.log('UUID: ' + uuid);
+        // text area 添加默认值
+        $('#bpmnDesc').val('${bpmnList.bpmnDesc}');
     })
+    function deleteBpmn(uuid) {
+        var json_data = {bpmnUuid:uuid}
+        $.ajax({
+            //发送请求URL，可使用相对路径也可使用绝对路径
+            url:"${pageContext.request.contextPath}/deleteBPMN",
+            //发送方式为GET，也可为POST，需要与后台对应
+            type:'POST',
+            data:JSON.stringify(json_data),
+            dataType:'json',
+            contentType:"application/json;charset=utf-8",
+            //后台返回成功后处理数据，data为后台返回的json格式数据
+            success: function (data) {
+                if (data.code === 400) {
+                    console.log(data);
+                    toastr.error("BPMN流程删除失败！")
+                } else if (data.code === 200) {
+                    console.log(data);
+                    // $('#image-uploading').fadeOut("slow");
+                    // toastr.success("BPMN流程删除成功！")
+                    window.location.href="${pageContext.request.contextPath}/bpmnList";
+                }
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+    }
+    function reviewBpmn(uuid) {
+         //使用encodeURI编码
+        location.href = encodeURI("${pageContext.request.contextPath}/reviewBPMN?uuid=" + uuid);
+    }
+    function downloadBPMN() {
+        window.location.href="https://${sessionScope.bucketName}.cos.${sessionScope.region}.myqcloud.com/bpmn/${bpmnList.bpmnUUID}.bpmn";
+    }
+    function setDefault(){
+        $('#bpmnName').val('${bpmnList.bpmnName}');
+        $('#bpmnFileName').val('${bpmnList.bpmnFileName}');
+        $('#svgFileName').val('${bpmnList.svgFileName}');
+        $('#bpmnDesc').val('${bpmnList.bpmnDesc}');
+    }
+
+    function changeBPMNInf(uuid){
+        $.ajax({
+            //发送请求URL，可使用相对路径也可使用绝对路径
+            url:"${pageContext.request.contextPath}/changeBPMNInf",
+            //发送方式为GET，也可为POST，需要与后台对应
+            type:'POST',
+            data: new FormData($("#bpmnForm")[0]),
+            processData: false,//告诉ajax不要处理和编码这些数据，直接提交
+            contentType: false,//不使用默认的内容类型
+            dataType:'json',
+            //后台返回成功后处理数据，data为后台返回的json格式数据
+            success: function (data) {
+                if (data.code === 400) {
+                    console.log(data);
+                    toastr.error("流程属性更改失败！")
+                } else if (data.code === 200) {
+                    console.log(data);
+                    toastr.success("流程属性更改成功！")
+                }
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+    }
 </script>
 </body>
 </html>
