@@ -30,10 +30,10 @@ Research-Capmus旨创建一个应用于高校科研项目管理的B-S架构服�
 
 项目最终构建：
 
-- SpringBoot:
-- VUE:
-- SpringSecurity:
-- Activiti:
+- SpringBoot： 基于微服务开发
+- VUE: 前后端分离
+- SpringSecurity
+- Activiti-7 (Activiti-7 已经整合Spring-Security)
 
 ## 3. 基础功能
 
