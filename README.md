@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="https://github.com/Reagan1947/Research-Campus/blob/master/src/main/webapp/static/images/icon_03.svg" alt="Research-Campus" width="170">
+  <img src="https://research-campus-1256316910.cos.ap-chongqing.myqcloud.com/researchCampus-icon.svg" alt="Research-Campus" width="170">
 <!--   <br>
   Research Campus
   <br> -->
