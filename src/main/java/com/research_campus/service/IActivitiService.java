@@ -39,4 +39,24 @@ public interface IActivitiService {
      * @param bpmnList 流程的uuid
      */
     void changeBpmnByUuid(BpmnList bpmnList);
+
+    /**
+     * 添加Instance实例和bpmn之间的关系
+     * @param deploymentId 部署以后的实例id
+     * @param bpmnUuid bpmn uuid
+     */
+    void addDataToInstanceBpmnList(String deploymentId, String bpmnUuid);
+
+    /**
+     * 根据dep id 删除 bpmn instance关系表中的记录
+     * @param deploymentId 部署 id
+     */
+    void deleteInstanceBpmnByDepId(String deploymentId);
+
+    /**
+     * 根据 deployment Id 查询所属 流程UUID
+     * @param deploymentId 部署定义 id
+     * @return 所属流程UUID
+     */
+    String getUuidByDeploymentId(String deploymentId);
 }

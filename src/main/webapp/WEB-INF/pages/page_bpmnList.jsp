@@ -380,14 +380,14 @@
                         var uuid = '"' + row.bpmnUUID + '"';
                         var bpmnStatus = '"' + row.bpmnStatus + '"';
                         var status_tag = ''
-                        if(bpmnStatus === '"1"'){
-                           status_tag = 'disabled'
-                        }
+                        // if(bpmnStatus === '"1"'){
+                        //    status_tag = 'disabled'
+                        // }
                         var html = "<div class='btn-group'>" +
                         "<button type='button' onclick='toShowBpmn("+ uuid + ")' class='btn btn-sm btn-default' id='toShowBpmn'><i class='fas fa-search'></i> 查看</button>" +
                             "<button type='button' onclick='deleteBpmn("+ uuid + ")' class='btn btn-sm btn-default'><i class='far fa-trash-alt'></i> 删除</button>" +
                             "<button type='button' onclick='reviewBpmn("+ uuid + ")' class='btn btn-sm btn-default'><i class='fas fa-edit'></i> 编辑</button>" +
-                            "<button type='button' onclick='depBpmn("+ uuid + ")' "+ status_tag +" class='btn btn-sm btn-default bpmnStatus'><i class='fas fa-check'></i> 部署</button>" +
+                            "<button type='button' onclick='depBpmn("+ uuid + ")' "+ status_tag +" class='btn btn-sm btn-default'><i class='fas fa-check'></i> 部署</button>" +
                             "</div>"
                         $('.status_1').attr("disabled", "disabled");
                         return html;
@@ -434,9 +434,9 @@
                         var uuid_string = '"' + uuid_row + '"';
                         var bpmnStatus_string = '"' + bpmnStatus + '"';
                         var status_tag = ''
-                        if(bpmnStatus_string === '"1"'){
-                            status_tag = 'disabled'
-                        }
+                        // if(bpmnStatus_string === '"1"'){
+                        //     status_tag = 'disabled'
+                        // }
                         var txt2 = "<div class='btn-group test'>" +
                             "<button type='button' onclick='toShowBpmn("+ uuid_string + ")' class='btn btn-default'><i class='fas fa-search'></i></button>" +
                             "<button type='button' onclick='deleteBpmn("+ uuid_string + ")' class='btn btn-default'><i class='far fa-trash-alt'></i></button>" +

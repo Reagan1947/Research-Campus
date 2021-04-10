@@ -25,8 +25,21 @@
         .previewBoxRound {
             border-radius: 50%; /*设置为圆形*/
         }
+
         .card-tools {
             margin-top: 9px;
+        }
+        .image_container {
+            min-height: 500px;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            display: table;
+        }
+        .i_center {
+            vertical-align: middle;
+            text-align: center;
+            display: table-cell;
         }
 
     </style>
@@ -63,92 +76,90 @@
             </div><!-- /.container-fluid -->
         </section>
 
+        <div class="modal fade" id="modal-default" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">消息</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- 内容开始 -->
+                        <div style="text-align: left">
+                            <i class="fas fa-exclamation-triangle" style="position: absolute;font-size: 45px;top: 18px;left: 25px;color: #ffbf00;"></i>
+                            <dl style="margin-left: 80px;">
+                                <dt>是否删除该流程定义下的所有实例？</dt>
+                                <dd>这将导致所有基于此定义的实例流程被终止且删除。</dd>
+                            </dl>
+                        </div>
+
+                        <textarea id="deploymentId" style="display: none"></textarea>
+                        <!-- 内容结束 -->
+                    </div>
+                    <div class="modal-footer justify-content-end">
+                        <button type="button" class="btn btn-danger" onclick="deleteSingleBpmn(1)" data-dismiss="modal"> &nbsp;&nbsp;是&nbsp;&nbsp; </button>
+                        <button type="button" class="btn btn-default" onclick="deleteSingleBpmn(0)" data-dismiss="modal"> &nbsp;&nbsp;否&nbsp;&nbsp; </button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
+
+        <div class="modal fade" id="modal-lg" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">流程详细信息</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- 内容开始 -->
+                        <div class="image_container">
+                            <span class="i_center"> <img src="" alt="BPMN-png" id="showBPMN"></span>
+                        </div>
+                        <!-- 内容结束 -->
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default" onclick="getSource('bpmn')"><i class="fas fa-project-diagram fa-fw"></i> 下载bpmn文件</button>
+                                <button type="button" class="btn btn-default" onclick="getSource('svg')"><i class="fas fa-file-image fa-fw"></i> 下载SVG图像</button>
+                                <button type="button" class="btn btn-default" onclick="editByUuid()"><i class="fas fa-edit fa-fw"></i> 编辑对应流程</button>
+                            </div>
+                        <button type="button" class="btn btn btn-default" id="uploadBpmnFile" data-dismiss="modal"> &nbsp;&nbsp;关闭&nbsp;&nbsp;</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="card card-outline card-primary collapsed-card">
-                            <div class="card-header">
-                                <h3 class="card-title">流程数据总览</h3>
+                    <div class="col-md-12">
 
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                                <!-- /.card-tools -->
+                        <!-- 表格开始 -->
+                        <div class="card card-primary card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title">流程列表与操作</h3>
                             </div>
                             <!-- /.card-header -->
-                            <div class="card-body" style="display: none;">
-                                正在建设中...
+                            <div class="card-body">
+                                <div id="jsGrid1"></div>
                             </div>
                             <!-- /.card-body -->
                         </div>
-                    </div>
-                    <!-- left column -->
-                    <div class="col-md-6">
-                        <!-- general form elements -->
-                        <div class="card card-primary card-outline collapsed-card">
-                            <div class="card-header">
-                                <h3 class="card-title">上传流程文件</h3>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                                <div class="card-body" >
-                                    <form id="bpmnForm">
-                                    <div class="form-group">
-                                        <label>流程定义名称</label>
-                                        <input type="text" class="form-control" id="processName" placeholder="Enter Process Name" name="processName">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>流程BPMN文件</label>
-                                        <div class="input-group">
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="uploadBpmn" name="uploadBpmn">
-                                                <label class="custom-file-label">resourceBPMN</label>
-                                            </div>
-<%--                                            <div class="input-group-append">--%>
-<%--                                                <span class="input-group-text">上传</span>--%>
-<%--                                            </div>--%>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>流程PNG文件</label>
-                                        <div class="input-group">
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="uploadPng" name="uploadPng">
-                                                <label class="custom-file-label" >resourcePNG</label>
-                                            </div>
-<%--                                            <div class="input-group-append">--%>
-<%--                                                <span class="input-group-text">上传</span>--%>
-<%--                                            </div>--%>
-                                        </div>
-                                    </div>
-                                    </form>
-                                </div>
-                                <!-- /.card-body -->
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary" id="uploadBpmnFile">提交</button>
-                            </div>
-                        </div>
+                        <!-- /.card -->
+                        <!-- 表格结束 -->
+
                     </div>
                 </div>
-
-                <!-- 表格开始 -->
-                <div class="card card-primary card-outline">
-                    <div class="card-header">
-                        <h3 class="card-title">流程列表与操作</h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <div id="jsGrid1"></div>
-                    </div>
-                    <!-- /.card-body -->
-                </div>
-                <!-- /.card -->
-                <!-- 表格结束 -->
-
             </div>
         </section>
         <%--        <!-- Main content -->--%>
@@ -188,14 +199,66 @@
 <!-- 页面jsr / -->
 
 <script>
+    (function (jsGrid) {
+
+        jsGrid.locales["zh-cn"] = {
+            grid: {
+                noDataContent: "暂无数据",
+                deleteConfirm: "确认删除？",
+                pagerFormat: "页码: {first} {prev} {pages} {next} {last} &nbsp;&nbsp; {pageIndex} / {pageCount}",
+                pagePrevText: "上一页",
+                pageNextText: "下一页",
+                pageFirstText: "第一页",
+                pageLastText: "最后页",
+                loadMessage: "请稍后...",
+                invalidMessage: "数据有误！"
+            },
+
+            loadIndicator: {
+                message: "载入中..."
+            },
+
+            fields: {
+                control: {
+                    searchModeButtonTooltip: "切换为搜索",
+                    insertModeButtonTooltip: "切换为新增",
+                    editButtonTooltip: "编辑",
+                    deleteButtonTooltip: "删除",
+                    searchButtonTooltip: "搜索",
+                    clearFilterButtonTooltip: "清空过滤",
+                    insertButtonTooltip: "插入",
+                    updateButtonTooltip: "更新",
+                    cancelEditButtonTooltip: "取消编辑"
+                }
+            },
+
+            validators: {
+                required: {message: "字段必填"},
+                rangeLength: {message: "字段值长度超过定义范围"},
+                minLength: {message: "字段长度过短"},
+                maxLength: {message: "字段长度过长"},
+                pattern: {message: "字段值不符合定义规则"},
+                range: {message: "字段值超过定义范围"},
+                min: {message: "字段值太小"},
+                max: {message: "字段值太大"}
+            }
+        };
+
+    }(jsGrid, jQuery));
 
     $(function () {
+
+        jsGrid.locale("zh-cn");
+
         $("#jsGrid1").jsGrid({
             width: "100%",
             height: "auto",
             sorting: true,
             paging: true,
             autoload: true,
+
+            pageSize: 15,
+            pageButtonCount: 5,
 
             controller: {
                 loadData: function (filter) {
@@ -215,60 +278,62 @@
                 {name: "deploymentId", type: "text", width: 50, title: "流程部署ID"},
                 {name: "name", type: "text", width: 200, title: "流程定义名称"},
                 {name: "key", type: "text", title: "流程定义KEY"},
-                {name: "version", type: "text", width:50, title: "版本号"},
+                {name: "version", type: "text", width: 50, title: "版本号"},
                 {name: "resourceName", type: "text", title: "XML资源名称"},
                 {name: "diagramResourceName", type: "text", title: "图片资源名称"},
-                {name: "suspensionState", type: "text", width:50 ,title: "状态"},
+                {name: "suspensionState", type: "text", width: 50, title: "状态"},
                 // 状态1表示激活 2表示挂起
                 {
                     type: "control", width: 150, editButton: false, deleteButton: false,
                     itemTemplate: function (value, item) {
                         var $result = jsGrid.fields.control.prototype.itemTemplate.apply(this, arguments);
                         // <i class="far fa-play-circle"></i>
-                        // 添加流程部署方法
-                        var $BPMNDeployment = $("<button>").attr("disabled", function(){
-                            if(item.suspensionState === 1){
+                        // 添加流程激活方法
+                        var $BPMNDeployment = $("<button>").attr("disabled", function () {
+                            if (item.suspensionState === 1) {
                                 return 'true';
                             }
-                            })
-                            .attr("class","btn btn-default btn-flat")
+                        })
+                            .attr("class", "btn btn-default btn-flat")
                             .append($("<i></i>").attr({class: "fas fa-play"}))
                             .click(function (e) {
-                                alert("Title: " + item.id);
+                                activateSingleBpmn(item.id);
                                 e.stopPropagation();
                             });
 
-                        // 添加流程删除方法
+                        // 添加流程删除方法 data-toggle="modal" data-target="#modal-lg"
                         var $BPMNDelete = $("<button>").attr({class: "btn btn-default btn-flat"}).append($("<i></i>").attr({class: "far fa-trash-alt"}))
                             .click(function (e) {
-                                alert("Title: " + item.id);
+                                $('#modal-default').modal("show")
+                                $('#deploymentId').val(item.deploymentId);
                                 e.stopPropagation();
                             });
 
                         // 添加流程挂起方法
                         var $BPMNHangUp = $("<button>")
-                            .attr("disabled", function(){
-                                if(item.suspensionState === 2){
+                            .attr("disabled", function () {
+                                if (item.suspensionState === 2) {
                                     return 'true';
                                 }
                             })
                             .attr("class", "btn btn-default btn-flat").append($("<i></i>").attr({class: "fas fa-pause"}))
                             .click(function (e) {
-                                alert("Title: " + item.id);
+                                suspendedSingleBpmn(item.id);
                                 e.stopPropagation();
                             });
 
                         // 添加详细信息方法
                         var $BPMNDetail = $("<button>").attr({class: "btn btn-default btn-flat"}).append($("<i></i>").attr({class: "fas fa-info"}))
                             .click(function (e) {
-                                alert("Title: " + item.title);
+                                getUuidByDeploymentId(item.deploymentId)
+                                $('#modal-lg').modal("show");
                                 e.stopPropagation();
                             });
 
                         // 添加关联业务方法
                         var $connectBusiness = $("<button>").attr({class: "btn btn-default btn-flat"}).append($("<i></i>").attr({class: "fas fa-link"}))
                             .click(function (e) {
-                                alert("Title: " + item.title);
+                                toBusinessPage();
                                 e.stopPropagation();
                             });
 
@@ -282,7 +347,7 @@
     });
 
     window.onload = function () {
-        $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' });
+        $('#datemask2').inputmask('mm/dd/yyyy', {'placeholder': 'mm/dd/yyyy'});
         $('[data-mask]').inputmask();
 
         // 当状态表示1时候 表示已部署 此时部署按钮不可用
@@ -295,25 +360,140 @@
     $(document).ready(function () {
         bsCustomFileInput.init();
     });
-</script>
 
-<script>
-    $("#uploadBpmnFile").click(function () {
+    // 挂起流程方法
+    function suspendedSingleBpmn(processDefinitionId) {
+        var json_data = {processDefinitionId: processDefinitionId}
+        console.log("尝试挂起流程定义：" + processDefinitionId);
+
         $.ajax({
-            url: "${pageContext.request.contextPath}/uploadAndDepBPMN",
-            type: "POST",
-            data: new FormData($("#bpmnForm")[0]),
-            processData: false,//告诉ajax不要处理和编码这些数据，直接提交
-            contentType: false,//不使用默认的内容类型
-            success: function (result) {
-                console.log(result);
+            //发送请求URL，可使用相对路径也可使用绝对路径
+            url: "${pageContext.request.contextPath}/suspendedSingleBpmn",
+            //发送方式为GET，也可为POST，需要与后台对应
+            type: 'POST',
+            data: JSON.stringify(json_data),
+            dataType: 'json',
+            contentType: "application/json;charset=utf-8",
+            //后台返回成功后处理数据，data为后台返回的json格式数据
+            success: function (data) {
+                if (data.code === 400) {
+                    console.log(data);
+                    toastr.error("流程定义挂起失败！");
+                } else if (data.code === 200) {
+                    console.log(data);
+                    $("#jsGrid1").jsGrid("loadData");
+                    toastr.success("流程定义已挂起！");
+                    // 刷新js-grid数据
+                }
             },
             error: function (e) {
                 console.log(e);
             }
         });
-    });
-</script>
+    }
 
+    // 激活流程定义方法
+    function activateSingleBpmn(processDefinitionId) {
+        var json_data = {processDefinitionId: processDefinitionId}
+        console.log("尝试激活流程定义：" + processDefinitionId);
+
+        $.ajax({
+            //发送请求URL，可使用相对路径也可使用绝对路径
+            url: "${pageContext.request.contextPath}/activateSingleBpmn",
+            //发送方式为GET，也可为POST，需要与后台对应
+            type: 'POST',
+            data: JSON.stringify(json_data),
+            dataType: 'json',
+            contentType: "application/json;charset=utf-8",
+            //后台返回成功后处理数据，data为后台返回的json格式数据
+            success: function (data) {
+                if (data.code === 400) {
+                    console.log(data);
+                    toastr.error("流程定义激活失败！");
+                } else if (data.code === 200) {
+                    console.log(data);
+                    $("#jsGrid1").jsGrid("loadData");
+                    toastr.success("流程定义已激活！");
+                }
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+    }
+
+    // 激活流程定义方法
+    function deleteSingleBpmn(deleteCase) {
+        var deploymentId = $('#deploymentId').val();
+        var json_data = {deploymentId: deploymentId, deleteCase: deleteCase}
+        console.log("尝试删除流程定义(流程)：" + deploymentId);
+
+        $.ajax({
+            //发送请求URL，可使用相对路径也可使用绝对路径
+            url: "${pageContext.request.contextPath}/deleteSingleBpmn",
+            //发送方式为GET，也可为POST，需要与后台对应
+            type: 'POST',
+            data: JSON.stringify(json_data),
+            dataType: 'json',
+            contentType: "application/json;charset=utf-8",
+            //后台返回成功后处理数据，data为后台返回的json格式数据
+            success: function (data) {
+                if (data.code === 400) {
+                    console.log(data);
+                    toastr.error("流程定义(流程)删除失败！");
+                } else if (data.code === 200) {
+                    console.log(data);
+                    $("#jsGrid1").jsGrid("loadData");
+                    toastr.success("流程定义(流程)已删除！");
+                }
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+    }
+    var bpmnUUIDGlobal = "";
+
+    function getUuidByDeploymentId(deploymentId){
+        var json_data = {deploymentId: deploymentId}
+        console.log("尝试获取 " + deploymentId + " 其流程UUID");
+
+        $.ajax({
+            //发送请求URL，可使用相对路径也可使用绝对路径
+            url: "${pageContext.request.contextPath}/getUuidByDeploymentId",
+            //发送方式为GET，也可为POST，需要与后台对应
+            type: 'POST',
+            data: JSON.stringify(json_data),
+            dataType: 'json',
+            contentType: "application/json;charset=utf-8",
+            //后台返回成功后处理数据，data为后台返回的json格式数据
+            success: function (data) {
+                if (data.code === 400) {
+                    console.log(data);
+                } else if (data.code === 200) {
+                    var showSrc = "https://${sessionScope.bucketName}.cos.${sessionScope.region}.myqcloud.com/bpmn/" + data.bpmnUUID +".svg";
+                    bpmnUUIDGlobal = data.bpmnUUID;
+                    $('#showBPMN').attr("src", showSrc);
+                    console.log(data);
+                }
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+    }
+
+    function getSource(extend){
+        window.location.href = "https://${sessionScope.bucketName}.cos.${sessionScope.region}.myqcloud.com/bpmn/" + bpmnUUIDGlobal + "." + extend;
+    }
+
+    function editByUuid(){
+        window.location = "${pageContext.request.contextPath}/reviewBPMN?uuid=" +  bpmnUUIDGlobal;
+    }
+
+    function toBusinessPage(){
+        window.location = "${pageContext.request.contextPath}/toBusinessPage";
+    }
+</script>
 </body>
 </html>

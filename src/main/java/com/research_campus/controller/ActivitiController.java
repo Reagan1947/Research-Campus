@@ -15,6 +15,7 @@ import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import jdk.nashorn.internal.ir.RuntimeNode;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RepositoryService;
+import org.activiti.engine.RuntimeService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.repository.ProcessDefinitionQuery;
@@ -178,6 +179,9 @@ public class ActivitiController {
         HttpSession session = request.getSession();
         String uuid = IDGenerator.getUuid();
 
+        int code = 200;
+        String msg = "创建成功";
+
         // 在数据库中保存BPMN数据
         try {
             BpmnList bpmnList = new BpmnList();
@@ -199,12 +203,12 @@ public class ActivitiController {
             LOGGER.info(putObjectResultPng);
 
         }catch (Exception e){
-            json.put("code", 400);
-            json.put("Msg", "创建失败");
+            code = 400;
+            msg = "创建失败";
             e.printStackTrace();
         }
-            json.put("code", 200);
-            json.put("Msg", "创建成功");
+            json.put("code", code);
+            json.put("Msg", msg);
             response.setCharacterEncoding("UTF-8");
             response.setContentType("text/html;charset=UTF-8");
             response.getWriter().print(json.toJSONString());
@@ -239,8 +243,10 @@ public class ActivitiController {
         // 删除数据库中的UUID
         String bpmnUuid = map.get("bpmnUuid");
         activitiService.deleteBpmnByUuid(bpmnUuid);
-
         JSONObject json = new JSONObject();
+
+        int code = 200;
+        String msg = "删除成功";
 
         try {
             activitiService.deleteBpmnByUuid(bpmnUuid);
@@ -250,12 +256,12 @@ public class ActivitiController {
             clientTool.deleteObjectByUuid(bpmnUuid, "svg");
 
         }catch (Exception e){
-            json.put("code", 400);
-            json.put("Msg", "删除失败");
+            code = 400;
+            msg = "删除失败";
             e.printStackTrace();
         }
-        json.put("code", 200);
-        json.put("Msg", "删除成功");
+        json.put("code", code);
+        json.put("Msg", msg);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         response.getWriter().print(json.toJSONString());
@@ -273,6 +279,8 @@ public class ActivitiController {
     @ResponseBody
     public void changeBpmnInf(String bpmnName, String bpmnUuid, String bpmnFileName, String svgFileName, String bpmnDesc, HttpServletResponse response, HttpServletRequest request) throws Exception {
         BpmnList bpmnList = activitiService.getBpmnListByUuid(bpmnUuid);
+        int code = 200;
+        String msg = "流程更改成功";
 
         bpmnList.setBpmnName(bpmnName);
         bpmnList.setBpmnUUID(bpmnUuid);
@@ -284,12 +292,12 @@ public class ActivitiController {
         try {
             activitiService.changeBpmnByUuid(bpmnList);
         }catch (Exception e){
-            json.put("code", 400);
-            json.put("Msg", "流程更改失败");
+            code = 400;
+            msg = "流程更改失败";
             e.printStackTrace();
         }
-        json.put("code", 200);
-        json.put("Msg", "流程更改成功");
+        json.put("code", code);
+        json.put("Msg", msg);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         response.getWriter().print(json.toJSONString());
@@ -300,6 +308,9 @@ public class ActivitiController {
     public void deploymentProcessDefinitionClasspath(@RequestBody HashMap<String, String> map, HttpServletResponse response) throws Exception {
         // 获取ClasspathResource 并进行部署
         String bpmnUuid = map.get("bpmnUuid");
+
+        int code = 200;
+        String msg = "流程部署成功";
 
         // 根据id获得信息
         BpmnList bpmnList = activitiService.getBpmnListByUuid(bpmnUuid);
@@ -329,8 +340,8 @@ public class ActivitiController {
                     .addInputStream(pngFileName, pngStream)
                     .deploy();
         }catch (Exception e){
-            json.put("code", 400);
-            json.put("Msg", "部署失败");
+            code = 400;
+            msg = "流程部署失败";
             e.printStackTrace();
         }
 
@@ -339,14 +350,22 @@ public class ActivitiController {
 
         // 更新bpmn list
         activitiService.changeBpmnByUuid(bpmnList);
-        json.put("code", 200);
-        json.put("Msg", "部署成功");
+        json.put("code", code);
+        json.put("Msg", msg);
         assert deployment != null;
-        System.out.println("部署ID："+deployment.getId());
-        System.out.println("部署名称:"+deployment.getName());
+        System.out.println("部署ID：" + deployment.getId());
+        System.out.println("部署名称:" + deployment.getName());
+
+        // 在流程与实例关系表中添加数据
+        String deploymentId = deployment.getId();
+        activitiService.addDataToInstanceBpmnList(deploymentId, bpmnUuid);
+
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         response.getWriter().print(json.toJSONString());
+
+        bpmnFileStream.close();
+        svgFileStream.close();
     }
 
     @RequestMapping(value = "/saveBPMNEdit", method = RequestMethod.POST)
@@ -357,6 +376,8 @@ public class ActivitiController {
         JSONObject json = new JSONObject();
         HttpSession session = request.getSession();
         String uuid = IDGenerator.getUuid();
+        int code = 200;
+        String msg = "保存成功";
 
         // 得到数据
         String svgDataLink = map.get("svg_data").substring(42);
@@ -394,12 +415,12 @@ public class ActivitiController {
             LOGGER.info(putObjectResultPng);
 
         }catch (Exception e){
-            json.put("code", 400);
-            json.put("Msg", "保存失败");
+            code = 400;
+            msg = "保存失败";
             e.printStackTrace();
         }
-        json.put("code", 200);
-        json.put("Msg", "保存成功");
+        json.put("code", code);
+        json.put("Msg", msg);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         response.getWriter().print(json.toJSONString());
@@ -411,6 +432,8 @@ public class ActivitiController {
         PutObjectResult putObjectResultBpmn;
         PutObjectResult putObjectResultPng;
         JSONObject json = new JSONObject();
+        int code = 200;
+        String msg = "保存成功";
 
         // 得到数据
         String svgDataLink = map.get("svg_data").substring(42);
@@ -430,14 +453,151 @@ public class ActivitiController {
             LOGGER.info(putObjectResultPng);
 
         }catch (Exception e){
-            json.put("code", 400);
-            json.put("Msg", "保存失败");
+            code = 400;
+            msg = "保存失败";
             e.printStackTrace();
         }
-        json.put("code", 200);
-        json.put("Msg", "保存成功");
+        json.put("code", code);
+        json.put("Msg", msg);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         response.getWriter().print(json.toJSONString());
+    }
+
+    // 挂起单个流程
+
+    // 挂起流程定义
+    @RequestMapping(value = "/suspendedSingleBpmn", method = RequestMethod.POST)
+    @ResponseBody
+    public void suspendedSingleBpmn(@RequestBody HashMap<String, String> map, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        JSONObject json = new JSONObject();
+        String processDefinitionId = map.get("processDefinitionId");
+        int code = 200;
+        String msg = "流程挂起成功";
+
+        try {
+            repositoryService.suspendProcessDefinitionById(processDefinitionId, true, null);
+
+            LOGGER.info("流程 " + processDefinitionId + " 已挂起");
+
+        }catch (Exception e){
+            code = 400;
+            msg = "流程挂起失败";
+            e.printStackTrace();
+        }
+
+        json.put("code", code);
+        json.put("Msg", msg);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        response.getWriter().print(json.toJSONString());
+    }
+
+    // 挂起整个流程
+    @RequestMapping(value = "/activateSingleBpmn", method = RequestMethod.POST)
+    @ResponseBody
+    public void activateSingleBpmn(@RequestBody HashMap<String, String> map, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        JSONObject json = new JSONObject();
+        String processDefinitionId = map.get("processDefinitionId");
+        int code = 200;
+        String msg = "流程激活成功";
+
+        try {
+            repositoryService.activateProcessDefinitionById(processDefinitionId, true, null);
+
+            LOGGER.info("流程 " + processDefinitionId + " 已激活");
+
+        }catch (Exception e){
+            code = 400;
+            msg = "流程激活失败";
+            e.printStackTrace();
+        }
+
+        json.put("code", code);
+        json.put("Msg", msg);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        response.getWriter().print(json.toJSONString());
+    }
+
+    // Tool getType
+    public static String getType(Object o){
+        return o.getClass().toString();
+    }
+
+    // 删除流程定义、部署
+    @RequestMapping(value = "/deleteSingleBpmn", method = RequestMethod.POST)
+    @ResponseBody
+    public void deleteSingleBpmn(@RequestBody HashMap<String, String> map, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        JSONObject json = new JSONObject();
+        String deleteCase = map.get("deleteCase");
+        boolean deleteCaseBool = true;
+        String deploymentId = map.get("deploymentId");
+        int code = 200;
+        String msg = "流程定义(流程)已删除";
+        System.out.println("[ Message-1 不删除实例 " + " DeleteCase-标记值为:" + deleteCase + " 其类型为:" + getType(deleteCase) + " ]");
+
+        // 首先删除instance bpmn 关系表中数据
+        activitiService.deleteInstanceBpmnByDepId(deploymentId);
+
+        // 是否删除实例
+        String deleteCaseString = "0";
+        // String undeleteCaseString = "1";
+
+        if (deleteCaseString.equals(deleteCase)){
+            deleteCaseBool = false;
+            System.out.println("[ Message-2 不删除实例 " + " DeleteCase-标记值为:" + deleteCase + " 其类型为:" + getType(deleteCase) + " ]");
+        }
+
+
+        try {
+            // 参数cascade 表示是否删除实例
+            processEngine.getRepositoryService()
+                    .deleteDeployment(deploymentId, deleteCaseBool);
+            LOGGER.info("流程定义(流程) " + deploymentId + " 已删除");
+
+        }catch (Exception e){
+            code = 400;
+            msg = "流程定义(流程)删除失败";
+            e.printStackTrace();
+        }
+
+        json.put("code", code);
+        json.put("Msg", msg);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        response.getWriter().print(json.toJSONString());
+    }
+
+    @RequestMapping(value = "/getUuidByDeploymentId", method = RequestMethod.POST)
+    @ResponseBody
+    public void getUuidByDeploymentId(@RequestBody HashMap<String, String> map, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        JSONObject json = new JSONObject();
+        String deploymentId = map.get("deploymentId");
+        String bpmnUuid = null;
+        int code = 200;
+
+        // 在关系表中查询
+
+        try {
+            bpmnUuid = activitiService.getUuidByDeploymentId(deploymentId);
+        }catch (Exception e){
+            code = 400;
+            e.printStackTrace();
+        }
+
+        json.put("code", code);
+        json.put("bpmnUUID", bpmnUuid);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        response.getWriter().print(json.toJSONString());
+    }
+
+    @RequestMapping("/toBusinessPage")
+    public String directToBusinessPage(HttpServletRequest request) throws Exception{
+
+        // 定位到buildBPMN界面
+
+        return "page_businessInf";
     }
 }

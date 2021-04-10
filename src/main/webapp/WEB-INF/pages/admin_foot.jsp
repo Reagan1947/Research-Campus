@@ -66,3 +66,4 @@
 </script>
 
 <link rel="stylesheet" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/b-1.5.6/sc-2.0.0/sl-1.3.0/datatables.min.css"></link>
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>

@@ -88,7 +88,7 @@
                     <div class="col-md-8">
                         <div>
                             <img id="image" alt="" width="100px"
-                                 src="https://${sessionScope.bucketName}.cos.${sessionScope.region}.myqcloud.com/${sessionScope.uuid}" crossorigin="">
+                                 src="https://${sessionScope.bucketName}.cos.${sessionScope.region}.myqcloud.com/${sessionScope.uuid}">
 
 
                             <label class="btn btn-primary btn-upload" style="margin-top: 10px;" for="inputImage"
@@ -579,7 +579,7 @@
             minContainerHeight: 530,
             minCropBoxWidth: 150,
             minCropBoxHeight: 150,
-            // checkCrossOrigin: false,
+            checkCrossOrigin: true,
             dragMode: 'move',
             preview: [document.querySelector('.previewBox'), document.querySelector('.previewBoxRound')],
             ready: function () {
@@ -648,12 +648,12 @@
                 contentType: "application/json;charset=UTF-8",
                 url: '${pageContext.request.contextPath}/fileUpload.do',
                 datatype: "json",
+
                 data: JSON.stringify({
                     base64Img: croppedCanvasData.toDataURL()
                 }),
                 processData: false,
                 success: function (data) {
-                    alert(data.code);
                     if (data.code === 400) {
                         console.log(data);
                         toastr.error("用户头像上传失败，请重试！")

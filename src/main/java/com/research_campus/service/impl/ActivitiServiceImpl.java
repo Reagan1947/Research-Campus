@@ -49,4 +49,19 @@ public class ActivitiServiceImpl implements IActivitiService {
         bpmnListDao.changeBpmnInfByUuid(bpmnList);
     }
 
+    @Override
+    public void addDataToInstanceBpmnList(String deploymentId, String bpmnUuid) {
+        bpmnListDao.addDataToInstanceBpmnList(deploymentId, bpmnUuid);
+    }
+
+    @Override
+    public void deleteInstanceBpmnByDepId(String deploymentId) {
+        bpmnListDao.deleteInstanceBpmnByDepId(deploymentId);
+    }
+
+    @Override
+    public String getUuidByDeploymentId(String deploymentId) {
+        return bpmnListDao.getUuidByDeploymentId(deploymentId);
+    }
+
 }
