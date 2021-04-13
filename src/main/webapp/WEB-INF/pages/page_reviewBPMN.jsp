@@ -71,7 +71,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>编辑流程流程
+                        <h1>编辑流程
                             <span style="margin-left: 5px; display: inline-block; text-decoration:underline; font-size: 15px;"><a href="${pageContext.request.contextPath}/bpmnList">← 返回流程列表</a></span>
                         </h1>
                     </div>
@@ -211,7 +211,13 @@
         var bpmn_uuid = getQueryVariable('uuid');
         var json_data = {svg_data:decodeURIComponent(svg_href), bpmn_data:decodeURIComponent(bpmn_href), bpmn_uuid:bpmn_uuid}
 
-        console.log(decodeURIComponent(bpmn_href));
+        console.log(JSON.stringify(json_data));
+
+        // var answerStr = JSON.stringify(json_data);
+        // var o = JSON.parse(answerStr);
+        // eval("var answerStr = '"+JSON.stringify(o)+"';");
+        //
+        // console.log(decodeURIComponent(JSON.stringify(json_data)),"utf-8");
 
 
         $.ajax({

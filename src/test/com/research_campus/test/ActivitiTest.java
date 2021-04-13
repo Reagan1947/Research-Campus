@@ -1,5 +1,6 @@
 package com.research_campus.test;
 
+import com.research_campus.utils.tencentCloudCos.CosClientTool;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.impl.util.json.JSONObject;
@@ -14,6 +15,7 @@ import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.function.Consumer;
@@ -27,6 +29,9 @@ public class ActivitiTest {
 
     @Autowired
     ProcessEngine processEngine;
+
+    @Autowired
+    CosClientTool clientTool;
 
     @Test
     public void implementBPMNTest() {
@@ -84,5 +89,10 @@ public class ActivitiTest {
 //        resultJson.put("data", resultList);
 
         System.out.println(resultList);
+    }
+
+    @Test
+    public void uploadStringTest() throws IOException {
+        clientTool.uploadFileWithExtension("uuid", "测试", "bpmn", "bpmn");
     }
 }

@@ -75,15 +75,6 @@
                     </a>
                 </li>
                 <li class="nav-header">个人及活动</li>
-                <li class="nav-item">
-                    <a href="../calendar.html" class="nav-link">
-                        <i class="nav-icon far fa-calendar-alt"></i>
-                        <p>
-                            日历
-                            <span class="badge badge-info right">2</span>
-                        </p>
-                    </a>
-                </li>
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
                         <i class="nav-icon far fa-envelope"></i>
@@ -158,7 +149,34 @@
                         <p>流程表单管理</p>
                     </a>
                 </li>
-                <li class="nav-header">标签</li>
+                <li class="nav-header">科研活动管理</li>
+                <li class="nav-item">
+                    <a href="${pageContext.request.contextPath}/myResearchProject" class="nav-link">
+                        <i class="nav-icon fas fa-landmark"></i>
+                        <p>科研项目管理</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="${pageContext.request.contextPath}/toDeclarationPage" class="nav-link">
+                        <i class="nav-icon fas fa-exchange-alt"></i>
+                        <p>科研项目申报</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="${pageContext.request.contextPath}/allResearchProjectSearch" class="nav-link">
+                        <i class="nav-icon fas fa-poll-h"></i>
+                        <p>机构科研项目查询</p>
+                    </a>
+                </li>
+
+                <li class="nav-header">科研系统管理</li>
+                <li class="nav-item">
+                    <a href="${pageContext.request.contextPath}/declarationManager" class="nav-link">
+                        <i class="nav-icon fas fa-exchange-alt"></i>
+                        <p>申报信息发布与管理</p>
+                    </a>
+                </li>
+
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

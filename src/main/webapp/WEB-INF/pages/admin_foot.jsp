@@ -29,11 +29,23 @@
 <!-- bs-custom-file-input -->
 <script src="${pageContext.request.contextPath}/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 
+<!-- date range picker -->
+<script src="${pageContext.request.contextPath}/plugins/daterangepicker/daterangepicker.js"></script>
+
 <!-- datatables -->
 <script src="https://cdn.datatables.net/v/bs4/dt-1.10.18/b-1.5.6/sc-2.0.0/sl-1.3.0/datatables.min.js"></script>
 
+<!-- Select2 -->
+<script src="${pageContext.request.contextPath}/plugins/select2/js/select2.full.min.js"></script>
+
 <!-- propper -->
 <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js" integrity="sha512-k6/Bkb8Fxf/c1Tkyl39yJwcOZ1P4cRrJu77p83zJjN2Z55prbFHxPs9vN7q3l3+tSMGPDdoH51AEU8Vgo1cgAA==" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css" integrity="sha512-3JRrEUwaCkFUBLK1N8HehwQgu8e23jTH4np5NHOmQOobuC4ROQxFwFgBLTnhcnQRMs84muMh0PnnwXlPq5MGjg==" crossorigin="anonymous" />
+
+<!-- moment.js -->
+<script src="${pageContext.request.contextPath}/plugins/moment/moment.min.js"></script>
 
 <!-- 用于 边栏的激活 -->
 <script>

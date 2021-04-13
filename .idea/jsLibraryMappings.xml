@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="file://$PROJECT_DIR$" libraries="{bootstrap-icons, bpmn-js, ionicons}" />
-    <file url="PROJECT" libraries="{jQuery-3.6.0}" />
+    <file url="file://$PROJECT_DIR$" libraries="{@popperjs/core, @ttskch/select2-bootstrap4-theme, bootstrap-icons, bpmn-js, datatables, select2, tempusdominus-bootstrap-4}" />
+    <file url="PROJECT" libraries="{@popperjs/core, @types/jquery, bootstrap-icons, bpmn-js, datatables, tempusdominus-bootstrap-4}" />
+    <includedPredefinedLibrary name="HTTP Response Handler" />
   </component>
 </project>

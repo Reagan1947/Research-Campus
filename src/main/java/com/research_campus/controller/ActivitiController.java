@@ -2,29 +2,23 @@ package com.research_campus.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.qcloud.cos.model.COSObjectInputStream;
-import com.qcloud.cos.model.ObjectMetadata;
 import com.qcloud.cos.model.PutObjectResult;
-import com.qcloud.cos.utils.IOUtils;
 import com.research_campus.domain.BpmnList;
+import com.research_campus.domain.Declaration;
 import com.research_campus.service.IActivitiService;
+import com.research_campus.service.IDeclarationService;
 import com.research_campus.utils.activiti.ActivitiMapTool;
 import com.research_campus.utils.activiti.IDGenerator;
 import com.research_campus.utils.stream.ConvertUtil;
 import com.research_campus.utils.tencentCloudCos.CosClientTool;
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
-import jdk.nashorn.internal.ir.RuntimeNode;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RepositoryService;
-import org.activiti.engine.RuntimeService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.repository.ProcessDefinitionQuery;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -33,8 +27,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -88,6 +80,13 @@ public class ActivitiController {
         this.convertUtil = convertUtil;
     }
 
+
+    IDeclarationService declarationService;
+
+    @Autowired
+    public void setDeclarationService(IDeclarationService declarationService) {
+        this.declarationService = declarationService;
+    }
 
     /**
      * 获取已经部署的流程列表
@@ -440,8 +439,8 @@ public class ActivitiController {
         String bpmnDataLink = map.get("bpmn_data").substring(42);
         String uuid = map.get("bpmn_uuid");
 
-        String svgData = new String(svgDataLink.getBytes(StandardCharsets.UTF_8));
-        String bpmnData = new String(bpmnDataLink.getBytes(StandardCharsets.UTF_8));
+        String svgData = new String(svgDataLink.getBytes("GBK"));
+        String bpmnData = new String(bpmnDataLink.getBytes("GBK"));
 
 
         try {
@@ -594,10 +593,35 @@ public class ActivitiController {
     }
 
     @RequestMapping("/toBusinessPage")
-    public String directToBusinessPage(HttpServletRequest request) throws Exception{
+    public ModelAndView directToBusinessPage(String uuid, HttpServletRequest request) throws Exception{
+        // 根据uuid查询流程图的具体信息
+        BpmnList bpmnList = activitiService.getBpmnListByUuid(uuid);
 
-        // 定位到buildBPMN界面
+        ModelAndView mv = new ModelAndView();
+        //添加模型数据 可以是任意的POJO对象
+        mv.addObject(bpmnList);
+        mv.setViewName("page_businessInf");
 
-        return "page_businessInf";
+        return mv;
+    }
+
+    @RequestMapping("/formCommon")
+    public String directToFormCommon(HttpServletRequest request) throws Exception{
+
+
+        return "page_formCommon";
+    }
+
+    @RequestMapping("/toDeclarationPage")
+    public ModelAndView directToDeclaration(HttpServletRequest request) throws Exception{
+
+        List<Declaration> declarations = declarationService.getAllDeclaration();
+
+        ModelAndView mv = new ModelAndView();
+        //添加模型数据 可以是任意的POJO对象
+        mv.addObject(declarations);
+        mv.setViewName("page_declaration");
+
+        return mv;
     }
 }

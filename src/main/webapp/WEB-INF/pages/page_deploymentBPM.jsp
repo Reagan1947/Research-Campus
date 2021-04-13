@@ -88,7 +88,7 @@
                     <div class="modal-body">
                         <!-- 内容开始 -->
                         <div style="text-align: left">
-                            <i class="fas fa-exclamation-triangle" style="position: absolute;font-size: 45px;top: 18px;left: 25px;color: #ffbf00;"></i>
+                            <i class="fas fa-exclamation-triangle" style="position: absolute;font-size: 45px;top: 18px;left: 25px;color: #ffa200;"></i>
                             <dl style="margin-left: 80px;">
                                 <dt>是否删除该流程定义下的所有实例？</dt>
                                 <dd>这将导致所有基于此定义的实例流程被终止且删除。</dd>
@@ -121,7 +121,7 @@
                     <div class="modal-body">
                         <!-- 内容开始 -->
                         <div class="image_container">
-                            <span class="i_center"> <img src="" alt="BPMN-png" id="showBPMN"></span>
+                            <span class="i_center"> <img src="" alt="BPMN-png" id="showBPMN" style="width: 100%; height: 100%"></span>
                         </div>
                         <!-- 内容结束 -->
                     </div>
@@ -267,7 +267,7 @@
                         type: "GET",
                         url: "${pageContext.request.contextPath}/getImplementBPMN",
                         data: filter,
-                        dataType: "JSON"
+                        dataType: "JSON",
                     })
 
                 }
@@ -333,7 +333,7 @@
                         // 添加关联业务方法
                         var $connectBusiness = $("<button>").attr({class: "btn btn-default btn-flat"}).append($("<i></i>").attr({class: "fas fa-link"}))
                             .click(function (e) {
-                                toBusinessPage();
+                                toBusinessPage(item.deploymentId);
                                 e.stopPropagation();
                             });
 
@@ -491,8 +491,33 @@
         window.location = "${pageContext.request.contextPath}/reviewBPMN?uuid=" +  bpmnUUIDGlobal;
     }
 
-    function toBusinessPage(){
-        window.location = "${pageContext.request.contextPath}/toBusinessPage";
+    function toBusinessPage(deploymentId){
+        var json_data = {deploymentId: deploymentId}
+        console.log("尝试获取 " + deploymentId + " 其流程UUID");
+
+        $.ajax({
+            //发送请求URL，可使用相对路径也可使用绝对路径
+            url: "${pageContext.request.contextPath}/getUuidByDeploymentId",
+            //发送方式为GET，也可为POST，需要与后台对应
+            type: 'POST',
+            data: JSON.stringify(json_data),
+            dataType: 'json',
+            async : false,//设置为同步操作就可以给全局变量赋值成功 ，这句为关键
+            contentType: "application/json;charset=utf-8",
+            //后台返回成功后处理数据，data为后台返回的json格式数据
+            success: function (data) {
+                if (data.code === 400) {
+                    console.log(data);
+                } else if (data.code === 200) {
+                    bpmnUUIDGlobal = data.bpmnUUID;
+                    console.log(data);
+                }
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+        window.location = "${pageContext.request.contextPath}/toBusinessPage?uuid=" +  bpmnUUIDGlobal;
     }
 </script>
 </body>

@@ -36,9 +36,15 @@
 <link  href="${pageContext.request.contextPath}/cropperJs/cropper.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath}/cropperJs/jquery-cropper.js"></script>
 
+<!-- date range picker -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/plugins/daterangepicker/daterangepicker.css">
+
 <!-- jsGrid -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/plugins/jsgrid/jsgrid.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/plugins/jsgrid/jsgrid-theme.min.css">
+
+<link rel="stylesheet" href="${pageContext.request.contextPath}/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 
 <!-- 去掉浏览器自带样式 -->
 <style>

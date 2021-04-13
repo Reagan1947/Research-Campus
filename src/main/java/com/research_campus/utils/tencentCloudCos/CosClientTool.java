@@ -12,6 +12,7 @@ import org.springframework.util.Base64Utils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 /**
  * 用于COS Client 初始化
@@ -155,7 +156,7 @@ public class CosClientTool {
     public PutObjectResult uploadFileCommonString(String key, String uploadFile) throws IOException {
         COSClient cosClient = getCosClient();
         // byte化上传数据
-        byte[] byteArr = uploadFile.getBytes();
+        byte[] byteArr = uploadFile.getBytes("utf-8");
         // 获取上传文件长度
         int fileLength = byteArr.length;
         // 创建ObjectMetadata对象
