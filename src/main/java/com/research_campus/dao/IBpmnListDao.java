@@ -1,10 +1,7 @@
 package com.research_campus.dao;
 
 import com.research_campus.domain.BpmnList;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -48,7 +45,7 @@ public interface IBpmnListDao {
      * 根据 UUID 更改BPMNlist
      * @param bpmnList bpmn list 实例
      */
-    @Delete("UPDATE bpmnlist SET bpmnName=#{bpmnName}, bpmnDesc=#{bpmnDesc}, bpmnFileName=#{bpmnFileName}, svgFileName=#{svgFileName}, bpmnStatus=#{bpmnStatus} WHERE bpmnUUID=#{bpmnUUID}")
+    @Update("UPDATE bpmnlist SET bpmnName=#{bpmnName}, bpmnDesc=#{bpmnDesc}, bpmnFileName=#{bpmnFileName}, svgFileName=#{svgFileName}, bpmnStatus=#{bpmnStatus} WHERE bpmnUUID=#{bpmnUUID}")
     void changeBpmnInfByUuid(BpmnList bpmnList);
 
     /**

@@ -38,4 +38,9 @@ public class DynamicFormServiceImpl implements IDynamicFormService {
     public DynamicForm getDynamicFormJsonByUuid(String dynamicFormUuid) {
         return iDynamicFormDao.getDynamicFormJsonByUuid(dynamicFormUuid);
     }
+
+    @Override
+    public void deleteDynamicFormInfByUuid(String dynamicFormUuid) {
+        iDynamicFormDao.deleteDynamicFormInfByUuid(dynamicFormUuid);
+    }
 }

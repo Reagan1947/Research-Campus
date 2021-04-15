@@ -1,6 +1,7 @@
 package com.research_campus.dao;
 
 import com.research_campus.domain.DynamicForm;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -35,4 +36,11 @@ public interface IDynamicFormDao {
      */
     @Select("SELECT * FROM dynamicforminf WHERE UUID='${dynamicFormUuid}'")
     DynamicForm getDynamicFormJsonByUuid(@Param("dynamicFormUuid") String dynamicFormUuid);
+
+    /**
+     * 根据 uuid 删除对应dynamic form dao层
+     * @param dynamicFormUuid dynamic form uuid
+     */
+    @Delete("DELETE FROM dynamicforminf WHERE UUID='${dynamicFormUuid}'")
+    void deleteDynamicFormInfByUuid(@Param("dynamicFormUuid") String dynamicFormUuid);
 }

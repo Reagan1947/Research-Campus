@@ -27,4 +27,12 @@ public interface IDynamicFormService {
      * @return dynamic form pojo
      */
     DynamicForm getDynamicFormJsonByUuid(String dynamicFormUuid);
+
+    /**
+     * 根据uuid 删除对应 dynamic form
+     * @param dynamicFormUuid dynamic form uuid
+     */
+    void deleteDynamicFormInfByUuid(String dynamicFormUuid);
+
+
 }
