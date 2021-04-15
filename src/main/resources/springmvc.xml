@@ -61,5 +61,9 @@
     <mvc:resources location="/plugins/select2/js/" mapping="/plugins/select2/js/**"/>
     <mvc:resources location="/plugins/select2/css/" mapping="/plugins/select2/css/**"/>
     <mvc:resources location="/plugins/select2-bootstrap4-theme/" mapping="/plugins/select2-bootstrap4-theme/**"/>
+    <mvc:resources location="/formBuilder/css/" mapping="/formBuilder/css/**"/>
+    <mvc:resources location="/formBuilder/fonts/" mapping="/formBuilder/fonts/**"/>
+    <mvc:resources location="/formBuilder/js/" mapping="/formBuilder/js/**"/>
+
 
 </beans>

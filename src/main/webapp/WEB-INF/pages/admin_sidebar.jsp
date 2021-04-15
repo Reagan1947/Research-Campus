@@ -112,7 +112,7 @@
                     </a>
                 </li>
                 </li>
-                <li class="nav-header">系统管理</li>
+                <li class="nav-header">流程系统管理</li>
 
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
@@ -136,20 +136,47 @@
                         </li>
                     </ul>
                 </li>
+
                 <li class="nav-item">
                     <a href="${pageContext.request.contextPath}/deploymentBPMN" class="nav-link">
                         <i class="nav-icon fas fa-tasks"></i>
                         <p>流程定义与操作</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/formManager" class="nav-link">
+
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-columns"></i>
-                        <%--                        <i class="fas fa-columns"></i>--%>
-                        <p>流程表单管理</p>
+                        <p>表单管理与创建
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="${pageContext.request.contextPath}/formManager" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>流程表单管理</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="${pageContext.request.contextPath}/formBuilder" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>创建流程表单</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-header">科研系统管理</li>
+                <li class="nav-item">
+                    <a href="${pageContext.request.contextPath}/declarationManager" class="nav-link">
+                        <i class="nav-icon fas fa-exchange-alt"></i>
+                        <p>申报信息发布与管理</p>
                     </a>
                 </li>
-                <li class="nav-header">科研活动管理</li>
+
+
+                <li class="nav-header">科研与活动</li>
                 <li class="nav-item">
                     <a href="${pageContext.request.contextPath}/myResearchProject" class="nav-link">
                         <i class="nav-icon fas fa-landmark"></i>
@@ -166,14 +193,6 @@
                     <a href="${pageContext.request.contextPath}/allResearchProjectSearch" class="nav-link">
                         <i class="nav-icon fas fa-poll-h"></i>
                         <p>机构科研项目查询</p>
-                    </a>
-                </li>
-
-                <li class="nav-header">科研系统管理</li>
-                <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/declarationManager" class="nav-link">
-                        <i class="nav-icon fas fa-exchange-alt"></i>
-                        <p>申报信息发布与管理</p>
                     </a>
                 </li>
 

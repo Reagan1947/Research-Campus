@@ -81,25 +81,14 @@
                             <div class="form-group">
                                 <label>表单名称</label>
                                 <input type="text" class="form-control" placeholder="form name" id="formName"
-                                       name="formName">
-                            </div>
-                            <div class="form-group">
-                                <label>表单文件</label>
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        <input type="file" accept=".jsp" class="custom-file-input" id="uploadJsp"
-                                               name="uploadSvg">
-                                        <label class="custom-file-label">resource .jsp</label>
-                                    </div>
-
-                                </div>
+                                       name="dynamicFormName">
                             </div>
                             <div class="form-group">
                                 <label>表单配置文件<a href="" title="如何编写配置文件？"><i class="fas fa-question-circle" style="margin-left: 5px;color: #00000091;"></i></a></label>
                                 <div class="input-group">
                                     <div class="custom-file">
                                         <input type="file" accept=".json" class="custom-file-input" id="uploadJson"
-                                               name="uploadSvg">
+                                               name="dynamicFormConfigFile">
                                         <label class="custom-file-label">resource .json</label>
                                     </div>
 
@@ -108,7 +97,7 @@
                             <div class="form-group">
                                 <label>表单描述</label>
                                 <textarea class="form-control" rows="3" placeholder="form description"
-                                          id="processDesc" name="processDesc"></textarea>
+                                          id="dynamicFormDesc" name="processDesc"></textarea>
                             </div>
                         </form>
                         <!-- 内容结束 -->
@@ -116,7 +105,7 @@
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clearForm()">关闭
                         </button>
-                        <button type="button" class="btn btn-primary" id="uploadFormFile" data-dismiss="modal">上传表单
+                        <button type="button" class="btn btn-primary" id="uploadDynamicFormFile" data-dismiss="modal">上传表单
                         </button>
                     </div>
                 </div>
@@ -383,10 +372,10 @@
         $('#bpmnForm').get(0).reset();
     }
 
-    $("#uploadFormFile").click(function () {
-        toastr.info('正在上传新的流程文件！')
+    $("#uploadDynamicFormFile").click(function () {
+        toastr.info('正在上传动态表单！')
         $.ajax({
-            url: "${pageContext.request.contextPath}/uploadBPMN",
+            url: "${pageContext.request.contextPath}/uploadDynamicForm",
             type: "POST",
             data: new FormData($("#bpmnForm")[0]),
             processData: false,//告诉ajax不要处理和编码这些数据，直接提交
@@ -396,11 +385,11 @@
                 // alert(data.code);
                 if (data.code === 400) {
                     console.log(data);
-                    toastr.error("流程文件上传出现问题！")
+                    toastr.error("动态表单文件上传出现问题！")
                 } else if (data.code === 200) {
                     console.log(data);
                     // $('#image-uploading').fadeOut("slow");
-                    toastr.success("流程文件上传成功！")
+                    toastr.success("动态表单文件上传成功！")
                     $('#example').DataTable().ajax.reload();
                 }
             },
