@@ -15,7 +15,6 @@ public class DynamicForm {
     private Integer updateBy;
     private Date updateTime;
     private String uuid;
-    private String formUrl;
     private String formDesc;
 
     public Integer getId() {
@@ -82,15 +81,6 @@ public class DynamicForm {
         this.uuid = uuid;
     }
 
-
-    public String getFormUrl() {
-        return formUrl;
-    }
-
-    public void setFormUrl(String formUrl) {
-        this.formUrl = formUrl;
-    }
-
     public String getFormDesc() {
         return formDesc;
     }
@@ -110,7 +100,6 @@ public class DynamicForm {
                 ", updateBy=" + updateBy +
                 ", updateTime=" + updateTime +
                 ", uuid='" + uuid + '\'' +
-                ", formUrl='" + formUrl + '\'' +
                 ", formDesc='" + formDesc + '\'' +
                 '}';
     }

@@ -29,8 +29,9 @@
         .infoTextarea.change:-ms-input-placeholder { /* Internet Explorer 10-11 */
             color: black !important;
         }
+
         .select2-container .select2-selection--single {
-            height: calc(2.25rem + 2px)!important;
+            height: calc(2.25rem + 2px) !important;
         }
     </style>
 
@@ -84,11 +85,12 @@
                                        name="dynamicFormName">
                             </div>
                             <div class="form-group">
-                                <label>表单配置文件<a href="" title="如何编写配置文件？"><i class="fas fa-question-circle" style="margin-left: 5px;color: #00000091;"></i></a></label>
+                                <label>表单Json配置文件<a href="" title="如何编写配置文件？"><i class="fas fa-question-circle"
+                                                                                 style="margin-left: 5px;color: #00000091;"></i></a></label>
                                 <div class="input-group">
                                     <div class="custom-file">
                                         <input type="file" accept=".json" class="custom-file-input" id="uploadJson"
-                                               name="dynamicFormConfigFile">
+                                               name="dynamicFormJsonConfig">
                                         <label class="custom-file-label">resource .json</label>
                                     </div>
 
@@ -97,7 +99,7 @@
                             <div class="form-group">
                                 <label>表单描述</label>
                                 <textarea class="form-control" rows="3" placeholder="form description"
-                                          id="dynamicFormDesc" name="processDesc"></textarea>
+                                          id="dynamicFormDesc" name="dynamicFormDesc"></textarea>
                             </div>
                         </form>
                         <!-- 内容结束 -->
@@ -105,8 +107,91 @@
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clearForm()">关闭
                         </button>
-                        <button type="button" class="btn btn-primary" id="uploadDynamicFormFile" data-dismiss="modal">上传表单
+                        <button type="button" class="btn btn-primary" id="uploadDynamicFormFile" data-dismiss="modal">
+                            上传表单
                         </button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
+        <div class="modal fade" id="modal-showCode" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">页面Json配置信息</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- 内容开始 -->
+                        <%--                        <button class="btn" data-clipboard-target="#foo">--%>
+                        <%--                            <i class="far fa-clipboard"></i> 复制到剪贴板--%>
+                        <%--                        </button>--%>
+                        <div id="codePane">
+                            <div class="btn-group" style="position: absolute; top: 35px; right: 33px; display: none;"
+                                 id="copyButtonGroup">
+                                <button class="btn btn-sm btn-flat btn-default"
+                                        data-clipboard-target="#dynamicFormJsonData" id="copyIt">
+                                    <i class="fas fa-paste fa-fw"></i> 复制
+                                </button>
+                            </div>
+                            <pre><code class="json" id="dynamicFormJsonData">
+                        </code></pre>
+                        </div>
+                        <!-- 内容结束 -->
+                    </div>
+                    <div class="modal-footer justify-content-end">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
+        <div class="modal fade" id="modal-dynamicFormInf" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">更改流程属性</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="setDefault()">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="app">
+                        <!-- 内容开始 -->
+                        <form id="dynamicForm">
+                            <div class="form-group">
+                                <label>动态表单名称</label>
+                                <input type="text" class="form-control" placeholder="Dynamic FormName" id="dynamicFormName"  name="dynamicFormName" v-bind:value="dynamicFormInf.formName">
+                            </div>
+                            <div class="form-group">
+                                <label>动态表单创建人</label>
+                                <input type="text" class="form-control" placeholder="DynamicForm CreateBy" id="createBy"  name="createBy" v-bind:value="dynamicFormInf.createBy">
+                            </div>
+                            <div class="form-group">
+                                <label>动态表单标识UUID</label>
+                                <input type="text" class="form-control" placeholder="DynamicForm UUID" id="dynamicFormUUID"  name="dynamicFormUUID" v-bind:value="dynamicFormInf.uuid" >
+                            </div>
+                            <div class="form-group">
+                                <label>动态表单描述</label>
+                                <input type="text" class="form-control" placeholder="Dynamic Form Desc" id="dynamicFormDescInf"  name="dynamicFormDescInf" v-bind:value="dynamicFormInf.formDesc">
+                            </div>
+                            <div class="form-group">
+                                <label>动态表单Json文件</label>
+                                <textarea class="form-control" rows="3" placeholder="Dynamic Form Json" id="dynamicFormJson"  name="dynamicFormJson"></textarea>
+                            </div>
+                        </form>
+                        <!-- 内容结束 -->
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="setDefault()">关闭</button>
+                        <button type="button" class="btn btn-primary" id="alterBpmnInf" onclick="changeBPMNInf('${bpmnList.bpmnUUID}')" data-dismiss="modal">更改流程属性</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -172,21 +257,21 @@
                                 </div>
                             </div>
 
-                                <div class="row" style="margin-top: 10px; display: none;" id="showMoreBar">
-                                    <div class="col-2">
-                                        <lable class="col-form-label">标识UUID</lable>
-                                        <input type="text" class="form-control forPlaceholder" placeholder="formName">
-                                    </div>
-                                    <div class="col-2">
-                                        <lable class="col-form-label">更新时间</lable>
-                                        <input type="text" class="form-control" data-inputmask-alias="datetime"
-                                               data-inputmask-inputformat="dd/mm/yyyy" data-mask placeholder="dd/mm/yyyy">
-                                    </div>
-                                    <div class="col-2">
-                                        <lable class="col-form-label">更新人</lable>
-                                        <input type="text" class="form-control forPlaceholder" placeholder="formDesc">
-                                    </div>
+                            <div class="row" style="margin-top: 10px; display: none;" id="showMoreBar">
+                                <div class="col-2">
+                                    <lable class="col-form-label">标识UUID</lable>
+                                    <input type="text" class="form-control forPlaceholder" placeholder="formName">
                                 </div>
+                                <div class="col-2">
+                                    <lable class="col-form-label">更新时间</lable>
+                                    <input type="text" class="form-control" data-inputmask-alias="datetime"
+                                           data-inputmask-inputformat="dd/mm/yyyy" data-mask placeholder="dd/mm/yyyy">
+                                </div>
+                                <div class="col-2">
+                                    <lable class="col-form-label">更新人</lable>
+                                    <input type="text" class="form-control forPlaceholder" placeholder="formDesc">
+                                </div>
+                            </div>
 
                         </div>
                         <div id="jsGrid1"></div>
@@ -216,11 +301,41 @@
 <!-- 页面js -->
 <jsp:include page="admin_foot.jsp"/>
 <!-- 页面jsr / -->
+
+<!-- high light js -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
+<!-- copy it -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
 <script>
-    // $(function () {
-    //     //初始化 Select2 元素
-    //     $('.select2').select2()
-    //
+    var vue_data = {
+        dynamicFormInf: {},
+    };
+
+    var app = new Vue({
+        el: '#app',
+        data: vue_data
+    })
+
+    new ClipboardJS('#copyIt');
+
+    $(function () {
+        $('#codePane').mouseenter(function () {
+            $('#copyButtonGroup').show("fade","fast");
+        });
+        $('#codePane').mouseleave(function () {
+            $('#copyButtonGroup').show("fade","fast");
+        });
+    })
+
+    // $('#dynamicFormJsonData').hover(function () {
+    //     $('#copyButtonGroup').fadeIn;
+    // }, function() {
+    //     $('#copyButtonGroup').fadeOut;
     // });
 
     function inputNewForm() {
@@ -252,7 +367,13 @@
             return moment(date1) - moment(date2);
         },
         itemTemplate: function (value) {
-            return moment(value).locale('en').format('YYYY-MM-DD HH:mm:ss');
+            var momentResult;
+            if (value == "" || value == null) {
+                momentResult = "暂无数据"
+            } else {
+                momentResult = moment(value).locale('en').format('YYYY-MM-DD HH:mm:ss');
+            }
+            return momentResult
         },
     });
     jsGrid.fields.date = DateField;
@@ -291,7 +412,6 @@
                         return $("<td>").append('<span style="word-wrap:break-word;word-break:break-all;">' + value + '</span>');
                     }
                 },
-                {name: "formUrl", type: "text", width: 200, title: "表单地址"},
                 {name: "formDesc", type: "text", width: 200, title: "表单描述"},
 
                 {
@@ -299,35 +419,35 @@
                     itemTemplate: function (value, item) {
                         var $result = jsGrid.fields.control.prototype.itemTemplate.apply(this, arguments);
                         // <i class="far fa-play-circle"></i>
-                        // 添加流程部署方法
-                        var $BPMNDeployment = $("<button>").attr({class: "btn btn-default btn-flat suspensionState_" + item.suspensionState + ""}).append($("<i></i>").attr({class: "fas fa-play"}))
+                        // 添加表单预览方法
+                        var $showDynamicTable = $("<button>").attr({class: "btn btn-default btn-flat suspensionState_" + item.suspensionState + ""}).append($("<i></i>").attr({class: "far fa-list-alt"}))
                             .click(function (e) {
                                 alert("Title: " + item.id);
                                 e.stopPropagation();
                             });
 
-                        // 添加流程删除方法
-                        var $BPMNDelete = $("<button>").attr({class: "btn btn-default btn-flat"}).append($("<i></i>").attr({class: "far fa-trash-alt"}))
+                        // 添加查看json数据方法
+                        var $showJsonCode = $("<button>").attr({class: "btn btn-default btn-flat"}).append($("<i></i>").attr({class: "far fa-file-code"}))
                             .click(function (e) {
-                                alert("Title: " + item.id);
+                                toShowJsonCode(item.uuid);
                                 e.stopPropagation();
                             });
 
-                        // 添加流程挂起方法
-                        var $BPMNHangUp = $("<button>").attr({class: "btn btn-default btn-flat"}).append($("<i></i>").attr({class: "fas fa-pause"}))
+                        // 添加动态表单编辑方法
+                        var $editDynamicFormInf = $("<button>").attr({class: "btn btn-default btn-flat"}).append($("<i></i>").attr({class: "far fa-edit"}))
                             .click(function (e) {
-                                alert("Title: " + item.id);
+                                toEditDynamicFormInf(item.uuid);
                                 e.stopPropagation();
                             });
 
-                        // 添加详细信息方法
-                        var $BPMNDetail = $("<button>").attr({class: "btn btn-default btn-flat"}).append($("<i></i>").attr({class: "fas fa-info"}))
+                        // 添加删除方法
+                        var $deleteDynamicForm = $("<button>").attr({class: "btn btn-default btn-flat"}).append($("<i></i>").attr({class: "far fa-trash-alt"}))
                             .click(function (e) {
                                 alert("Title: " + item.title);
                                 e.stopPropagation();
                             });
 
-                        return $("<div>").append($BPMNDeployment).append($BPMNHangUp).append($BPMNDetail).append($BPMNDelete);
+                        return $("<div>").append($showDynamicTable).append($editDynamicFormInf).append($showJsonCode).append($deleteDynamicForm);
                         //return $result.add($customButton);
                     },
                 }
@@ -390,7 +510,7 @@
                     console.log(data);
                     // $('#image-uploading').fadeOut("slow");
                     toastr.success("动态表单文件上传成功！")
-                    $('#example').DataTable().ajax.reload();
+                    $("#jsGrid1").jsGrid("loadData");
                 }
             },
             error: function (e) {
@@ -400,11 +520,38 @@
         $("#bpmnForm")[0].reset();
     });
 
-    // function testFunction(){
-    //     var json_inf = {test: "like"}
-    //     $("#jsGrid1").jsGrid("loadData", json_inf);
-    // }
+    function toShowJsonCode(uuid) {
+        var json_data = {dynamicFormUuid: uuid}
+        $.ajax({
+            type: 'post',
+            url: '${pageContext.request.contextPath }/getDynamicFormJsonByUuid',
+            contentType: 'application/json;charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify(json_data),
+            success: function (data) {//返回json结果
+                var dynamicFormJson = data.dynamicForm.formJson;
+                $('#dynamicFormJsonData').html(dynamicFormJson);
+                hljs.highlightAll();
+            }
+        });
+        $('#modal-showCode').modal("show");
+    }
 
+    function toEditDynamicFormInf(uuid) {
+        var json_data = {dynamicFormUuid: uuid}
+        $.ajax({
+            type: 'post',
+            url: '${pageContext.request.contextPath }/getDynamicFormJsonByUuid',
+            contentType: 'application/json;charset=utf-8',
+            dataType: 'json',
+            async: false, //同步传输，并添加返回值，返回值应为已定义的全局变量 如a
+            data: JSON.stringify(json_data),
+            success: function (data) {//返回json结果
+                vue_data.dynamicFormInf = data.dynamicForm;
+            }
+        });
+        $('#modal-dynamicFormInf').modal("show");
+    }
 
 </script>
 </body>

@@ -83,9 +83,6 @@
         .el-icon-minus, .el-icon-plus {
             line-height: 30px!important;
         }
-        .os-padding {
-            z-index: auto !important;
-        }
     </style>
 
     <link href="${pageContext.request.contextPath}/formBuilder/css/app.967b7da3.css" rel="preload" as="style">
@@ -165,15 +162,10 @@
 
 <script>
 $(function () {
-    //The passed argument has to be at least a empty object or a object with your desired options
-    $(".card-body").overlayScrollbars({});
-});
-$(function () {
     var fatherElement = $("#app > div > section > aside.el-aside.main-right > div").find("i");
     fatherElement.each(function () {
         $(this).removeClass("el-icon-share").addClass("fas fa-genderless fa-fw");
     });
-        // var message = $("#app > div > section > aside.el-aside.main-right > div > span:nth-child(" + i +") > i").removeClass("el-icon-share").addClass("fas fa-grip-lines-vertical");
 
     setTimeout(function(){
         document.querySelector("body > div > aside.main-sidebar.elevation-4.sidebar-light-primary.menu-open > div > div.os-padding > div > div > div > div.info > a").innerHTML="<%=session.getAttribute("username")%>";

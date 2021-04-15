@@ -28,4 +28,14 @@ public class DynamicFormServiceImpl implements IDynamicFormService {
     public List<DynamicForm> findAllDynamicFormInf() {
         return iDynamicFormDao.findAllDynamicFormInf();
     }
+
+    @Override
+    public void addDynamicFormInf(DynamicForm dynamicForm) {
+        iDynamicFormDao.addDynamicFormInf(dynamicForm);
+    }
+
+    @Override
+    public DynamicForm getDynamicFormJsonByUuid(String dynamicFormUuid) {
+        return iDynamicFormDao.getDynamicFormJsonByUuid(dynamicFormUuid);
+    }
 }

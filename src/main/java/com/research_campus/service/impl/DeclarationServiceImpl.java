@@ -1,6 +1,6 @@
 package com.research_campus.service.impl;
 
-import com.research_campus.dao.DeclarationDao;
+import com.research_campus.dao.IDeclarationDao;
 import com.research_campus.domain.Declaration;
 import com.research_campus.service.IDeclarationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +15,10 @@ import java.util.List;
 @Service
 public class DeclarationServiceImpl implements IDeclarationService {
 
-    DeclarationDao declarationDao;
+    IDeclarationDao declarationDao;
 
     @Autowired
-    public DeclarationServiceImpl(DeclarationDao declarationDao) {
+    public DeclarationServiceImpl(IDeclarationDao declarationDao) {
         this.declarationDao = declarationDao;
     }
 

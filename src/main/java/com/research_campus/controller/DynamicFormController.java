@@ -14,7 +14,9 @@ import org.activiti.engine.repository.ProcessDefinitionQuery;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -67,15 +70,16 @@ public class DynamicFormController {
 
     @RequestMapping(value = "/uploadDynamicForm")
     @ResponseBody
-    public void uploadBPMN(MultipartFile dynamicFormConfigFile, MultipartFile dynamicFormFile, String dynamicFormDesc, String dynamicFormName, HttpServletResponse response, HttpServletRequest request) throws Exception {
+    public void uploadBPMN(MultipartFile dynamicFormJsonConfig, String dynamicFormDesc, String dynamicFormName, HttpServletResponse response, HttpServletRequest request) throws Exception {
         PutObjectResult putObjectResultDynamicForm;
 
         JSONObject json = new JSONObject();
         HttpSession session = request.getSession();
 
-        InputStream inputStream = dynamicFormConfigFile.getInputStream();
-        String jsonString = new String(convertUtil.parseString(inputStream).getBytes("UTF-8"));
-        System.out.println(jsonString);
+//        InputStream inputStream = dynamicFormJsonConfig.getInputStream();
+//        String jsonString = new String(convertUtil.parseString(inputStream).getBytes("GBK"),"UTF-8");
+        String jsonString = new String(dynamicFormJsonConfig.getBytes(), StandardCharsets.UTF_8);
+        String uuid = IDGenerator.getUuid();
 
 
         int code = 200;
@@ -86,12 +90,12 @@ public class DynamicFormController {
             DynamicForm dynamicForm = new DynamicForm();
             dynamicForm.setFormName(dynamicFormName);
             dynamicForm.setCreateBy((Integer) session.getAttribute("userId"));
+            dynamicForm.setFormJson(jsonString);
             dynamicForm.setFormDesc(dynamicFormDesc);
+            dynamicForm.setFormName(dynamicFormName);
+            dynamicForm.setUuid(uuid);
 
-            // 上传对象到腾讯云
-//            putObjectResultDynamicForm = clientTool.uploadFileWithExtension(uuid, dynamicFormFile, "bpmn", "bpmn");
-
-//            LOGGER.info(putObjectResultDynamicForm);
+            dynamicFormService.addDynamicFormInf(dynamicForm);
 
         }catch (Exception e){
             code = 400;
@@ -111,5 +115,28 @@ public class DynamicFormController {
         // 定位到buildBPMN界面
 
         return "page_formBuilder";
+    }
+
+    @RequestMapping(value = "/getDynamicFormJsonByUuid", method = RequestMethod.POST)
+    @ResponseBody
+    public void getDynamicFormJsonByUuid(@RequestBody HashMap<String, String> map, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        // 删除数据库中的UUID
+        String dynamicFormUuid = map.get("dynamicFormUuid");
+        JSONObject json = new JSONObject();
+        DynamicForm dynamicForm = null;
+        int code = 200;
+
+        try {
+            dynamicForm = dynamicFormService.getDynamicFormJsonByUuid(dynamicFormUuid);
+
+        }catch (Exception e){
+            code = 400;
+            e.printStackTrace();
+        }
+        json.put("code", code);
+        json.put("dynamicForm", dynamicForm);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        response.getWriter().print(json.toJSONString());
     }
 }

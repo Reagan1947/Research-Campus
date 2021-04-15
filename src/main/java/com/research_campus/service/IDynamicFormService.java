@@ -14,4 +14,17 @@ public interface IDynamicFormService {
      * @return Dynamic-FOrm Pojo
      */
     List<DynamicForm> findAllDynamicFormInf();
+
+    /**
+     * 添加dynamicForm 信息
+     * @param dynamicForm dynamicForm pojo
+     */
+    void addDynamicFormInf(DynamicForm dynamicForm);
+
+    /**
+     * 根据 uuid 查询 dynamic form
+     * @param dynamicFormUuid dynamicForm UUID
+     * @return dynamic form pojo
+     */
+    DynamicForm getDynamicFormJsonByUuid(String dynamicFormUuid);
 }

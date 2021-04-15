@@ -9,7 +9,7 @@ import java.util.List;
  * 可申报项目dao
  * @author buwan
  */
-public interface DeclarationDao {
+public interface IDeclarationDao {
 
     /**
      * 查询所有Declaration
