@@ -11,7 +11,7 @@
 <p align="center">
 
 <p align="center">
-<img src="https://research-campus-1256316910.cos.ap-chongqing.myqcloud.com/PicGoframe_safari_light%20(6).png">
+<img src="https://research-campus-1256316910.cos.ap-chongqing.myqcloud.com/PicGoframe_safari_light (6).png">
 </p>
              
 ## 1. 关于Research-Campus   
