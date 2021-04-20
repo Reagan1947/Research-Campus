@@ -9,7 +9,10 @@
 <h4 align="center" font-weight:bold;">Research Manage System Of University
 </br>高校科研项目管理系统</br></h4>
 <p align="center">
-                 
+
+<p align="center">
+<img src="https://research-campus-1256316910.cos.ap-chongqing.myqcloud.com/PicGoframe_safari_light%20(6).png">
+</p>
              
 ## 1. 关于Research-Campus   
 
