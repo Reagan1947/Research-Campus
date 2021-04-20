@@ -1,9 +1,12 @@
 package com.research_campus.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.qcloud.cos.model.PutObjectResult;
+import com.alibaba.fastjson.JSON;
+import com.research_campus.domain.BpmnList;
 import com.research_campus.domain.DynamicForm;
 import com.research_campus.service.IDynamicFormService;
+import com.research_campus.utils.activiti.IDGenerator;
 import com.research_campus.utils.stream.ConvertUtil;
 import com.research_campus.utils.tencentCloudCos.CosClientTool;
 import org.apache.log4j.Logger;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,7 +36,6 @@ import java.util.Map;
 @Controller
 public class DynamicFormController {
     private static final Logger LOGGER = Logger.getLogger(ActivitiController.class);
-
 
     IDynamicFormService dynamicFormService;
 
@@ -63,16 +66,13 @@ public class DynamicFormController {
 
     @RequestMapping(value = "/uploadDynamicForm")
     @ResponseBody
-    public void uploadBPMN(MultipartFile dynamicFormJsonConfig, String dynamicFormDesc, String dynamicFormName, String formUUID, HttpServletResponse response, HttpServletRequest request) throws Exception {
-        PutObjectResult putObjectResultDynamicForm;
+    public void uploadBpmn(MultipartFile dynamicFormJsonConfig, String dynamicFormDesc, String dynamicFormName, HttpServletResponse response, HttpServletRequest request) throws Exception {
 
         JSONObject json = new JSONObject();
         HttpSession session = request.getSession();
 
-//        InputStream inputStream = dynamicFormJsonConfig.getInputStream();
-//        String jsonString = new String(convertUtil.parseString(inputStream).getBytes("GBK"),"UTF-8");
         String jsonString = new String(dynamicFormJsonConfig.getBytes(), StandardCharsets.UTF_8);
-//        String uuid = IDGenerator.getUuid();
+        String uuid = IDGenerator.getUuid();
 
 
         int code = 200;
@@ -86,7 +86,7 @@ public class DynamicFormController {
             dynamicForm.setFormJson(jsonString);
             dynamicForm.setFormDesc(dynamicFormDesc);
             dynamicForm.setFormName(dynamicFormName);
-            dynamicForm.setUuid(formUUID);
+            dynamicForm.setUuid(uuid);
 
             dynamicFormService.addDynamicFormInf(dynamicForm);
 
@@ -103,7 +103,7 @@ public class DynamicFormController {
     }
 
     @RequestMapping("/formBuilder")
-    public String directToFormBuilder(HttpServletRequest request) throws Exception{
+    public String directToFormBuilder() throws Exception{
 
         // 定位到buildBPMN界面
 
@@ -112,7 +112,7 @@ public class DynamicFormController {
 
     @RequestMapping(value = "/getDynamicFormJsonByUuid", method = RequestMethod.POST)
     @ResponseBody
-    public void getDynamicFormJsonByUuid(@RequestBody HashMap<String, String> map, HttpServletResponse response, HttpServletRequest request) throws Exception {
+    public void getDynamicFormJsonByUuid(@RequestBody HashMap<String, String> map, HttpServletResponse response) throws Exception {
         // 删除数据库中的UUID
         String dynamicFormUuid = map.get("dynamicFormUuid");
         JSONObject json = new JSONObject();
@@ -135,7 +135,7 @@ public class DynamicFormController {
 
     @RequestMapping(value = "/deleteDynamicFormInfByUuid", method = RequestMethod.POST)
     @ResponseBody
-    public void deleteDynamicFormInfByUuid(@RequestBody HashMap<String, String> map, HttpServletResponse response, HttpServletRequest request) throws Exception {
+    public void deleteDynamicFormInfByUuid(@RequestBody HashMap<String, String> map, HttpServletResponse response) throws Exception {
         // 删除数据库中的UUID
         String dynamicFormUuid = map.get("dynamicFormUuid");
         JSONObject json = new JSONObject();
@@ -160,44 +160,64 @@ public class DynamicFormController {
 
     @RequestMapping(value = "/applyDynamicFormInfByUuid", method = RequestMethod.POST)
     @ResponseBody
-    public void applyDynamicFormInfByUuid(@RequestBody HashMap<String, String> map, HttpServletResponse response, HttpServletRequest request) throws Exception {
+    public void applyDynamicFormInfByUuid(@RequestBody HashMap<String, String> map, HttpServletResponse response) throws Exception {
         // 删除数据库中的UUID
         String dynamicFormUuid = map.get("dynamicFormUuid");
         JSONObject json = new JSONObject();
-        DynamicForm dynamicForm = null;
+        DynamicForm dynamicForm = new DynamicForm();
         int code = 200;
         String msg = "动态表单应用成功！";
 
         try {
             // 根据uuid获得动态表单数据
             dynamicForm = dynamicFormService.getDynamicFormJsonByUuid(dynamicFormUuid);
+            // 更改表单状态为1
+
+            dynamicFormService.modifyFormStatus(dynamicFormUuid, 1);
 
         }catch (Exception e){
             e.printStackTrace();
         }
 
         // 将json String 转化为json对象
-        assert dynamicForm != null;
         JSONObject dynamicFormJsonObject = JSONObject.parseObject(dynamicForm.getFormJson());
-        String tableName = dynamicFormJsonObject.get("formName");
 
         // 解析控件信息并存入Map中
         Map<String, String> tableFields = new IdentityHashMap<>();
-        List joArray = (List)dynamicFormJsonObject.get("fieldList");
-        for (int i = 0; i < joArray.size(); i++) {
-            Map<String, String> templeMap = (Map)joArray.get(i);
-            tableFields.put(map.get("type"), templeMap.get("key"));
+        JSONArray jsonArray = dynamicFormJsonObject.getJSONArray("list");
+        for (Object o : jsonArray) {
+            JSONObject object = (JSONObject) o;
+            tableFields.put((String) object.get("type"), (String) object.get("key"));
         }
+
+        String tableName = "dynamic_" + dynamicForm.getUuid();
+
+        LOGGER.info("动态表单tableFiles控件Map：" + tableFields);
+
         // 使用AutoCreate创建数据表
-        dynamicFormService.autoCreateTask()
-
-
-
+        dynamicFormService.autoCreateTask(tableName,tableFields);
 
         json.put("code", code);
         json.put("msg", msg);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         response.getWriter().print(json.toJSONString());
+    }
+
+    @RequestMapping("/dynamicFormPreview")
+    public ModelAndView dynamicFormPreview(String uuid) throws Exception{
+        // 根据uuid查询流程图的具体信息
+        DynamicForm dynamicForm = new DynamicForm();
+        try {
+            dynamicForm = dynamicFormService.getDynamicFormJsonByUuid(uuid);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        ModelAndView mv = new ModelAndView();
+        //添加模型数据 可以是任意的POJO对象
+        mv.addObject("dynamicForm", JSON.toJSONString(dynamicForm.getFormJson()));
+        mv.setViewName("page_dynamicFormPreview");
+
+        return mv;
     }
 }

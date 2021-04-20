@@ -1,12 +1,10 @@
 package com.research_campus.dao;
 
 import com.research_campus.domain.DynamicForm;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 动态表单Dao
@@ -43,4 +41,19 @@ public interface IDynamicFormDao {
      */
     @Delete("DELETE FROM dynamicforminf WHERE UUID='${dynamicFormUuid}'")
     void deleteDynamicFormInfByUuid(@Param("dynamicFormUuid") String dynamicFormUuid);
+
+    /**
+     * 自动创建动态表单任务
+     * @param tableName 动态表单名称
+     * @param tableFields 动态表单 Map 数据
+     */
+    void autoCreateTask(@Param("tableName")String tableName,@Param("tableFields") Map<String, String> tableFields);
+
+    /**
+     * 根据dynamic form uuid 更改 表单状态
+     * @param dynamicFormUuid 表单uuid
+     * @param status 表单状态
+     */
+    @Update("UPDATE dynamicforminf SET formStatus=#{status} WHERE UUID=#{dynamicFormUuid}")
+    void updateFormStatus(@Param("dynamicFormUuid") String dynamicFormUuid, @Param("status") Integer status);
 }

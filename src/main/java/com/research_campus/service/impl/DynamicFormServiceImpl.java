@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 处理表单相关业务
@@ -14,7 +15,6 @@ import java.util.List;
  */
 @Service
 public class DynamicFormServiceImpl implements IDynamicFormService {
-
 
     IDynamicFormDao iDynamicFormDao;
 
@@ -42,5 +42,15 @@ public class DynamicFormServiceImpl implements IDynamicFormService {
     @Override
     public void deleteDynamicFormInfByUuid(String dynamicFormUuid) {
         iDynamicFormDao.deleteDynamicFormInfByUuid(dynamicFormUuid);
+    }
+
+    @Override
+    public void autoCreateTask(String tableName, Map<String, String> tableFields) {
+        iDynamicFormDao.autoCreateTask(tableName, tableFields);
+    }
+
+    @Override
+    public void modifyFormStatus(String dynamicFormUuid, Integer status) {
+        iDynamicFormDao.updateFormStatus(dynamicFormUuid, status);
     }
 }

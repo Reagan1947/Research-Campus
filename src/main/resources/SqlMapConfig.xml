@@ -35,6 +35,7 @@
     </environments>
     <!-- 配置映射文件的位置 -->
     <mappers>
-        <package name="com.research_campus.dao"/>
+        <mapper class="com.research_campus.dao"/>
+        <mapper resource="com/research_campus/mappers/dynamicFormMapper.xml"/>
     </mappers>
 </configuration>

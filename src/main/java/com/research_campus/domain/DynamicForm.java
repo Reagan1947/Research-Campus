@@ -16,6 +16,8 @@ public class DynamicForm {
     private Date updateTime;
     private String uuid;
     private String formDesc;
+    private Integer formStatus;
+
 
     public Integer getId() {
         return id;
@@ -89,6 +91,14 @@ public class DynamicForm {
         this.formDesc = formDesc;
     }
 
+    public Integer getFormStatus() {
+        return formStatus;
+    }
+
+    public void setFormStatus(Integer formStatus) {
+        this.formStatus = formStatus;
+    }
+
     @Override
     public String toString() {
         return "DynamicForm{" +
@@ -101,6 +111,7 @@ public class DynamicForm {
                 ", updateTime=" + updateTime +
                 ", uuid='" + uuid + '\'' +
                 ", formDesc='" + formDesc + '\'' +
+                ", formStatus=" + formStatus +
                 '}';
     }
 }

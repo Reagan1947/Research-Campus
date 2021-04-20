@@ -56,6 +56,7 @@
     <!--配置SqlSessionFactory工厂-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
+        <property name="mapperLocations" value="classpath:com/research_campus/mappers/*.xml" />
     </bean>
 
     <!--配置AccountDao接口所在包-->

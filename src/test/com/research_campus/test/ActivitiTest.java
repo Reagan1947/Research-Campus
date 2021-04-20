@@ -1,5 +1,8 @@
 package com.research_campus.test;
 
+import com.alibaba.fastjson.JSONArray;
+import com.research_campus.domain.DynamicForm;
+import com.research_campus.service.IDynamicFormService;
 import com.research_campus.utils.tencentCloudCos.CosClientTool;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RepositoryService;
@@ -17,7 +20,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.IdentityHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -32,6 +37,10 @@ public class ActivitiTest {
 
     @Autowired
     CosClientTool clientTool;
+
+    @Autowired
+    IDynamicFormService dynamicFormService;
+
 
     @Test
     public void implementBPMNTest() {
@@ -69,22 +78,23 @@ public class ActivitiTest {
             }
         });
     }
+
     @Test
-    public void deploymentProcessDefinition_classpath(){
+    public void deploymentProcessDefinition_classpath() {
         Deployment deployment = processEngine.getRepositoryService()//与流程定义和部署对象相关的Service
                 .createDeployment()//创建一个部署对象
                 .name("流程定义")//添加部署名称
                 .addClasspathResource("bpmn/diagramtest.bpmn")//从classpath的资源中加载，一次只能加载一个文件
                 .addClasspathResource("bpmn/diagramtest.bpmn")
                 .deploy();//完成部署
-        System.out.println("部署ID："+deployment.getId());
-        System.out.println("部署名称:"+deployment.getName());
+        System.out.println("部署ID：" + deployment.getId());
+        System.out.println("部署名称:" + deployment.getName());
 
     }
 
     @Test
-    public void selectAll(){
-        List<ProcessDefinition> resultList =  repositoryService.createProcessDefinitionQuery().list();
+    public void selectAll() {
+        List<ProcessDefinition> resultList = repositoryService.createProcessDefinitionQuery().list();
         JSONObject resultJson = new JSONObject();
 //        resultJson.put("data", resultList);
 
@@ -94,5 +104,21 @@ public class ActivitiTest {
     @Test
     public void uploadStringTest() throws IOException {
         clientTool.uploadFileWithExtension("uuid", "测试", "bpmn", "bpmn");
+    }
+
+    @Test
+    public void JsonAnalysisTest() throws IOException {
+        String testUuid = "c422a370106d4ca9b317c5cd3f4c6443";
+        DynamicForm dynamicForm = dynamicFormService.getDynamicFormJsonByUuid(testUuid);
+        com.alibaba.fastjson.JSONObject dynamicFormJsonObject = com.alibaba.fastjson.JSONObject.parseObject(dynamicForm.getFormJson());
+
+        Map<String, String> tableFields = new IdentityHashMap<>();
+        JSONArray jsonArray = dynamicFormJsonObject.getJSONArray("list");
+        for (int i = 0; i < jsonArray.size(); i++) {
+            com.alibaba.fastjson.JSONObject object = (com.alibaba.fastjson.JSONObject) jsonArray.get(i);
+            tableFields.put((String)object.get("type"), (String)object.get("key"));
+        }
+        System.out.println(tableFields);
+
     }
 }

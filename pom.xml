@@ -10,8 +10,8 @@
     <packaging>war</packaging>
 
     <name>ssm Maven Webapp</name>
-    <!-- FIXME change it to the project's website -->
-    <url>http://www.example.com</url>
+<!--    &lt;!&ndash; FIXME change it to the project's website &ndash;&gt;-->
+<!--    <url>http://www.example.com</url>-->
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -3,6 +3,7 @@ package com.research_campus.service;
 import com.research_campus.domain.DynamicForm;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 处理表单相关Service
@@ -35,4 +36,17 @@ public interface IDynamicFormService {
     void deleteDynamicFormInfByUuid(String dynamicFormUuid);
 
 
+    /**
+     * 根据tableName,控件field自动创建数据库表
+     * @param tableName 表单名称
+     * @param tableFields 表单控件
+     */
+    void autoCreateTask(String tableName, Map<String, String> tableFields);
+
+    /**
+     * 根据dynamicFormUuid 更改表单状态
+     * @param dynamicFormUuid 动态表单uuid
+     * @param status 表单状态
+     */
+    void modifyFormStatus(String dynamicFormUuid, Integer status);
 }

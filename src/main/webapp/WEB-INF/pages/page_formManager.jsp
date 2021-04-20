@@ -68,11 +68,11 @@
 
         <div class="modal fade" id="modal-lg" style="display: none;" aria-hidden="true">
             <div class="modal-dialog modal-lg">
-                <div class="modal-content" id="addForm">
+                <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">添加新的表单</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                                @click="resetFormValue()">
+                                onclick="clearForm()">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
@@ -82,12 +82,7 @@
                             <div class="form-group">
                                 <label>表单名称</label>
                                 <input type="text" class="form-control" placeholder="form name" id="formName"
-                                       name="dynamicFormName" v-model="addFormData.addFormResult.formName">
-                            </div>
-                            <div class="form-group">
-                                <label>表单标识UUID</label>
-                                <input type="text" class="form-control" placeholder="form uuid" id="formUUID"
-                                       name="dynamicFormName" v-model="addFormData.addFormResult.formUUID">
+                                       name="dynamicFormName">
                             </div>
                             <div class="form-group">
                                 <label>表单Json配置文件<a href="" title="如何编写配置文件？"><i class="fas fa-question-circle"
@@ -95,7 +90,7 @@
                                 <div class="input-group">
                                     <div class="custom-file">
                                         <input type="file" accept=".json" class="custom-file-input" id="uploadJson"
-                                               name="dynamicFormJsonConfig" @change="analysisJson($event)" ref="file">
+                                               name="dynamicFormJsonConfig">
                                         <label class="custom-file-label">resource .json</label>
                                     </div>
 
@@ -104,16 +99,15 @@
                             <div class="form-group">
                                 <label>表单描述</label>
                                 <textarea class="form-control" rows="3" placeholder="form description"
-                                          id="dynamicFormDesc" name="dynamicFormDesc"
-                                          v-model="addFormData.addFormResult.formDesc"></textarea>
+                                          id="dynamicFormDesc" name="dynamicFormDesc"></textarea>
                             </div>
                         </form>
                         <!-- 内容结束 -->
                     </div>
                     <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-default" data-dismiss="modal" @click="resetFormValue($event)">关闭
+                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clearForm()">关闭
                         </button>
-                        <button type="button" class="btn btn-primary" @click="submitForm($event)" data-dismiss="modal">
+                        <button type="button" class="btn btn-primary" id="uploadDynamicFormFile" data-dismiss="modal">
                             上传表单
                         </button>
                     </div>
@@ -347,72 +341,6 @@
         }
     });
 
-    var addFormData = {
-        addFormResult: {
-            formName: '',
-            formUUID: '',
-            formFile: null,
-            formDesc: '',
-        },
-    }
-
-    Vue.prototype.$http = axios;
-    var addForm = new Vue({
-        el: '#addForm',
-        data: {
-            addFormData,
-        },
-        methods: {
-            analysisJson: function (event) {
-                var getJsonFile = event.target.files;
-                addFormData.addFormResult.formFile = event.target.files[0];
-                console.log(getJsonFile);
-                if(getJsonFile.length !== 0) {
-                    var reader = new FileReader();  // 新建一个FileReader
-                    reader.readAsText(getJsonFile[0], "UTF-8");  // 读取文件
-                    reader.onload = function (evt) {  // 读取完文件之后会回来这里
-                        var jsonString = evt.target.result.toString();  // 读取文件内容
-                        var jsonResult = JSON.parse(jsonString);
-                        addFormData.addFormResult.formName = jsonResult.formName;
-                        addFormData.addFormResult.formUUID = jsonResult.formUUID;
-                    }
-                }
-            },
-            resetFormValue: function () {
-                addFormData.addFormResult = {
-                    formName: '',
-                    formUUID: '',
-                    formFile: null,
-                    formDesc: '',
-                };
-                this.$refs.file.value = '';
-            },
-            submitForm(event) {
-                event.preventDefault();
-                let formData = new FormData();
-                formData.append('dynamicFormName', addFormData.addFormResult.formName);
-                formData.append('formUUID', addFormData.addFormResult.formUUID);
-                formData.append('dynamicFormJsonConfig', addFormData.addFormResult.formFile);
-                formData.append('dynamicFormDesc', addFormData.addFormResult.formDesc);
-
-                let config = {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }
-
-                this.$http.post('${pageContext.request.contextPath}/uploadDynamicForm', formData, config).then(function (res) {
-                    if (res.data.code === 200) {
-                        toastr.success("动态表单文件上传成功！");
-                        $("#jsGrid1").jsGrid("loadData");
-                    }
-                })
-                this.resetFormValue();
-            }
-        },
-
-    });
-
     new ClipboardJS('#copyIt');
 
     $(function () {
@@ -499,6 +427,8 @@
                 {name: "createTime", type: "date", width: 150, title: "创建时间"},
                 {name: "updateBy", type: "text", width: 50, title: "更新人"},
                 {name: "updateTime", type: "date", width: 150, title: "更新时间"},
+                {name: "formStatus", type: "number", width: 150, title: "表单状态"},
+
                 {
                     name: "uuid", type: "text", width: 200, title: "标识UUID", cellRenderer: function (value, item) {
                         return $("<td>").append('<span style="word-wrap:break-word;word-break:break-all;">' + value + '</span>');
@@ -514,7 +444,7 @@
                         // 添加表单预览方法
                         var $showDynamicTable = $("<button>").attr({class: "btn btn-default btn-flat suspensionState_" + item.suspensionState + ""}).append($("<i></i>").attr({class: "far fa-list-alt"}))
                             .click(function (e) {
-                                alert("Title: " + item.id);
+                                previewForm(item.uuid);
                                 e.stopPropagation();
                             });
 
@@ -541,6 +471,11 @@
 
                         // 添加应用表单方法
                         var $applyDynamicForm = $("<button>").attr({class: "btn btn-default btn-flat"}).append($("<i></i>").attr({class: "far fa-hdd"}))
+                            .attr("disabled", function () {
+                                if (item.formStatus === 1) {
+                                    return 'true';
+                                }
+                            })
                             .click(function (e) {
                                 toApplyDynamicFormInf(item.uuid);
                                 e.stopPropagation();
@@ -591,7 +526,7 @@
         $('#bpmnForm').get(0).reset();
     }
 
-    function uploadDynamicFormFile() {
+    $("#uploadDynamicFormFile").click(function () {
         toastr.info('正在上传动态表单！')
         $.ajax({
             url: "${pageContext.request.contextPath}/uploadDynamicForm",
@@ -617,7 +552,7 @@
             }
         });
         $("#bpmnForm")[0].reset();
-    };
+    });
 
     function toShowJsonCode(uuid) {
         var json_data = {dynamicFormUuid: uuid}
@@ -699,7 +634,7 @@
                 } else if (data.code === 200) {
                     console.log(data);
                     // $('#image-uploading').fadeOut("slow");
-                    toastr.success("动态表达应用成功！")
+                    toastr.success("动态表单应用成功！")
                     $("#jsGrid1").jsGrid("loadData");
                 }
             },
@@ -707,6 +642,10 @@
                 console.log(e);
             }
         });
+    }
+
+    function previewForm(dynamicFormUuid){
+        window.location = "${pageContext.request.contextPath}/dynamicFormPreview?uuid=" +  dynamicFormUuid;
     }
 
 </script>

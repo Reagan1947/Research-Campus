@@ -168,13 +168,41 @@
                 </li>
 
                 <li class="nav-header">科研系统管理</li>
-                <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/declarationManager" class="nav-link">
-                        <i class="nav-icon fas fa-exchange-alt"></i>
-                        <p>申报信息发布与管理</p>
-                    </a>
-                </li>
 
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fab fa-font-awesome"></i>
+                        <p>公告信息管理
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="${pageContext.request.contextPath}/declarationManager" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>申报管理</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="${pageContext.request.contextPath}/declarationManager" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>中期检查管理</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="${pageContext.request.contextPath}/declarationManager" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>成果申报管理</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="${pageContext.request.contextPath}/declarationManager" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>项目结项管理</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 
                 <li class="nav-header">科研与活动</li>
                 <li class="nav-item">

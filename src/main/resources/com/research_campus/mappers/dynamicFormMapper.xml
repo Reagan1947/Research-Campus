@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.research_campus.dao.IDynamicFormDao">
+    <update id="autoCreateTask" parameterType="map">
+        create table `${tableName}` (
+        `id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID',
+        <foreach collection="tableFields" index="key" item="_value">
+            <choose>
+                <when test=" key == 'inputNumber' or key == 'rate' or key == 'slider'">
+                    `${_value}` int NULL DEFAULT NULL COMMENT '数字输入框或评分或滑块',
+                </when>
+                <when test=" key == 'radio' or key == 'checkbox' or key == 'select'">
+                    `${_value}` int NULL DEFAULT NULL COMMENT '单选框组或多选框组或下拉框(单选、多选)',
+                </when>
+                <when test=" key == 'timePicker' or key == 'datePicker'">
+                    `${_value}` DATETIME NULL DEFAULT NULL COMMENT '日期选择器或时间选择器',
+                </when>
+                <otherwise>
+                    `${_value}` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '控件',
+                </otherwise>
+            </choose>
+        </foreach>
+        `processId` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '绑定的流程ID',
+        PRIMARY KEY (`id`) USING BTREE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+    </update>
+</mapper>
