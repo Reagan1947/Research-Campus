@@ -11,7 +11,7 @@
 <p align="center">
 
 <p align="center">
-<img src="https://github.com/Reagan1947/Research-Campus/blob/master/src/main/webapp/custom/img/mainPic.png?raw=true">
+<img src="https://raw.githubusercontent.com/Reagan1947/Research-Campus/master/src/main/webapp/custom/img/mainPageFix.png">
 </p>
              
 ## 1. 关于Research-Campus   
