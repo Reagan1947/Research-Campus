@@ -56,4 +56,13 @@ public interface IDynamicFormDao {
      */
     @Update("UPDATE dynamicforminf SET formStatus=#{status} WHERE UUID=#{dynamicFormUuid}")
     void updateFormStatus(@Param("dynamicFormUuid") String dynamicFormUuid, @Param("status") Integer status);
+
+    /**
+     * 根据dynamic form uuid 更改整个表单信息
+     * @param dynamicForm dynamic form pojo
+     */
+    @Update("UPDATE dynamicforminf " +
+            " SET formName=#{formName}, formJson=#{formJson}, createBy=#{createBy}, updateBy=#{updateBy}, updateTime=now(), formDesc=#{formDesc}" +
+            " WHERE UUID=#{uuid}")
+    void modifyFormInf(DynamicForm dynamicForm);
 }

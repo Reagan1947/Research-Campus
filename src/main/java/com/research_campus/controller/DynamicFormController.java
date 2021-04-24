@@ -176,6 +176,8 @@ public class DynamicFormController {
             dynamicFormService.modifyFormStatus(dynamicFormUuid, 1);
 
         }catch (Exception e){
+            code = 400;
+            msg = "表单应用失败！";
             e.printStackTrace();
         }
 
@@ -219,5 +221,59 @@ public class DynamicFormController {
         mv.setViewName("page_dynamicFormPreview");
 
         return mv;
+    }
+
+
+    @RequestMapping(value = "/applyDynamicFormInfChange", method = RequestMethod.POST)
+    @ResponseBody
+    public void applyDynamicFormInfChange(@RequestBody HashMap<String, String> map, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        // 删除数据库中的UUID
+        String dynamicFormUuid = map.get("uuid");
+
+        HttpSession session = request.getSession();
+        JSONObject json = new JSONObject();
+        DynamicForm dynamicForm = new DynamicForm();
+        dynamicForm.setFormName(map.get("dynamicFormName"));
+        dynamicForm.setCreateBy(Integer.parseInt(map.get("createBy")));
+        dynamicForm.setFormDesc(map.get("dynamicFormDescInf"));
+        dynamicForm.setUpdateBy((Integer) session.getAttribute("userId"));
+        dynamicForm.setUuid(dynamicFormUuid);
+        dynamicForm.setFormJson(map.get("dynamicFormJson"));
+        int code = 200;
+        String msg = "表单信息更改成功";
+
+        try {
+            // 更改表单内容
+            dynamicFormService.modifyFormInf(dynamicForm);
+
+        }catch (Exception e){
+            code = 400;
+            msg= "信息更改失败！";
+            e.printStackTrace();
+        }
+//
+//        // 将json String 转化为json对象
+//        JSONObject dynamicFormJsonObject = JSONObject.parseObject(dynamicForm.getFormJson());
+//
+//        // 解析控件信息并存入Map中
+//        Map<String, String> tableFields = new IdentityHashMap<>();
+//        JSONArray jsonArray = dynamicFormJsonObject.getJSONArray("list");
+//        for (Object o : jsonArray) {
+//            JSONObject object = (JSONObject) o;
+//            tableFields.put((String) object.get("type"), (String) object.get("key"));
+//        }
+//
+//        String tableName = "dynamic_" + dynamicForm.getUuid();
+//
+//        LOGGER.info("动态表单tableFiles控件Map：" + tableFields);
+//
+//        // 使用AutoCreate创建数据表
+//        dynamicFormService.autoCreateTask(tableName,tableFields);
+
+        json.put("code", code);
+        json.put("msg", msg);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        response.getWriter().print(json.toJSONString());
     }
 }

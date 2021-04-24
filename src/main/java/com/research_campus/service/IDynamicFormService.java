@@ -49,4 +49,10 @@ public interface IDynamicFormService {
      * @param status 表单状态
      */
     void modifyFormStatus(String dynamicFormUuid, Integer status);
+
+    /**
+     * 根据dynamicFormUuid 更改整个表单详细信息
+     * @param dynamicForm 表单更改后的信息
+     */
+    void modifyFormInf(DynamicForm dynamicForm);
 }

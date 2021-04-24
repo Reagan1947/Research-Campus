@@ -169,34 +169,47 @@
 
                 <li class="nav-header">科研系统管理</li>
 
+                <li class="nav-item">
+                    <a href="${pageContext.request.contextPath}/projectEntityManager" class="nav-link">
+                        <i class="nav-icon fas fa-flask"></i>
+                        <p>科研项目主体管理</p>
+                    </a>
+                </li>
+
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fab fa-font-awesome"></i>
-                        <p>公告信息管理
+                        <p>科研业务主体管理
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="${pageContext.request.contextPath}/declarationManager" class="nav-link">
+                            <a href="${pageContext.request.contextPath}/businessEntityDetail?businessEntityUuid=7e24d034394d42c891454b289c8d6cc3" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>申报管理</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="${pageContext.request.contextPath}/declarationManager" class="nav-link">
+                            <a href="${pageContext.request.contextPath}/businessEntityDetail?businessEntityUuid=03e903c6b5054b45a2968adf38611dce" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>立项管理</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="${pageContext.request.contextPath}/businessEntityDetail?businessEntityUuid=86a510f9161a4980a5afe827fb237e4a" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>中期检查管理</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="${pageContext.request.contextPath}/declarationManager" class="nav-link">
+                            <a href="${pageContext.request.contextPath}/businessEntityDetail?businessEntityUuid=c61e2a58d1024cb9af21f0b9877a674b" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>成果申报管理</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="${pageContext.request.contextPath}/declarationManager" class="nav-link">
+                            <a href="${pageContext.request.contextPath}/businessEntityDetail?businessEntityUuid=9c458dcff03b4614b34875594a7b2465" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>项目结项管理</p>
                             </a>

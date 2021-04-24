@@ -26,4 +26,14 @@ public class DeclarationServiceImpl implements IDeclarationService {
     public List<Declaration> getAllDeclaration() {
         return declarationDao.getAllDeclaration();
     }
+
+    @Override
+    public void addDeclaration(Declaration declaration) {
+        declarationDao.addDeclaration(declaration);
+    }
+
+    @Override
+    public void modifyDeclaration(Declaration declaration) {
+        declarationDao.modifyDeclaration(declaration);
+    }
 }

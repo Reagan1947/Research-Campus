@@ -64,7 +64,10 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>业务信息</h1>
+                        <h1>
+                            业务信息
+                            <span style="margin-left: 5px; display: inline-block; text-decoration:underline; font-size: 15px;"><a href="${pageContext.request.contextPath}/deploymentBPMN">← 返回流程定义列表</a></span>
+                        </h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">

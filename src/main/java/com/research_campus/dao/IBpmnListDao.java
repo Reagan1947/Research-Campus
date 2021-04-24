@@ -71,4 +71,13 @@ public interface IBpmnListDao {
      */
     @Select("SELECT bpmnUUID FROM bpmnlist_actinstance WHERE deploymentId=#{deploymentId}")
     String getUuidByDeploymentId(String deploymentId);
+
+    /**
+     * 根据 根据流程定义id查询流程定义名称
+     * @param processDefineId 流程定义id
+     * @return 所属流程UUID
+     */
+    @Select("SELECT NAME_ FROM act_re_procdef WHERE ID_=#{processDefineId}")
+    String getProcessDefineNameByPdId(@Param("processDefineId") String processDefineId);
+
 }

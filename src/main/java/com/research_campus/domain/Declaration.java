@@ -10,8 +10,10 @@ public class Declaration {
     private String projectBodyInformationUrl;
     private String declarationAnnouncement;
     private String declarationOverview;
-    private String processInstanceId;
+    private String processDefineId;
     private String declarationUuid;
+    private String projectEntityUuid;
+    private String businessEntityUuid;
 
     public Integer getId() {
         return id;
@@ -53,12 +55,12 @@ public class Declaration {
         this.declarationOverview = declarationOverview;
     }
 
-    public String getProcessInstanceId() {
-        return processInstanceId;
+    public String getProcessDefineId() {
+        return processDefineId;
     }
 
-    public void setProcessInstanceId(String processInstanceId) {
-        this.processInstanceId = processInstanceId;
+    public void setProcessDefineId(String processDefineId) {
+        this.processDefineId = processDefineId;
     }
 
     public String getDeclarationUuid() {
@@ -69,6 +71,22 @@ public class Declaration {
         this.declarationUuid = declarationUuid;
     }
 
+    public String getProjectEntityUuid() {
+        return projectEntityUuid;
+    }
+
+    public void setProjectEntityUuid(String projectEntityUuid) {
+        this.projectEntityUuid = projectEntityUuid;
+    }
+
+    public String getBusinessEntityUuid() {
+        return businessEntityUuid;
+    }
+
+    public void setBusinessEntityUuid(String businessEntityUuid) {
+        this.businessEntityUuid = businessEntityUuid;
+    }
+
     @Override
     public String toString() {
         return "Declaration{" +
@@ -77,8 +95,10 @@ public class Declaration {
                 ", projectBodyInformationUrl='" + projectBodyInformationUrl + '\'' +
                 ", declarationAnnouncement='" + declarationAnnouncement + '\'' +
                 ", declarationOverview='" + declarationOverview + '\'' +
-                ", processInstanceId='" + processInstanceId + '\'' +
+                ", processDefineId='" + processDefineId + '\'' +
                 ", declarationUuid='" + declarationUuid + '\'' +
+                ", projectEntityUuid='" + projectEntityUuid + '\'' +
+                ", businessEntityUuid='" + businessEntityUuid + '\'' +
                 '}';
     }
 }

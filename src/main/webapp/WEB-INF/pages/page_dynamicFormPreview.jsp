@@ -43,7 +43,10 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>动态表单预览</h1>
+                        <h1>
+                            动态表单预览
+                            <span style="margin-left: 5px; display: inline-block; text-decoration:underline; font-size: 15px;"><a href="${pageContext.request.contextPath}/formManager">← 流程表单管理</a></span>
+                        </h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">

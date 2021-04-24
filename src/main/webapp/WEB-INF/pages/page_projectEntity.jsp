@@ -6,7 +6,7 @@
     <jsp:include page="admin_head.jsp"/>
 
     <!-- 设置每个页面的Title -->
-    <title>流程表单管理</title>
+    <title>科研项目主体管理</title>
 
     <style>
         .col-form-label {
@@ -53,13 +53,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>流程表单管理</h1>
+                        <h1>科研项目主体管理</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">主页
                             </a></li>
-                            <li class="breadcrumb-item active">流程表单管理</li>
+                            <li class="breadcrumb-item active">科研项目主体管理</li>
                         </ol>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">添加新的表单</h4>
+                        <h4 class="modal-title">添加流程项目主体</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                                 onclick="clearForm()">
                             <span aria-hidden="true">×</span>
@@ -80,26 +80,14 @@
                         <!-- 内容开始 -->
                         <form id="bpmnForm">
                             <div class="form-group">
-                                <label>表单名称</label>
-                                <input type="text" class="form-control" placeholder="form name" id="formName"
-                                       name="dynamicFormName">
+                                <label>项目主体名称</label>
+                                <input type="text" class="form-control" placeholder="Entity Name" id="projectEntityName"
+                                       name="projectEntityName">
                             </div>
                             <div class="form-group">
-                                <label>表单Json配置文件<a href="" title="如何编写配置文件？"><i class="fas fa-question-circle"
-                                                                                 style="margin-left: 5px;color: #00000091;"></i></a></label>
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        <input type="file" accept=".json" class="custom-file-input" id="uploadJson"
-                                               name="dynamicFormJsonConfig">
-                                        <label class="custom-file-label">resource .json</label>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>表单描述</label>
-                                <textarea class="form-control" rows="3" placeholder="form description"
-                                          id="dynamicFormDesc" name="dynamicFormDesc"></textarea>
+                                <label>项目主体描述</label>
+                                <textarea class="form-control" rows="3" placeholder="Entity Description"
+                                          id="projectEntityDesc" name="projectEntityDesc"></textarea>
                             </div>
                         </form>
                         <!-- 内容结束 -->
@@ -107,8 +95,8 @@
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clearForm()">关闭
                         </button>
-                        <button type="button" class="btn btn-primary" id="uploadDynamicFormFile" data-dismiss="modal">
-                            上传表单
+                        <button type="button" class="btn btn-primary" id="addProjectEntity" data-dismiss="modal">
+                            添加流程项目主体
                         </button>
                     </div>
                 </div>
@@ -117,48 +105,12 @@
             <!-- /.modal-dialog -->
         </div>
 
-        <div class="modal fade" id="modal-showCode" style="display: none;" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">页面Json配置信息</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- 内容开始 -->
-                        <%--                        <button class="btn" data-clipboard-target="#foo">--%>
-                        <%--                            <i class="far fa-clipboard"></i> 复制到剪贴板--%>
-                        <%--                        </button>--%>
-                        <div id="codePane">
-                            <div class="btn-group" style="position: absolute; top: 35px; right: 33px; display: none;"
-                                 id="copyButtonGroup">
-                                <button class="btn btn-sm btn-flat btn-default"
-                                        data-clipboard-target="#dynamicFormJsonData" id="copyIt">
-                                    <i class="fas fa-paste fa-fw"></i> 复制
-                                </button>
-                            </div>
-                            <pre><code class="json" id="dynamicFormJsonData">
-                        </code></pre>
-                        </div>
-                        <!-- 内容结束 -->
-                    </div>
-                    <div class="modal-footer justify-content-end">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-                        </button>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
 
         <div class="modal fade" id="modal-dynamicFormInf" style="display: none;" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content" id="app">
                     <div class="modal-header">
-                        <h4 class="modal-title">更改表单属性</h4>
+                        <h4 class="modal-title">更改项目主体属性</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="">
                             <span aria-hidden="true">×</span>
                         </button>
@@ -169,30 +121,25 @@
                             <div class="form-group">
                                 <label>动态表单名称</label>
                                 <input type="text" class="form-control" placeholder="Dynamic FormName"
-                                       id="dynamicFormName" name="dynamicFormName"
-                                       v-model="dynamicFormInf.formName">
+                                       id="projectEntityNameEdit" name="projectEntityName"
+                                       v-model="projectEntityInf.projectEntityName">
                             </div>
                             <div class="form-group">
-                                <label>动态表单创建人</label>
-                                <input type="text" class="form-control" placeholder="DynamicForm CreateBy" id="createBy"
-                                       name="createBy" v-model="dynamicFormInf.createBy">
+                                <label>项目主体创建人</label>
+                                <input type="text" class="form-control" placeholder="Dynamic Form Desc"
+                                       id="projectEntityCreateBy" name="dynamicFormDescInf"
+                                       v-model="projectEntityInf.projectEntityCreateBy">
                             </div>
                             <div class="form-group">
-                                <label>动态表单标识UUID</label>
-                                <input type="text" class="form-control" placeholder="DynamicForm UUID"
-                                       id="dynamicFormUUID" name="dynamicFormUUID" v-model="dynamicFormInf.uuid" disabled>
+                                <label>项目主体UUID</label>
+                                <input type="text" class="form-control" placeholder="DynamicForm UUID" disabled
+                                       id="projectEntityUuid" name="projectEntityUuid" v-model="projectEntityInf.projectEntityUuid">
                             </div>
                             <div class="form-group">
-                                <label>动态表单描述</label>
+                                <label>项目主体描述</label>
                                 <input type="text" class="form-control" placeholder="Dynamic Form Desc"
                                        id="dynamicFormDescInf" name="dynamicFormDescInf"
-                                       v-model="dynamicFormInf.formDesc">
-                            </div>
-                            <div class="form-group">
-                                <label>动态表单Json文件</label>
-                                <textarea class="form-control" rows="8" placeholder="Dynamic Form Json"
-                                          id="dynamicFormJson" v-model="dynamicFormInf.formJson"
-                                          name="dynamicFormJson"></textarea>
+                                       v-model="projectEntityInf.projectEntityDesc">
                             </div>
                         </form>
                         <!-- 内容结束 -->
@@ -200,7 +147,7 @@
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                         <button type="button" class="btn btn-primary" id="alterBpmnInf"
-                                @click="changeDynamicFormInf($event)" data-dismiss="modal">更改表单属性
+                                @click="changeProjectEntityInf($event)" data-dismiss="modal">更改项目主体属性
                         </button>
                     </div>
                 </div>
@@ -219,7 +166,7 @@
                 <!-- 表格开始 -->
                 <div class="card card-primary card-outline">
                     <div class="card-header">
-                        <h3 class="card-title" style="margin-top: 5px;">流程表单列表</h3>
+                        <h3 class="card-title" style="margin-top: 5px;">项目主体列表</h3>
                         <!-- 右侧按钮 -->
                         <div style="float: right">
                             <td>
@@ -243,7 +190,7 @@
                         <div style="margin-bottom: 15px; display: none;" id="filterBar">
                             <div class="row">
                                 <div class="col-2">
-                                    <lable class="col-form-label">表单名称</lable>
+                                    <lable class="col-form-label">项目主体名称</lable>
                                     <input type="text" class="form-control forPlaceholder" placeholder="formName">
                                 </div>
                                 <div class="col-2">
@@ -252,7 +199,7 @@
                                            data-inputmask-inputformat="dd/mm/yyyy" data-mask placeholder="dd/mm/yyyy">
                                 </div>
                                 <div class="col-2">
-                                    <lable class="col-form-label">表单描述</lable>
+                                    <lable class="col-form-label">项目主体描述</lable>
                                     <input type="text" class="form-control forPlaceholder" placeholder="formDesc">
                                 </div>
 
@@ -270,16 +217,16 @@
 
                             <div class="row" style="margin-top: 10px; display: none;" id="showMoreBar">
                                 <div class="col-2">
-                                    <lable class="col-form-label">标识UUID</lable>
+                                    <lable class="col-form-label">项目主体UUID</lable>
                                     <input type="text" class="form-control forPlaceholder" placeholder="formName">
                                 </div>
                                 <div class="col-2">
                                     <lable class="col-form-label">更新时间</lable>
-                                    <input type="text" class="form-control" data-inputmask-alias="datetime"
-                                           data-inputmask-inputformat="dd/mm/yyyy" data-mask placeholder="dd/mm/yyyy">
+                                    <input type="text" class="form-control forPlaceholder" placeholder="formName">
+
                                 </div>
                                 <div class="col-2">
-                                    <lable class="col-form-label">更新人</lable>
+                                    <lable class="col-form-label">项目主体ID</lable>
                                     <input type="text" class="form-control forPlaceholder" placeholder="formDesc">
                                 </div>
                             </div>
@@ -328,7 +275,7 @@
     // $('#dynamicFormJson').overlayScrollbars({textarea:{dynHeight: true}});
 
     var vue_data = {
-        dynamicFormInf: {},
+        projectEntityInf: {},
     };
 
     Vue.prototype.$http = axios;
@@ -336,7 +283,7 @@
         el: '#app',
         data: vue_data,
         methods: {
-            changeDynamicFormInf: function (event) {
+            changeProjectEntityInf: function (event) {
                 event.preventDefault();
 
                 let config = {
@@ -344,12 +291,12 @@
                         'Content-Type': 'application/json'
                     }
                 }
-                this.$http.post('${pageContext.request.contextPath}/applyDynamicFormInfChange', vue_data.dynamicFormInf, config).then(function (res) {
+                this.$http.post('${pageContext.request.contextPath}/applyProjectEntityChange', vue_data.projectEntityInf, config).then(function (res) {
                     if (res.status === 200) {
-                        toastr.success("表单信息更改成功！");
+                        toastr.success("项目主体信息更改成功！");
                         $("#jsGrid1").jsGrid("loadData");
                     } else if(res.status === 400) {
-                        toastr.error("表单信息更改失败！");
+                        toastr.error("项目主体信息更改失败！");
                     }
                 })
             }
@@ -426,7 +373,7 @@
 
                     return $.ajax({
                         type: "GET",
-                        url: "${pageContext.request.contextPath}/getAllDynamicFormInf",
+                        url: "${pageContext.request.contextPath}/getAllProjectEntity",
                         data: filter,
                         dataType: "JSON"
                     })
@@ -436,68 +383,59 @@
 
             fields: [
                 {name: "id", type: "text", width: 50, title: "ID"},
-                {name: "formName", type: "text", width: 200, title: "名称"},
-                // {name: "formJson", type: "text", width: 200, title: "表单Json"},
-                {name: "createBy", type: "text", width: 50, title: "创建人"},
-                {name: "createTime", type: "date", width: 150, title: "创建时间"},
-                {name: "updateBy", type: "text", width: 50, title: "更新人"},
-                {name: "updateTime", type: "date", width: 150, title: "更新时间"},
-                {name: "formStatus", type: "number", width: 150, title: "表单状态"},
+                {name: "projectEntityName", type: "text", width: 200, title: "项目主体名称"},
+                {name: "projectEntityUuid", type: "text", width: 100, title: "项目主体UUID"},
+                {name: "projectEntityDesc", type: "text", width: 150, title: "项目主体描述"},
+                {name: "projectEntityCreateTime", type: "date", width: 150, title: "项目主体创建日期"},
+                {name: "projectEntityCreateBy", type: "text", width: 50, title: "项目主体创建人"},
 
                 {
-                    name: "uuid", type: "text", width: 200, title: "标识UUID", cellRenderer: function (value, item) {
-                        return $("<td>").append('<span style="word-wrap:break-word;word-break:break-all;">' + value + '</span>');
-                    }
-                },
-                {name: "formDesc", type: "text", width: 200, title: "表单描述"},
-
-                {
-                    type: "control", width: 200, editButton: false, deleteButton: false,
+                    type: "control", width: 100, editButton: false, deleteButton: false,
                     itemTemplate: function (value, item) {
                         var $result = jsGrid.fields.control.prototype.itemTemplate.apply(this, arguments);
                         // <i class="far fa-play-circle"></i>
                         // 添加表单预览方法
-                        var $showDynamicTable = $("<button>").attr({class: "btn btn-default btn-flat suspensionState_" + item.suspensionState + ""}).append($("<i></i>").attr({class: "far fa-list-alt"}))
-                            .click(function (e) {
-                                previewForm(item.uuid);
-                                e.stopPropagation();
-                            });
+                        // var $showDynamicTable = $("<button>").attr({class: "btn btn-default btn-flat suspensionState_" + item.suspensionState + ""}).append($("<i></i>").attr({class: "far fa-list-alt"}))
+                        //     .click(function (e) {
+                        //         previewForm(item.uuid);
+                        //         e.stopPropagation();
+                        //     });
 
                         // 添加查看json数据方法
-                        var $showJsonCode = $("<button>").attr({class: "btn btn-default btn-flat"}).append($("<i></i>").attr({class: "far fa-file-code"}))
-                            .click(function (e) {
-                                toShowJsonCode(item.uuid);
-                                e.stopPropagation();
-                            });
+                        // var $showJsonCode = $("<button>").attr({class: "btn btn-default btn-flat"}).append($("<i></i>").attr({class: "far fa-file-code"}))
+                        //     .click(function (e) {
+                        //         toShowJsonCode(item.uuid);
+                        //         e.stopPropagation();
+                        //     });
 
                         // 添加动态表单编辑方法
                         var $editDynamicFormInf = $("<button>").attr({class: "btn btn-default btn-flat"}).append($("<i></i>").attr({class: "far fa-edit"}))
                             .click(function (e) {
-                                toEditDynamicFormInf(item.uuid);
+                                toEditDynamicFormInf(item.projectEntityUuid);
                                 e.stopPropagation();
                             });
 
                         // 添加删除方法
                         var $deleteDynamicForm = $("<button>").attr({class: "btn btn-default btn-flat"}).append($("<i></i>").attr({class: "far fa-trash-alt"}))
                             .click(function (e) {
-                                toDeleteDynamicFormInf(item.uuid);
+                                toDeleteProjectEntity(item.projectEntityUuid);
                                 e.stopPropagation();
                             });
 
                         // 添加应用表单方法
-                        var $applyDynamicForm = $("<button>").attr({class: "btn btn-default btn-flat"}).append($("<i></i>").attr({class: "far fa-hdd"}))
-                            .attr("disabled", function () {
-                                if (item.formStatus === 1) {
-                                    return 'true';
-                                }
-                            })
-                            .click(function (e) {
-                                toApplyDynamicFormInf(item.uuid);
-                                e.stopPropagation();
-                            });
+                        // var $applyDynamicForm = $("<button>").attr({class: "btn btn-default btn-flat"}).append($("<i></i>").attr({class: "far fa-hdd"}))
+                        //     .attr("disabled", function () {
+                        //         if (item.formStatus === 1) {
+                        //             return 'true';
+                        //         }
+                        //     })
+                        //     .click(function (e) {
+                        //         toApplyDynamicFormInf(item.uuid);
+                        //         e.stopPropagation();
+                        //     });
 
-                        return $("<div>").append($showDynamicTable).append($editDynamicFormInf).append($showJsonCode).append($deleteDynamicForm).append($applyDynamicForm);
-                        //return $result.add($customButton);
+                        return $("<div>").append($editDynamicFormInf).append($deleteDynamicForm);
+                        // return $result.add($customButton);
                     },
                 }
             ]
@@ -541,10 +479,10 @@
         $('#bpmnForm').get(0).reset();
     }
 
-    $("#uploadDynamicFormFile").click(function () {
-        toastr.info('正在上传动态表单！')
+    $("#addProjectEntity").click(function () {
+        toastr.info('正在添加流程项目主体！')
         $.ajax({
-            url: "${pageContext.request.contextPath}/uploadDynamicForm",
+            url: "${pageContext.request.contextPath}/addProjectEntity",
             type: "POST",
             data: new FormData($("#bpmnForm")[0]),
             processData: false,//告诉ajax不要处理和编码这些数据，直接提交
@@ -554,11 +492,11 @@
                 // alert(data.code);
                 if (data.code === 400) {
                     console.log(data);
-                    toastr.error("动态表单文件上传出现问题！")
+                    toastr.error("流程项目主体添加失败！")
                 } else if (data.code === 200) {
                     console.log(data);
                     // $('#image-uploading').fadeOut("slow");
-                    toastr.success("动态表单文件上传成功！")
+                    toastr.success("流程项目主体添加成功！")
                     $("#jsGrid1").jsGrid("loadData");
                 }
             },
@@ -587,26 +525,26 @@
     }
 
     function toEditDynamicFormInf(uuid) {
-        var json_data = {dynamicFormUuid: uuid}
+        var json_data = {projectEntityUUid: uuid}
         $.ajax({
             type: 'post',
-            url: '${pageContext.request.contextPath }/getDynamicFormJsonByUuid',
+            url: '${pageContext.request.contextPath }/getProjectEntityByUuid',
             contentType: 'application/json;charset=utf-8',
             dataType: 'json',
             async: false, //同步传输，并添加返回值，返回值应为已定义的全局变量 如a
             data: JSON.stringify(json_data),
             success: function (data) {//返回json结果
-                vue_data.dynamicFormInf = data.dynamicForm;
+                vue_data.projectEntityInf = data.projectEntity;
             }
         });
         $('#modal-dynamicFormInf').modal("show");
     }
 
-    function toDeleteDynamicFormInf(uuid) {
-        var json_data = {dynamicFormUuid: uuid}
+    function toDeleteProjectEntity(uuid) {
+        var json_data = {projectEntityUuid: uuid}
         $.ajax({
             type: 'post',
-            url: '${pageContext.request.contextPath }/deleteDynamicFormInfByUuid',
+            url: '${pageContext.request.contextPath }/deleteProjectEntityByUuid',
             contentType: 'application/json;charset=utf-8',
             dataType: 'json',
             data: JSON.stringify(json_data),
@@ -614,11 +552,11 @@
                 // alert(data.code);
                 if (data.code === 400) {
                     console.log(data);
-                    toastr.error("动态表单删除失败！")
+                    toastr.error("项目实体删除失败！")
                 } else if (data.code === 200) {
                     console.log(data);
                     // $('#image-uploading').fadeOut("slow");
-                    toastr.success("动态表单删除成功！")
+                    toastr.success("项目主体删除成功！")
                     $("#jsGrid1").jsGrid("loadData");
                 }
             },
@@ -659,8 +597,8 @@
         });
     }
 
-    function previewForm(dynamicFormUuid) {
-        window.location = "${pageContext.request.contextPath}/dynamicFormPreview?uuid=" + dynamicFormUuid;
+    function previewForm(dynamicFormUuid){
+        window.location = "${pageContext.request.contextPath}/dynamicFormPreview?uuid=" +  dynamicFormUuid;
     }
 
 </script>

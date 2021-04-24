@@ -53,4 +53,9 @@ public class DynamicFormServiceImpl implements IDynamicFormService {
     public void modifyFormStatus(String dynamicFormUuid, Integer status) {
         iDynamicFormDao.updateFormStatus(dynamicFormUuid, status);
     }
+
+    @Override
+    public void modifyFormInf(DynamicForm dynamicForm) {
+        iDynamicFormDao.modifyFormInf(dynamicForm);
+    }
 }
