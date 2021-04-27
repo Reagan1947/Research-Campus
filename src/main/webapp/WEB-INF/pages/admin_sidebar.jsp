@@ -224,12 +224,49 @@
                         <p>科研项目管理</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/toDeclarationPage" class="nav-link">
-                        <i class="nav-icon fas fa-exchange-alt"></i>
-                        <p>科研项目申报</p>
+
+
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-layer-group"></i>
+                        <p>科研项目申请
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="${pageContext.request.contextPath}/toDeclarationPage?businessEntityUuid=7e24d034394d42c891454b289c8d6cc3" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>申报申请</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="${pageContext.request.contextPath}/toDeclarationPage?businessEntityUuid=03e903c6b5054b45a2968adf38611dce" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>立项申请</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="${pageContext.request.contextPath}/toDeclarationPage?businessEntityUuid=86a510f9161a4980a5afe827fb237e4a" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>中期检查申请</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="${pageContext.request.contextPath}/toDeclarationPage?businessEntityUuid=c61e2a58d1024cb9af21f0b9877a674b" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>成果申报申请</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="${pageContext.request.contextPath}/toDeclarationPage?businessEntityUuid=9c458dcff03b4614b34875594a7b2465" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>项目结项申请</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
+
                 <li class="nav-item">
                     <a href="${pageContext.request.contextPath}/allResearchProjectSearch" class="nav-link">
                         <i class="nav-icon fas fa-poll-h"></i>

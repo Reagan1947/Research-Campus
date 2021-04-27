@@ -2,6 +2,7 @@ package com.research_campus.dao;
 
 import com.research_campus.domain.Declaration;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -37,7 +38,23 @@ public interface IDeclarationDao {
             "declarationOverview=#{declarationOverview}, " +
             "processDefineId=#{processDefineId}, " +
             "projectEntityUuid=#{projectEntityUuid}," +
-            "businessEntityUuid=#{businessEntityUuid}," +
-            "WHERE declarationUuid=#{declarationUuid}")
+            "businessEntityUuid=#{businessEntityUuid}" +
+            "WHERE declarationUUID=#{declarationUuid}")
     void modifyDeclaration(Declaration declaration);
+
+    /**
+     * 根据declaration uuid 更改其 declaration url
+     * @param uuid declaration url
+     * @param declarationUuid declaration uuid
+     */
+    @Update("UPDATE projectdeclarationform SET projectBodyInformationURL=#{uuid} WHERE declarationUuid=#{declarationUuid}")
+    void addDeclarationUrlByDeclarationUuid(@Param("uuid") String uuid, @Param("declarationUuid") String declarationUuid);
+
+    /**
+     * 根据BusinessEntityUuid检索 declaration 公告
+     * @param businessEntityUuid business Entity Uuid
+     * @return List Declaration
+     */
+    @Select("SELECT * FROM projectdeclarationform WHERE businessEntityUuid=#{businessEntityUuid}")
+    List<Declaration> getDeclarationByBusinessEntityUuid(String businessEntityUuid);
 }

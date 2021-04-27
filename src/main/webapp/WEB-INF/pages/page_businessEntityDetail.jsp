@@ -110,90 +110,41 @@
             <!-- /.modal-dialog -->
         </div>
 
-        <div class="modal fade" id="modal-showCode" style="display: none;" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">页面Json配置信息</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- 内容开始 -->
-                        <%--                        <button class="btn" data-clipboard-target="#foo">--%>
-                        <%--                            <i class="far fa-clipboard"></i> 复制到剪贴板--%>
-                        <%--                        </button>--%>
-                        <div id="codePane">
-                            <div class="btn-group" style="position: absolute; top: 35px; right: 33px; display: none;"
-                                 id="copyButtonGroup">
-                                <button class="btn btn-sm btn-flat btn-default"
-                                        data-clipboard-target="#dynamicFormJsonData" id="copyIt">
-                                    <i class="fas fa-paste fa-fw"></i> 复制
-                                </button>
-                            </div>
-                            <pre><code class="json" id="dynamicFormJsonData">
-                        </code></pre>
-                        </div>
-                        <!-- 内容结束 -->
-                    </div>
-                    <div class="modal-footer justify-content-end">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-                        </button>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
 
-        <div class="modal fade" id="modal-dynamicFormInf" style="display: none;" aria-hidden="true">
+        <div class="modal fade" id="modal-changeInformation" style="display: none;" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content" id="app">
                     <div class="modal-header">
-                        <h4 class="modal-title">更改表单属性</h4>
+                        <h4 class="modal-title">更改配置信息</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <!-- 内容开始 -->
-                        <form id="dynamicForm">
+                        <form id="changeInformation">
                             <div class="form-group">
-                                <label>动态表单名称</label>
-                                <input type="text" class="form-control" placeholder="Dynamic FormName"
-                                       id="dynamicFormName" name="dynamicFormName"
-                                       v-bind:value="dynamicFormInf.formName">
+                                <label>项目主体</label>
+                                <select class="form-control" name="projectEntityUuid" id="changeProjectEntity">
+                                </select>
                             </div>
                             <div class="form-group">
-                                <label>动态表单创建人</label>
-                                <input type="text" class="form-control" placeholder="DynamicForm CreateBy" id="createBy"
-                                       name="createBy" v-bind:value="dynamicFormInf.createBy">
+                                <label>业务主体UUID(自动填充，无需更改)</label>
+                                <input type="text" class="form-control" placeholder="Entity Name" id="changeBusinessEntityUuid"
+                                       name="businessEntityUuid" value='${businessEntity.businessEntityUuid}'>
                             </div>
                             <div class="form-group">
-                                <label>动态表单标识UUID</label>
-                                <input type="text" class="form-control" placeholder="DynamicForm UUID"
-                                       id="dynamicFormUUID" name="dynamicFormUUID" v-bind:value="dynamicFormInf.uuid">
-                            </div>
-                            <div class="form-group">
-                                <label>动态表单描述</label>
-                                <input type="text" class="form-control" placeholder="Dynamic Form Desc"
-                                       id="dynamicFormDescInf" name="dynamicFormDescInf"
-                                       v-bind:value="dynamicFormInf.formDesc">
-                            </div>
-                            <div class="form-group">
-                                <label>动态表单Json文件</label>
-                                <textarea class="form-control" rows="8" placeholder="Dynamic Form Json"
-                                          id="dynamicFormJson"
-                                          name="dynamicFormJson">{{ dynamicFormInf.formJson }}</textarea>
+                                <label>流程定义</label>
+                                <select class="form-control" name="processDefineId" id="changeProcessDefineId">
+                                </select>
                             </div>
                         </form>
                         <!-- 内容结束 -->
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        <button type="button" class="btn btn-primary" id="alterBpmnInf"
-                                @click="changeDynamicFormInf(dynamicFormInf.uuid)" data-dismiss="modal">更改表单属性
+                        <button type="button" class="btn btn-primary" id="subChangeInformation"
+                               data-dismiss="modal">更改配置
                         </button>
                     </div>
                 </div>
@@ -236,17 +187,16 @@
                         <div style="margin-bottom: 15px; display: none;" id="filterBar">
                             <div class="row">
                                 <div class="col-2">
-                                    <lable class="col-form-label">项目主体名称</lable>
+                                    <lable class="col-form-label">ID</lable>
                                     <input type="text" class="form-control forPlaceholder" placeholder="formName">
                                 </div>
                                 <div class="col-2">
-                                    <lable class="col-form-label">创建时间</lable>
-                                    <input type="text" class="form-control" data-inputmask-alias="datetime"
-                                           data-inputmask-inputformat="dd/mm/yyyy" data-mask placeholder="dd/mm/yyyy">
+                                    <lable class="col-form-label">业务主体名称</lable>
+                                    <input type="text" class="form-control forPlaceholder" placeholder="formName">
                                 </div>
                                 <div class="col-2">
-                                    <lable class="col-form-label">项目主体描述</lable>
-                                    <input type="text" class="form-control forPlaceholder" placeholder="formDesc">
+                                    <lable class="col-form-label">项目主体名称</lable>
+                                    <input type="text" class="form-control forPlaceholder" placeholder="formName">
                                 </div>
 
                                 <div class="col-6" style="margin-top: 24px;">
@@ -267,12 +217,7 @@
                                     <input type="text" class="form-control forPlaceholder" placeholder="formName">
                                 </div>
                                 <div class="col-2">
-                                    <lable class="col-form-label">更新时间</lable>
-                                    <input type="text" class="form-control forPlaceholder" placeholder="formName">
-
-                                </div>
-                                <div class="col-2">
-                                    <lable class="col-form-label">项目主体ID</lable>
+                                    <lable class="col-form-label">流程定义ID</lable>
                                     <input type="text" class="form-control forPlaceholder" placeholder="formDesc">
                                 </div>
                             </div>
@@ -318,18 +263,18 @@
 
 
 <script>
-    // $('#dynamicFormJson').overlayScrollbars({textarea:{dynHeight: true}});
 
     var vue_data = {
-        dynamicFormInf: {},
+        information: {
+            id: 0,
+        },
     };
 
     var app = new Vue({
         el: '#app',
         data: vue_data,
         methods: {
-            changeDynamicFormInf: function (uuid) {
-                console.log(uuid);
+            changeInformation: function () {
             }
         }
     });
@@ -344,12 +289,6 @@
             $('#copyButtonGroup').hide("fade", "fast");
         });
     })
-
-    // $('#dynamicFormJsonData').hover(function () {
-    //     $('#copyButtonGroup').fadeIn;
-    // }, function() {
-    //     $('#copyButtonGroup').fadeOut;
-    // });
 
     function inputNewForm() {
         $('#projectEntity').find("option").remove();
@@ -370,6 +309,7 @@
                 console.log(e);
             }
         })
+        $('#processDefineId').find("option").remove();
         $.ajax({
             type: "GET",
             url: "${pageContext.request.contextPath}/getImplementBPMN",
@@ -399,7 +339,7 @@
         },
         itemTemplate: function (value) {
             var momentResult;
-            if (value == "" || value == null) {
+            if (value === "" || value == null) {
                 momentResult = "暂无数据"
             } else {
                 momentResult = moment(value).locale('en').format('YYYY-MM-DD HH:mm:ss');
@@ -415,7 +355,6 @@
             sorting: true,
             paging: true,
             autoload: true,
-            // filtering: true,
 
             controller: {
                 loadData: function (filter) {
@@ -435,56 +374,36 @@
                 {name: "businessEntity.businessEntityName", type: "text", width: 50, title: "业务主体名称"},
                 {name: "projectEntity.projectEntityName", type: "text", width: 150, title: "项目主体名称"},
                 {name: "projectEntity.projectEntityUuid", type: "text", width: 150, title: "项目主体UUID"},
-                {name: "processDefineId", type: "date", width: 150, title: "流程定义名称"},
-                {name: "processDefineName", type: "text", width: 150, title: "流程定义UUID"},
+                {name: "processDefineName", type: "text", width: 150, title: "流程定义名称"},
+                {name: "processDefineId", type: "text", width: 150, title: "流程定义Id"},
 
                 {
                     type: "control", width: 100, editButton: false, deleteButton: false,
                     itemTemplate: function (value, item) {
                         var $result = jsGrid.fields.control.prototype.itemTemplate.apply(this, arguments);
-                        // <i class="far fa-play-circle"></i>
                         // 添加公告设置方法
-                        var $showDynamicTable = $("<button>").attr({class: "btn btn-default btn-flat suspensionState_" + item.suspensionState + ""}).append($("<i></i>").attr({class: "far fa-comment-alt"}))
+                        var $editDeclaration = $("<button>").attr({class: "btn btn-default btn-flat suspensionState_" + item.suspensionState + ""}).append($("<i></i>").attr({class: "far fa-comment-alt"}))
                             .click(function (e) {
                                 toEditDeclaration(item.projectEntity.projectEntityUuid, item.processDefineId);
                                 e.stopPropagation();
                             });
 
-                        // 添加查看json数据方法
-                        // var $showJsonCode = $("<button>").attr({class: "btn btn-default btn-flat"}).append($("<i></i>").attr({class: "far fa-file-code"}))
-                        //     .click(function (e) {
-                        //         toShowJsonCode(item.uuid);
-                        //         e.stopPropagation();
-                        //     });
 
-                        // 添加动态表单编辑方法
-                        var $editDynamicFormInf = $("<button>").attr({class: "btn btn-default btn-flat"}).append($("<i></i>").attr({class: "far fa-edit"}))
+                        // 添加信息编辑方法
+                        var $editInformation = $("<button>").attr({class: "btn btn-default btn-flat"}).append($("<i></i>").attr({class: "far fa-edit"}))
                             .click(function (e) {
-                                toEditDynamicFormInf(item.uuid);
+                                toChangeInformation(item.id, item.processDefineId, item.projectEntity.projectEntityUuid);
                                 e.stopPropagation();
                             });
 
                         // 添加删除方法
-                        var $deleteDynamicForm = $("<button>").attr({class: "btn btn-default btn-flat"}).append($("<i></i>").attr({class: "far fa-trash-alt"}))
+                        var $deleteInformation = $("<button>").attr({class: "btn btn-default btn-flat"}).append($("<i></i>").attr({class: "far fa-trash-alt"}))
                             .click(function (e) {
-                                toDeleteProjectEntity(item.projectEntityUuid);
+                                toDeleteInformation(item.id, item.projectEntity.projectEntityUuid, item.processDefineId);
                                 e.stopPropagation();
                             });
 
-                        // 添加应用表单方法
-                        // var $applyDynamicForm = $("<button>").attr({class: "btn btn-default btn-flat"}).append($("<i></i>").attr({class: "far fa-hdd"}))
-                        //     .attr("disabled", function () {
-                        //         if (item.formStatus === 1) {
-                        //             return 'true';
-                        //         }
-                        //     })
-                        //     .click(function (e) {
-                        //         toApplyDynamicFormInf(item.uuid);
-                        //         e.stopPropagation();
-                        //     });
-
-                        return $("<div>").append($showDynamicTable).append($editDynamicFormInf).append($deleteDynamicForm);
-                        // return $result.add($customButton);
+                        return $("<div>").append($editDeclaration).append($editInformation).append($deleteInformation);
                     },
                 }
             ]
@@ -492,7 +411,6 @@
     });
 
     window.onload = function () {
-        // $('#datemask').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' });
         $('[data-mask]').inputmask();
 
         // 当状态表示1时候 表示已部署 此时部署按钮不可用
@@ -534,17 +452,15 @@
             url: "${pageContext.request.contextPath}/addPBEDetail",
             type: "POST",
             data: new FormData($("#bpmnForm")[0]),
-            processData: false,//告诉ajax不要处理和编码这些数据，直接提交
-            contentType: false,//不使用默认的内容类型
+            processData: false, //告诉ajax不要处理和编码这些数据，直接提交
+            contentType: false, //不使用默认的内容类型
             dataType: 'json',
             success: function (data) {
-                // alert(data.code);
                 if (data.code === 400) {
                     console.log(data);
                     toastr.error("配置信息添加失败！")
                 } else if (data.code === 200) {
                     console.log(data);
-                    // $('#image-uploading').fadeOut("slow");
                     toastr.success("配置信息添加成功！")
                     $("#jsGrid1").jsGrid("loadData");
                 }
@@ -556,56 +472,98 @@
         $("#bpmnForm")[0].reset();
     });
 
-    function toShowJsonCode(uuid) {
-        var json_data = {dynamicFormUuid: uuid}
+    $("#subChangeInformation").click(function () {
+        var formData = new FormData($("#changeInformation")[0]);
+        formData.append("id", vue_data.information.id);
+
         $.ajax({
-            type: 'post',
-            url: '${pageContext.request.contextPath }/getDynamicFormJsonByUuid',
-            contentType: 'application/json;charset=utf-8',
+            url: "${pageContext.request.contextPath}/changePBInformation",
+            type: "POST",
+            data: formData,
+            processData: false, //告诉ajax不要处理和编码这些数据，直接提交
+            contentType: false, //不使用默认的内容类型
             dataType: 'json',
-            data: JSON.stringify(json_data),
-            success: function (data) {//返回json结果
-                var dynamicFormJson = data.dynamicForm.formJson;
-                $('#dynamicFormJsonData').html(dynamicFormJson);
-                hljs.highlightAll();
+            success: function (data) {
+                if (data.code === 400) {
+                    console.log(data);
+                    toastr.error("配置信息更改失败！")
+                } else if (data.code === 200) {
+                    console.log(data);
+                    toastr.success("配置信息更改成功！")
+                    $("#jsGrid1").jsGrid("loadData");
+                }
+            },
+            error: function (e) {
+                console.log(e);
             }
         });
-        $('#modal-showCode').modal("show");
-    }
+    });
 
-    function toEditDynamicFormInf(uuid) {
-        var json_data = {dynamicFormUuid: uuid}
+
+    function toChangeInformation(id, processDefineId, projectEntityUuid) {
+        $('#changeProjectEntity').find("option").remove();
         $.ajax({
-            type: 'post',
-            url: '${pageContext.request.contextPath }/getDynamicFormJsonByUuid',
-            contentType: 'application/json;charset=utf-8',
-            dataType: 'json',
-            async: false, //同步传输，并添加返回值，返回值应为已定义的全局变量 如a
-            data: JSON.stringify(json_data),
-            success: function (data) {//返回json结果
-                vue_data.dynamicFormInf = data.dynamicForm;
+            type: "GET",
+            url: "${pageContext.request.contextPath}/getProjectEntity",
+            dataType: "JSON",
+            success: function (data) {
+                if (data !== "" && data !== null) {
+                    console.log(data);
+                    for (var i = 0; i < data.length; i++) {
+                        if(data[i].projectEntityUuid === projectEntityUuid) {
+                            $("#changeProjectEntity").append("<option selected = 'selected' value='" + data[i].projectEntityUuid + "'>" + data[i].projectEntityName + "</option>");
+                        }else {
+                            $("#changeProjectEntity").append("<option value='" + data[i].projectEntityUuid + "'>" + data[i].projectEntityName + "</option>");
+                        }
+                    }
+                }
+
+            },
+            error: function (e) {
+                console.log(e);
             }
-        });
-        $('#modal-dynamicFormInf').modal("show");
+        })
+        $('#changeProcessDefineId').find("option").remove();
+        $.ajax({
+            type: "GET",
+            url: "${pageContext.request.contextPath}/getImplementBPMN",
+            dataType: "JSON",
+            success: function (data) {
+                if (data !== "" && data !== null) {
+                    console.log(data);
+                    for (var i = 0; i < data.length; i++) {
+                        if(data[i].id === processDefineId) {
+                            $("#changeProcessDefineId").append("<option selected = 'selected' value='" + data[i].id + "'>" + data[i].name + "</option>");
+                        }else {
+                            $("#changeProcessDefineId").append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");
+                        }
+                    }
+                }
+
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        })
+        vue_data.information.id = id;
+        $('#modal-changeInformation').modal("show");
     }
 
-    function toDeleteProjectEntity(uuid) {
-        var json_data = {projectEntityUuid: uuid}
+    function toDeleteInformation(id, projectEntityUuid, processDefineId) {
+        var json_data = {id: id, projectEntityUuid: projectEntityUuid, processDefineId: processDefineId}
         $.ajax({
             type: 'post',
-            url: '${pageContext.request.contextPath }/deleteProjectEntityByUuid',
+            url: '${pageContext.request.contextPath }/deletePBInformation',
             contentType: 'application/json;charset=utf-8',
             dataType: 'json',
             data: JSON.stringify(json_data),
             success: function (data) {
-                // alert(data.code);
                 if (data.code === 400) {
                     console.log(data);
-                    toastr.error("项目实体删除失败！")
+                    toastr.error("配置信息删除失败！")
                 } else if (data.code === 200) {
                     console.log(data);
-                    // $('#image-uploading').fadeOut("slow");
-                    toastr.success("项目主体删除成功！")
+                    toastr.success("配置信息删除成功！")
                     $("#jsGrid1").jsGrid("loadData");
                 }
             },
@@ -618,32 +576,6 @@
     function reloadData() {
         $("#jsGrid1").jsGrid("loadData");
         toastr.success("动态表单列表已刷新");
-    }
-
-    function toApplyDynamicFormInf(uuid) {
-        var json_data = {dynamicFormUuid: uuid}
-        $.ajax({
-            type: 'post',
-            url: '${pageContext.request.contextPath }/applyDynamicFormInfByUuid',
-            contentType: 'application/json;charset=utf-8',
-            dataType: 'json',
-            data: JSON.stringify(json_data),
-            success: function (data) {
-                // alert(data.code);
-                if (data.code === 400) {
-                    console.log(data);
-                    toastr.error("动态表单应用失败!");
-                } else if (data.code === 200) {
-                    console.log(data);
-                    // $('#image-uploading').fadeOut("slow");
-                    toastr.success("动态表单应用成功！")
-                    $("#jsGrid1").jsGrid("loadData");
-                }
-            },
-            error: function (e) {
-                console.log(e);
-            }
-        });
     }
 
     function toEditDeclaration(projectEntityUuid, processDefineId){

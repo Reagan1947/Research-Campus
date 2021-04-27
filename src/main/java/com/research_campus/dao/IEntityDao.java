@@ -100,4 +100,39 @@ public interface IEntityDao {
     @Insert("INSERT INTO pb_entity_processdefine (projectEntityUuid, businessEntityUuid, processDefineId)" +
             "VALUES (#{projectEntityUuid}, #{businessEntityUuid}, #{processDefineId})")
     void addPBEDetail(Pbep pbep);
+
+    /**
+     * 更改pbep信息
+     * @param pbep pbep pojo
+     * @param id pbep id
+     */
+    @Update("UPDATE pb_entity_processdefine " +
+            " SET projectEntityUuid=#{pbep.projectEntityUuid}, businessEntityUuid=#{pbep.businessEntityUuid}, processDefineId=#{pbep.processDefineId}" +
+            " WHERE id=#{id}")
+    void modifyPbep(@Param("pbep")Pbep pbep, @Param("id")String id);
+
+    /**
+     * 根据Id删除PBInformation
+     * @param id PBInformation Id
+     */
+    @Delete("DELETE FROM pb_entity_processdefine WHERE id=#{id}")
+    void deletePBInformationById(@Param("id")Integer id);
+
+    /**
+     * 根据projectEntityUuid、processDefineId删除Declaration公告
+     * @param projectEntityUuid projectEntity Uuid
+     * @param processDefineId process Define Id
+     */
+    @Delete("DELETE FROM projectdeclarationform WHERE projectEntityUuid=#{projectEntityUuid} AND processDefineId=#{processDefineId}")
+    void deleteDeclaration(@Param("projectEntityUuid")String projectEntityUuid, @Param("processDefineId")String processDefineId);
+
+
+    /**
+     * 根据业务主体id 更新 projectDeclarationForm
+     * @param pbep pbep 实体
+     */
+    @Update("UPDATE projectdeclarationform " +
+            "SET businessEntityUuid=#{pbep.businessEntityUuid}, processDefineId=#{pbep.processDefineId}" +
+            "WHERE projectEntityUuid=#{pbep.projectEntityUuid}")
+    void projectDeclarationForm(@Param("pbep")Pbep pbep);
 }

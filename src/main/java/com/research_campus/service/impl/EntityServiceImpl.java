@@ -67,5 +67,26 @@ public class EntityServiceImpl implements IEntityService {
         entityDao.addPBEDetail(pbep);
     }
 
+    @Override
+    public void modifyPbep(Pbep pbep, String id) {
+        entityDao.modifyPbep(pbep, id);
+    }
+
+    @Override
+    public void deletePBInformationById(Integer id) {
+        entityDao.deletePBInformationById(id);
+    }
+
+    @Override
+    public void deleteDeclaration(String projectEntityUuid, String processDefineId) {
+        entityDao.deleteDeclaration(projectEntityUuid, processDefineId);
+    }
+
+    @Override
+    public void projectDeclarationForm(Pbep pbep) {
+        entityDao.projectDeclarationForm(pbep);
+
+    }
+
 
 }

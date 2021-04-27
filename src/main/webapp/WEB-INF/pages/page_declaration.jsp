@@ -100,7 +100,7 @@
                                     <button class="btn btn-primary">详细信息</button>
                                     <button class="btn btn-default float-right"
                                             declarationName="<c:out value="${node.declarationName}"/>"
-                                            processInstanceId="<c:out value="${node.processInstanceId}"/>"
+                                            processDefineId="<c:out value="${node.processDefineId}"/>"
                                             declarationUuid="<c:out value="${node.declarationUuid}"/>"
                                             onclick="toDeclaration(this)">
                                         立即申报
@@ -143,22 +143,22 @@
     function toDeclaration(obj) {
         // 增加弹窗信息
         var declarationName = $(obj).attr("declarationName");
-        var processInstanceId = $(obj).attr("processInstanceId");
+        var processDefineId = $(obj).attr("processDefineId");
         var declarationUuid = $(obj).attr("declarationUuid");
         $('#declarationName').html("是否申请" + declarationName + "?");
         // 弹出模态窗口
         $('#toDeclaration').attr({
-            processInstanceId: processInstanceId,
+            processDefineId: processDefineId,
             declarationUuid:declarationUuid
         })
         $('#modal-default').modal("show");
     }
 
     function declarationProject(obj){
-        var processInstanceId = $(obj).attr("processInstanceId");
+        var processDefineId = $(obj).attr("processDefineId");
         var declarationUuid = $(obj).attr("declarationUuid");
 
-        var json_data = {processInstanceId: processInstanceId, declarationUuid:declarationUuid}
+        var json_data = {processDefineId: processDefineId, declarationUuid:declarationUuid}
         $.ajax({
             //发送请求URL，可使用相对路径也可使用绝对路径
             url: "${pageContext.request.contextPath}/declarationProject",

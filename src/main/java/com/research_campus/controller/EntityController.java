@@ -1,30 +1,28 @@
 package com.research_campus.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.qcloud.cos.model.PutObjectResult;
 import com.research_campus.domain.*;
 import com.research_campus.service.IDeclarationService;
 import com.research_campus.service.IEntityService;
-import com.research_campus.utils.activiti.ActivitiMapTool;
 import com.research_campus.utils.activiti.IDGenerator;
-import org.activiti.engine.form.TaskFormData;
-import org.activiti.engine.repository.ProcessDefinition;
-import org.activiti.engine.repository.ProcessDefinitionQuery;
+import com.research_campus.utils.tencentCloudCos.CosClientTool;
+import org.activiti.engine.RepositoryService;
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +33,7 @@ import java.util.Map;
  */
 @Controller
 public class EntityController {
+    private static final Logger LOGGER = Logger.getLogger(ActivitiController.class);
 
     IEntityService entityService;
 
@@ -48,6 +47,27 @@ public class EntityController {
     @Autowired
     public void setDeclarationService(IDeclarationService declarationService) {
         this.declarationService = declarationService;
+    }
+
+    CosClientTool clientTool;
+
+    @Autowired
+    public void setClientTool(CosClientTool clientTool) {
+        this.clientTool = clientTool;
+    }
+
+    RepositoryService repositoryService;
+
+    @Autowired
+    public void setRepositoryService(RepositoryService repositoryService) {
+        this.repositoryService = repositoryService;
+    }
+
+    RuntimeService runtimeService;
+
+    @Autowired
+    public void setRuntimeService(RuntimeService runtimeService) {
+        this.runtimeService = runtimeService;
     }
 
     @RequestMapping("/projectEntityManager")
@@ -296,7 +316,6 @@ public class EntityController {
         declaration.setDeclarationName(map.get("declarationName"));
         declaration.setDeclarationAnnouncement(map.get("declarationAnnouncement"));
         declaration.setDeclarationOverview(map.get("declarationOverview"));
-        System.out.println(map.get("declarationOverview"));
         declaration.setBusinessEntityUuid(map.get("businessEntityUuid"));
         declaration.setProjectEntityUuid(map.get("projectEntityUuid"));
         declaration.setProcessDefineId(map.get("processDefineId"));
@@ -324,6 +343,158 @@ public class EntityController {
 
         json.put("code", code);
         json.put("declaration", declaration);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        response.getWriter().print(json.toJSONString());
+    }
+
+    @RequestMapping(value = "/applyDeclarationDetailHtml", method = RequestMethod.POST)
+    @ResponseBody
+    public void applyDeclarationDetailHtml(@RequestBody HashMap<String, String> map, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        JSONObject json = new JSONObject();
+        PutObjectResult putObjectResult = new PutObjectResult();
+        int code = 200;
+
+        // 获取declarationUuid
+        String declarationDetailHtml = map.get("declarationDetailHtml");
+        String declarationDetailUrl = map.get("declarationDetailUrl");
+        String declarationUuid = map.get("declarationDetail.declarationUuid");
+
+        if(declarationDetailUrl == null){
+            String uuid = IDGenerator.getUuid();
+            declarationDetailHtml = new String(declarationDetailHtml.getBytes("GBK"));
+
+            try {
+                // 上传declarationDetailHtml信息
+                putObjectResult = clientTool.uploadFileWithExtension(uuid, declarationDetailHtml, "html", "declarationDetail");
+                // 向数据库添加信息
+                declarationService.addDeclarationUrlByDeclarationUuid(uuid, declarationUuid);
+
+            }catch (Exception e){
+                code = 400;
+                e.printStackTrace();
+            }
+        } else {
+            declarationDetailHtml = new String(declarationDetailHtml.getBytes("GBK"));
+            try {
+                // 上传declarationDetailHtml信息
+                putObjectResult = clientTool.uploadFileWithExtension(declarationDetailUrl, declarationDetailHtml, "html", "declarationDetail");
+            } catch (Exception e) {
+                code = 400;
+                e.printStackTrace();
+            }
+        }
+
+
+        System.out.println("上传结果 " + putObjectResult);
+        json.put("code", code);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        response.getWriter().print(json.toJSONString());
+    }
+
+    @RequestMapping(value = "/changePBInformation")
+    @ResponseBody
+    public void changePBInformation(String projectEntityUuid, String businessEntityUuid, String processDefineId, String id, HttpServletResponse response, HttpServletRequest request) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        int code = 200;
+        String msg = "配置信息更改成功！";
+
+        // 在数据库中保存BPMN数据
+        try {
+            Pbep pbep = new Pbep();
+            pbep.setBusinessEntityUuid(businessEntityUuid);
+            pbep.setProjectEntityUuid(projectEntityUuid);
+            pbep.setProcessDefineId(processDefineId);
+
+            entityService.modifyPbep(pbep, id);
+
+            // projectDeclarationForm中也需要修改
+            entityService.projectDeclarationForm(pbep);
+
+        }catch (Exception e){
+            code = 400;
+            msg = "配置信息更改失败！";
+            e.printStackTrace();
+        }
+        json.put("code", code);
+        json.put("Msg", msg);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        response.getWriter().print(json.toJSONString());
+    }
+
+    @RequestMapping(value = "/deletePBInformation", method = RequestMethod.POST)
+    @ResponseBody
+    public void deletePBInformation(@RequestBody HashMap<String, String> map, HttpServletResponse response) throws Exception {
+        // 根据 id 删除 pb_entity_processDefine
+        Integer id = Integer.parseInt(map.get("id"));
+        String projectEntityUuid = map.get("projectEntityUuid");
+        String processDefineId = map.get("processDefineId");
+
+        JSONObject json = new JSONObject();
+        int code = 200;
+        String msg = "删除项目实体成功！";
+
+        try {
+            // 根据ID删除pb_entity_processdefine数据
+            entityService.deletePBInformationById(id);
+
+            // 根据projectEntityUuid和processDefineId删除projectdeclarationform
+            entityService.deleteDeclaration(projectEntityUuid, processDefineId);
+
+        }catch (Exception e){
+            code = 400;
+            msg = "删除项目实体失败！";
+            e.printStackTrace();
+        }
+        json.put("code", code);
+        json.put("msg", msg);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        response.getWriter().print(json.toJSONString());
+    }
+
+    @RequestMapping(value = "/declarationProject", method = RequestMethod.POST)
+    @ResponseBody
+    public void declarationProject(@RequestBody HashMap<String, String> map, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        String processDefineId = map.get("processDefineId");
+        String declarationUuid = map.get("declarationUuid");
+
+        HttpSession session = request.getSession();
+        String userUuid = (String) session.getAttribute("uuid");
+
+        JSONObject json = new JSONObject();
+        int code = 200;
+        String msg = "删除项目实体成功！";
+
+        // 是否要填入初始化用户信息？ ↓ 存入用户uuid
+        HashMap<String, Object> hashMap = new HashMap<String, Object>();
+        hashMap.put("userUuid", userUuid);
+//
+//        ProcessInstance processInstance = runtimeService
+//                .startProcessInstanceById(processDefinition.getId(), map);
+
+        ProcessInstance processInstance = runtimeService
+                .startProcessInstanceById(processDefineId, hashMap);
+        // 动作数据 存入 user process action 表中
+        // 返回表单数据
+        // 根据Activiti
+        try {
+
+
+        }catch (Exception e){
+            code = 400;
+            msg = "删除项目实体失败！";
+            e.printStackTrace();
+        }
+
+        LOGGER.info("processInstance = {}, process'key = {}, process'name = {}");
+
+        json.put("code", code);
+        json.put("msg", msg);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         response.getWriter().print(json.toJSONString());

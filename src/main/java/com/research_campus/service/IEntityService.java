@@ -70,4 +70,30 @@ public interface IEntityService {
      * @param pbep pbep pojo
      */
     void addPBEDetail(Pbep pbep);
+
+    /**
+     * 更改pbep信息
+     * @param pbep pbep pojo
+     * @param id pbep id
+     */
+    void modifyPbep(Pbep pbep, String id);
+
+    /**
+     * 根据Id删除PBIformation
+     * @param id PBInformation id
+     */
+    void deletePBInformationById(Integer id);
+
+    /**
+     * 根据projectEntityUuid、processDefineId 删除 Declaration
+     * @param projectEntityUuid project Entity Uuid
+     * @param processDefineId process Define Id
+     */
+    void deleteDeclaration(String projectEntityUuid, String processDefineId);
+
+    /**
+     * 伴随businessEntity内容的更改 projectdeclarationform 表单信息更改
+     * @param pbep pbep pojo
+     */
+    void projectDeclarationForm(Pbep pbep);
 }

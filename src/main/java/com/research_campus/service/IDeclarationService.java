@@ -27,4 +27,18 @@ public interface IDeclarationService {
      * @param declaration declaration pojo 实体
      */
     void modifyDeclaration(Declaration declaration);
+
+    /**
+     * 添加declaration url 信息 by uuid
+     * @param uuid declaration url
+     * @param declarationUuid declaration uuid
+     */
+    void addDeclarationUrlByDeclarationUuid(String uuid, String declarationUuid);
+
+    /**
+     * 根据BusinessEntityUuid检索 declaration 公告
+     * @param businessEntityUuid businessEntityUUid 业务主体
+     * @return List Declaration
+     */
+    List<Declaration> getDeclarationByBusinessEntityUuid(String businessEntityUuid);
 }

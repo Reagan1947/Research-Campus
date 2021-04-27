@@ -49,6 +49,22 @@
 
 <!-- 用于 边栏的激活 -->
 <script>
+    function getQueryVariable(variable)
+    {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+            var pair = vars[i].split("=");
+            if(pair[0] == variable){return pair[1];}
+        }
+        return(false);
+    }
+
+    function getUrlname(url){ //假如传进来的url是 http://www.qq.com/index.html?name=joey 这里一共是有3个斜杠,如果我们想获取index.html
+        url=url.split('?')[0] ;// 我们只要?号前的
+        var urlSlashCount=url.split('/').length; // 统计有3斜杠
+        return url.split('/')[urlSlashCount-1]; //获取数组最后一个
+    }
 
     function deleteParagram(){
         var url = window.location.href;                    //获取当前页面的url
@@ -60,7 +76,16 @@
     }
 
     $(function () {
-        var url = deleteParagram();
+        var url = "";
+        // 如果地址是businessEntityDetail 并且有businessEntityUuid参数
+        console.log("url Name 是：" + getUrlname(window.location.href))
+        console.log("参数为：" + getUrlname(window.location.href))
+
+        if((getUrlname(window.location.href) === "businessEntityDetail" || getUrlname(window.location.href) === "toDeclarationPage") && getQueryVariable("businessEntityUuid") !== false){
+            url = window.location.href;
+        } else {
+            url = deleteParagram();
+        }
         console.log("当前URL：" + url)
         // for single sidebar menu
         $('ul.nav-sidebar a').filter(function () {
@@ -83,6 +108,7 @@
             .addClass('menu-open').prev('a')
             .addClass('active');
     });
+
 </script>
 
 <script>

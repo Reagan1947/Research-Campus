@@ -36,4 +36,14 @@ public class DeclarationServiceImpl implements IDeclarationService {
     public void modifyDeclaration(Declaration declaration) {
         declarationDao.modifyDeclaration(declaration);
     }
+
+    @Override
+    public void addDeclarationUrlByDeclarationUuid(String uuid, String declarationUuid) {
+        declarationDao.addDeclarationUrlByDeclarationUuid(uuid, declarationUuid);
+    }
+
+    @Override
+    public List<Declaration> getDeclarationByBusinessEntityUuid(String businessEntityUuid) {
+        return declarationDao.getDeclarationByBusinessEntityUuid(businessEntityUuid);
+    }
 }

@@ -29,13 +29,19 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>公告编辑</h1>
+                        <h1>
+                            公告编辑
+                            <span style="margin-left: 5px; display: inline-block; text-decoration:underline; font-size: 15px;">
+                                    <a href="${pageContext.request.contextPath}/businessEntityDetail?businessEntityUuid=${businessEntity.businessEntityUuid}">← 返回${businessEntity.businessEntityName}</a></span>
+                        </h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">主页
                             </a></li>
-                            <li class="breadcrumb-item active">公告编辑</li>
+                            <li class="breadcrumb-item active">
+                                公告编辑
+                            </li>
                         </ol>
                     </div>
                 </div>
@@ -173,7 +179,7 @@
         if (vue_data.declarationDetail.hasOwnProperty("projectBodyInformationUrl")) {
             $.ajax({
                 type: 'get',
-                url: 'https://${sessionScope.bucketName}.cos.${sessionScope.region}.myqcloud.com' + vue_data.declarationDetail.projectBodyInformationUrl,
+                url: 'https://${sessionScope.bucketName}.cos.${sessionScope.region}.myqcloud.com/declarationDetail/' + vue_data.declarationDetail.projectBodyInformationUrl + ".html",
                 async: false, //同步传输，并添加返回值，返回值应为已定义的全局变量 如a
                 success: function (data) {//返回json结果
                     vue_data.declarationDetailHtml = data;
@@ -183,6 +189,8 @@
 
         $('#summernote').summernote('code', vue_data.declarationDetailHtml)
     });
+
+    var controllerTag = 1;
 
     Vue.prototype.$http = axios;
     var app = new Vue({
@@ -198,40 +206,55 @@
                     }
                 }
                 this.$http.post('${pageContext.request.contextPath}/applyDynamicFormInfChange', vue_data.dynamicFormInf, config).then(function (res) {
-                    if (res.status === 200) {
+                    if (res.code === 200) {
                         toastr.success("表单信息更改成功！");
-                    } else if (res.status === 400) {
+                    } else if (res.code === 400) {
                         toastr.error("表单信息更改失败！");
                     }
                 })
             },
-            saveDeclarationInf: function (event) {
-                var controllerTag = 1;
-                var declarationDetailUrl = vue_data.declarationDetail.projectBodyInformationUrl;
+            saveDeclarationInf: async function (event) {
+                event.preventDefault();
+                // 保存基础信息
+                let declaration = await this.applyDeclarationDetail();
+                // 保存内容详细
+                await this.applyDeclarationDetailHtml(declaration);
+                // 判断是否上传成功
+            },
+            applyDeclarationDetailHtml: async function (declaration) {
                 var declarationBodyInf = {
-                    declarationDetailUrl: declarationDetailUrl,
-                    declarationDetailHtml: vue_data.declarationDetailHtml
+                    declarationDetailUrl: vue_data.declarationDetail.projectBodyInformationUrl,
+                    declarationDetailHtml: $('#summernote').summernote('code'),
+                    declarationDetail: JSON.stringify(declaration),
                 }
 
-                event.preventDefault();
+                let config = {
+                    headers: {
+                        'Content-Type': 'application/json;character:utf-8'
+                    }
+                }
+                this.$http.post('${pageContext.request.contextPath}/applyDeclarationDetailHtml', JSON.stringify(declarationBodyInf), config).then(function (res) {
+                    if (res.code === 400) {
+                        controllerTag = 0;
+                    }
+                })
+            },
+            applyDeclarationDetail: async function () {
+                var declaration = {};
                 let config = {
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 }
-                // 保存基础信息
-                this.$http.post('${pageContext.request.contextPath}/applyDeclarationDetail', vue_data.declarationDetail, config).then(function (res) {
+                await this.$http.post('${pageContext.request.contextPath}/applyDeclarationDetail', vue_data.declarationDetail, config).then(function (res) {
+                    if (res.status === 200) {
+                        declaration = res.data.declaration;
+                    }
                     if (res.status === 400) {
                         controllerTag = 0;
                     }
                 })
-                // 保存内容详细
-                this.$http.post('${pageContext.request.contextPath}/applyDeclarationDetailHtml', declarationBodyInf, config).then(function (res) {
-                    if (res.status === 400) {
-                        controllerTag = 0;
-                    }
-                })
-                // 判断是否上传成功
+                return declaration;
             }
         }
     });

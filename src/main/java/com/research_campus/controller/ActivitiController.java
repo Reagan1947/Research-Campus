@@ -613,9 +613,9 @@ public class ActivitiController {
     }
 
     @RequestMapping("/toDeclarationPage")
-    public ModelAndView directToDeclaration(HttpServletRequest request) throws Exception{
+    public ModelAndView directToDeclaration(String businessEntityUuid) throws Exception{
 
-        List<Declaration> declarations = declarationService.getAllDeclaration();
+        List<Declaration> declarations = declarationService.getDeclarationByBusinessEntityUuid(businessEntityUuid);
 
         ModelAndView mv = new ModelAndView();
         //添加模型数据 可以是任意的POJO对象
