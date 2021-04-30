@@ -167,11 +167,40 @@
                     </ul>
                 </li>
 
-                <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/toUserGroupPage" class="nav-link">
+<%--                <li class="nav-item">--%>
+<%--                    <a href="${pageContext.request.contextPath}/toUserGroupPage" class="nav-link">--%>
+<%--                        <i class="nav-icon fas fa-id-card-alt"></i>--%>
+<%--                        <p>用户与用户组</p>--%>
+<%--                    </a>--%>
+<%--                </li>--%>
+
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-id-card-alt"></i>
-                        <p>用户与用户组</p>
+                        <p>用户与用户组
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="${pageContext.request.contextPath}/toUserGroupPage" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>用户组管理</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="${pageContext.request.contextPath}/formBuilder" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>科研秘书用户组管理</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="${pageContext.request.contextPath}/formBuilder" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>科研处用户组管理</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
                 <li class="nav-header">科研系统管理</li>
