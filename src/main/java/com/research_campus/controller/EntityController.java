@@ -6,6 +6,7 @@ import com.research_campus.domain.*;
 import com.research_campus.service.IDeclarationService;
 import com.research_campus.service.IEntityService;
 import com.research_campus.utils.activiti.IDGenerator;
+import com.research_campus.utils.activiti.TaskMore;
 import com.research_campus.utils.tencentCloudCos.CosClientTool;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -445,6 +447,7 @@ public class EntityController {
             // user 信息 Map
             HashMap<String, Object> userMap = new HashMap<String, Object>();
             userMap.put("userUuid", userUuid);
+            userMap.put("proBusUuid", proBus.getProBusUuid());
 
             // 添加 userUuid 信息并启动流程
             ProcessInstance processInstance = runtimeService.startProcessInstanceById(processDefineId, userMap);
@@ -475,12 +478,31 @@ public class EntityController {
     @RequestMapping("/myResearchProject")
     public ModelAndView directToMyResearchProject(HttpServletRequest request) throws Exception {
         ModelAndView mv = new ModelAndView();
+        List<TaskMore> taskMoreList = new ArrayList<>();
 
         HttpSession session = request.getSession();
         String assignee = (String) session.getAttribute("uuid");
         List<Task> taskList = taskService.createTaskQuery().taskAssignee(assignee).list();
 
-        mv.addObject("taskList", taskList);
+        for(Task task: taskList){
+           TaskMore taskMore = new TaskMore();
+           taskMore.setTask(task);
+
+            // 获取 proBusUuid
+            String proBusUuid = (String) taskService.getVariable(task.getId(), "proBusUuid");
+
+            // 根据 proBusUuid 查询 proBus
+            ProBus proBus = entityService.selectProBusByProBusUuid(proBusUuid);
+            taskMore.setProBus(proBus);
+
+            // 根据 projectUuid 查询 projectEntity
+            ProjectEntity projectEntity = entityService.getProjectEntityByUuid(proBus.getProjectEntityUuid());
+            taskMore.setProjectEntity(projectEntity);
+
+            taskMoreList.add(taskMore);
+        }
+
+        mv.addObject("taskMoreList", taskMoreList);
 
         mv.setViewName("page_myResearchProject");
 

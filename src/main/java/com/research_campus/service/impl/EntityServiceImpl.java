@@ -114,4 +114,9 @@ public class EntityServiceImpl implements IEntityService {
     public void removeDeclarationProBusConnect(String proBusUuid) {
         declarationDao.deleteDeclarationProBusConnect(proBusUuid);
     }
+
+    @Override
+    public ProBus selectProBusByProBusUuid(String proBusUuid) {
+        return entityDao.selectProBusByProBusUuid(proBusUuid);
+    }
 }

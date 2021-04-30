@@ -47,20 +47,24 @@
             <div class="container-fluid">
                 <div class="row">
 
-                    <c:forEach items="${taskList}" var="task">
+                    <c:forEach items="${taskMoreList}" var="taskMore">
                         <div class="col-lg-6">
                             <div class="card">
                                 <div class="card-body">
-                                    <p class="card-title" style="font-weight: 550; display: contents;">${task.name}</p>
+                                    <p class="card-title" style="display:contents;">
+                                        <span style="font-weight: 550;">${taskMore.task.name}</span> |
+                                        <span>${taskMore.projectEntity.projectEntityName}</span>
+                                    </p>
                                     <hr>
                                     <p class="card-text">
                                     <p>
-                                        <span><i class="fas fa-clock fa-fw"></i> ${task.createTime} </span>
+                                        <span><i class="fas fa-clock fa-fw"></i> ${taskMore.task.createTime} </span>
                                     <br>
-                                        <span><i class="fas fa-pen-square fa-fw"></i> Task-ID-${task.id} </span>
+                                        <span><i class="fas fa-pen-square fa-fw"></i> Task-ID-${taskMore.task.id} </span>
                                     </p>
                                     </p>
-                                    <button type="button" class="btn btn-primary">立即处理</button>
+                                    <button type="button" class="btn btn-primary" onclick="toApplyBusinessEntity('${taskMore.task.id}')">立即处理</button> &nbsp;&nbsp;
+                                    <button type="button" class="btn btn-default">撤销申请</button>
                                 </div>
                             </div>
                         </div>
@@ -88,7 +92,9 @@
 <!-- 页面jsr / -->
 
 <script>
-
+ function toApplyBusinessEntity(taskId) {
+     window.location.href = "${pageContext.request.contextPath}/toBusinessEntityDynamicForm?taskId=" + taskId;
+ }
 </script>
 </body>
 </html>

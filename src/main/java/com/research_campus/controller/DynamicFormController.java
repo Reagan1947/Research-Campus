@@ -3,12 +3,19 @@ package com.research_campus.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSON;
-import com.research_campus.domain.BpmnList;
-import com.research_campus.domain.DynamicForm;
+import com.research_campus.domain.*;
+import com.research_campus.service.IDeclarationService;
 import com.research_campus.service.IDynamicFormService;
+import com.research_campus.service.IEntityService;
+import com.research_campus.service.impl.DeclarationServiceImpl;
 import com.research_campus.utils.activiti.IDGenerator;
 import com.research_campus.utils.stream.ConvertUtil;
 import com.research_campus.utils.tencentCloudCos.CosClientTool;
+import org.activiti.engine.FormService;
+import org.activiti.engine.ProcessEngine;
+import org.activiti.engine.TaskService;
+import org.activiti.engine.form.TaskFormData;
+import org.activiti.engine.task.Task;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,11 +44,32 @@ import java.util.Map;
 public class DynamicFormController {
     private static final Logger LOGGER = Logger.getLogger(ActivitiController.class);
 
+    ProcessEngine processEngine;
+
+    @Autowired
+    public void setProcessEngine(ProcessEngine processEngine) {
+        this.processEngine = processEngine;
+    }
+
+    IEntityService entityService;
+
+    @Autowired
+    public void setEntityService(IEntityService entityService) {
+        this.entityService = entityService;
+    }
+
     IDynamicFormService dynamicFormService;
 
     @Autowired
-    public DynamicFormController(IDynamicFormService dynamicFormService) {
+    public void setDynamicFormService(IDynamicFormService dynamicFormService) {
         this.dynamicFormService = dynamicFormService;
+    }
+
+    IDeclarationService declarationService;
+
+    @Autowired
+    public void setDeclarationService(IDeclarationService declarationService) {
+        this.declarationService = declarationService;
     }
 
     CosClientTool clientTool;
@@ -251,29 +279,61 @@ public class DynamicFormController {
             msg= "信息更改失败！";
             e.printStackTrace();
         }
-//
-//        // 将json String 转化为json对象
-//        JSONObject dynamicFormJsonObject = JSONObject.parseObject(dynamicForm.getFormJson());
-//
-//        // 解析控件信息并存入Map中
-//        Map<String, String> tableFields = new IdentityHashMap<>();
-//        JSONArray jsonArray = dynamicFormJsonObject.getJSONArray("list");
-//        for (Object o : jsonArray) {
-//            JSONObject object = (JSONObject) o;
-//            tableFields.put((String) object.get("type"), (String) object.get("key"));
-//        }
-//
-//        String tableName = "dynamic_" + dynamicForm.getUuid();
-//
-//        LOGGER.info("动态表单tableFiles控件Map：" + tableFields);
-//
-//        // 使用AutoCreate创建数据表
-//        dynamicFormService.autoCreateTask(tableName,tableFields);
 
         json.put("code", code);
         json.put("msg", msg);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         response.getWriter().print(json.toJSONString());
+    }
+
+    @RequestMapping("/toBusinessEntityDynamicForm")
+    public ModelAndView toBusinessEntityDynamicForm(String taskId) throws Exception{
+        // 通过 Activiti formService 获取 formKey
+        FormService formService = processEngine.getFormService();
+        TaskService taskService = processEngine.getTaskService();
+        TaskFormData formData = formService.getTaskFormData(taskId);
+        String formKey = formData.getFormKey();
+        Declaration declaration = new Declaration();
+        BusinessEntity businessEntity = new BusinessEntity();
+        ProBus proBus = new ProBus();
+        ProjectEntity projectEntity = new ProjectEntity();
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+
+        // 根据uuid查询流程图的具体信息
+        DynamicForm dynamicForm = new DynamicForm();
+
+        try {
+            dynamicForm = dynamicFormService.getDynamicFormJsonByUuid(formKey);
+
+            // 获取 proBusUuid
+            String proBusUuid = (String) taskService.getVariable(taskId, "proBusUuid");
+
+            // 根据 proBusUuid 查询 proBus
+            proBus = entityService.selectProBusByProBusUuid(proBusUuid);
+
+            // 根据 businessEntityUuid 查询 businessEntity
+            businessEntity = entityService.getBusinessEntityByUuid(proBus.getBusinessEntityUuid());
+
+            // 根据 proBusUuid 查询 declaration
+            declaration = declarationService.getDeclarationByProBusUuid(proBusUuid);
+
+            // 根据 projectUuid 查询 projectEntity
+            projectEntity = entityService.getProjectEntityByUuid(proBus.getProjectEntityUuid());
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        ModelAndView mv = new ModelAndView();
+        //添加模型数据 可以是任意的POJO对象
+        mv.addObject("dynamicForm", JSON.toJSONString(dynamicForm.getFormJson()));
+        mv.addObject("declaration", declaration);
+        mv.addObject("businessEntity", businessEntity);
+        mv.addObject("task", task);
+        mv.addObject("projectEntity", projectEntity);
+
+        mv.setViewName("page_showDynamicForm");
+
+        return mv;
     }
 }

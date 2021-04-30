@@ -119,4 +119,11 @@ public interface IEntityService {
      * @param proBusUuid proBusUuid
      */
     void removeDeclarationProBusConnect(String proBusUuid);
+
+    /**
+     * 根据 proBusUui 查询 proBus
+     * @param proBusUuid proBusUuid
+     * @return ProBus pojo
+     */
+    ProBus selectProBusByProBusUuid(String proBusUuid);
 }

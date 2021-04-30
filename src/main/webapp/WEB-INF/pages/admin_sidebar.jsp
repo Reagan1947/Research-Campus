@@ -167,6 +167,13 @@
                     </ul>
                 </li>
 
+                <li class="nav-item">
+                    <a href="${pageContext.request.contextPath}/toUserGroupPage" class="nav-link">
+                        <i class="nav-icon fas fa-id-card-alt"></i>
+                        <p>用户与用户组</p>
+                    </a>
+                </li>
+
                 <li class="nav-header">科研系统管理</li>
 
                 <li class="nav-item">
