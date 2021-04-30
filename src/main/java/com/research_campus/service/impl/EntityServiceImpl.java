@@ -1,5 +1,6 @@
 package com.research_campus.service.impl;
 
+import com.research_campus.dao.IDeclarationDao;
 import com.research_campus.dao.IEntityDao;
 import com.research_campus.domain.*;
 import com.research_campus.service.IEntityService;
@@ -20,6 +21,13 @@ public class EntityServiceImpl implements IEntityService {
     @Autowired
     public void setEntityDao(IEntityDao entityDao) {
         this.entityDao = entityDao;
+    }
+
+    IDeclarationDao declarationDao;
+
+    @Autowired
+    public void setDeclarationDao(IDeclarationDao declarationDao) {
+        this.declarationDao = declarationDao;
     }
 
     @Override
@@ -43,8 +51,8 @@ public class EntityServiceImpl implements IEntityService {
     }
 
     @Override
-    public List<PbpInformation> getPbpInformationByBeUuid(String businessEntityUuid) {
-        return entityDao.getPbpInformation(businessEntityUuid);
+    public List<ProBusDetail> findProBusDetailByBusinessEntityUuid(String businessEntityUuid) {
+        return entityDao.selectProBusDetailByBusinessEntityUuid(businessEntityUuid);
     }
 
     @Override
@@ -63,30 +71,47 @@ public class EntityServiceImpl implements IEntityService {
     }
 
     @Override
-    public void addPBEDetail(Pbep pbep) {
-        entityDao.addPBEDetail(pbep);
+    public void addProBus(ProBus proBus) {
+        entityDao.addProBus(proBus);
     }
 
     @Override
-    public void modifyPbep(Pbep pbep, String id) {
-        entityDao.modifyPbep(pbep, id);
+    public void delete(Integer id) {
+
     }
 
     @Override
-    public void deletePBInformationById(Integer id) {
-        entityDao.deletePBInformationById(id);
+    public void modifyProBus(ProBus proBus) {
+        entityDao.modifyProBus(proBus);
     }
 
     @Override
-    public void deleteDeclaration(String projectEntityUuid, String processDefineId) {
-        entityDao.deleteDeclaration(projectEntityUuid, processDefineId);
+    public void projectDeclarationForm(ProBus proBus) {
+        entityDao.projectDeclarationForm(proBus);
     }
 
     @Override
-    public void projectDeclarationForm(Pbep pbep) {
-        entityDao.projectDeclarationForm(pbep);
-
+    public void removeProBusByProBusUuid(String proBusUuid) {
+        entityDao.deleteProBusByProBusUuid(proBusUuid);
     }
 
+    @Override
+    public String findDeclarationUuidByProBusUuid(String proBusUuid) {
+        return declarationDao.selectDeclarationUuidByProBusUuid(proBusUuid);
+    }
 
+    @Override
+    public String findProjectBodyInformationUrlByDeclarationUuid(String declarationUuid) {
+        return declarationDao.selectProjectBodyInformationUrlByDeclarationUuid(declarationUuid);
+    }
+
+    @Override
+    public void removeDeclarationByDeclarationUuid(String declarationUuid) {
+        declarationDao.deleteDeclarationByDeclarationUuid(declarationUuid);
+    }
+
+    @Override
+    public void removeDeclarationProBusConnect(String proBusUuid) {
+        declarationDao.deleteDeclarationProBusConnect(proBusUuid);
+    }
 }

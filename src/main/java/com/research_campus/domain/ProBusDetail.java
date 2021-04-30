@@ -5,7 +5,7 @@ package com.research_campus.domain;
  * PBP pojo类型
  * @author buwan
  */
-public class PbpInformation {
+public class ProBusDetail {
     private Integer id;
     private String projectEntityUuid;
     private String businessEntityUuid;
@@ -13,6 +13,7 @@ public class PbpInformation {
     private BusinessEntity businessEntity;
     private String processDefineId;
     private String processDefineName;
+    private String proBusUuid;
 
 
     public ProjectEntity getProjectEntity() {
@@ -71,9 +72,17 @@ public class PbpInformation {
         this.processDefineName = processDefineName;
     }
 
+    public String getProBusUuid() {
+        return proBusUuid;
+    }
+
+    public void setProBusUuid(String proBusUuid) {
+        this.proBusUuid = proBusUuid;
+    }
+
     @Override
     public String toString() {
-        return "PbpInformation{" +
+        return "ProBusDetail{" +
                 "id=" + id +
                 ", projectEntityUuid='" + projectEntityUuid + '\'' +
                 ", businessEntityUuid='" + businessEntityUuid + '\'' +
@@ -81,6 +90,7 @@ public class PbpInformation {
                 ", businessEntity=" + businessEntity +
                 ", processDefineId='" + processDefineId + '\'' +
                 ", processDefineName='" + processDefineName + '\'' +
+                ", proBusUuid='" + proBusUuid + '\'' +
                 '}';
     }
 }

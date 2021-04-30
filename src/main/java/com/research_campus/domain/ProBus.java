@@ -4,10 +4,11 @@ package com.research_campus.domain;
  * projectEntity businessEntity processDefine Id
  * @author buwan
  */
-public class Pbep {
+public class ProBus {
     private String projectEntityUuid;
     private String businessEntityUuid;
     private String processDefineId;
+    private String proBusUuid;
 
     public String getProjectEntityUuid() {
         return projectEntityUuid;
@@ -33,12 +34,21 @@ public class Pbep {
         this.processDefineId = processDefineId;
     }
 
+    public String getProBusUuid() {
+        return proBusUuid;
+    }
+
+    public void setProBusUuid(String proBusUuid) {
+        this.proBusUuid = proBusUuid;
+    }
+
     @Override
     public String toString() {
-        return "Pbep{" +
+        return "ProBus{" +
                 "projectEntityUuid='" + projectEntityUuid + '\'' +
                 ", businessEntityUuid='" + businessEntityUuid + '\'' +
                 ", processDefineId='" + processDefineId + '\'' +
+                ", proBusUuid='" + proBusUuid + '\'' +
                 '}';
     }
 }

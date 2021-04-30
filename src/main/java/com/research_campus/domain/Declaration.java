@@ -10,10 +10,7 @@ public class Declaration {
     private String projectBodyInformationUrl;
     private String declarationAnnouncement;
     private String declarationOverview;
-    private String processDefineId;
     private String declarationUuid;
-    private String projectEntityUuid;
-    private String businessEntityUuid;
 
     public Integer getId() {
         return id;
@@ -55,36 +52,12 @@ public class Declaration {
         this.declarationOverview = declarationOverview;
     }
 
-    public String getProcessDefineId() {
-        return processDefineId;
-    }
-
-    public void setProcessDefineId(String processDefineId) {
-        this.processDefineId = processDefineId;
-    }
-
     public String getDeclarationUuid() {
         return declarationUuid;
     }
 
     public void setDeclarationUuid(String declarationUuid) {
         this.declarationUuid = declarationUuid;
-    }
-
-    public String getProjectEntityUuid() {
-        return projectEntityUuid;
-    }
-
-    public void setProjectEntityUuid(String projectEntityUuid) {
-        this.projectEntityUuid = projectEntityUuid;
-    }
-
-    public String getBusinessEntityUuid() {
-        return businessEntityUuid;
-    }
-
-    public void setBusinessEntityUuid(String businessEntityUuid) {
-        this.businessEntityUuid = businessEntityUuid;
     }
 
     @Override
@@ -95,10 +68,7 @@ public class Declaration {
                 ", projectBodyInformationUrl='" + projectBodyInformationUrl + '\'' +
                 ", declarationAnnouncement='" + declarationAnnouncement + '\'' +
                 ", declarationOverview='" + declarationOverview + '\'' +
-                ", processDefineId='" + processDefineId + '\'' +
                 ", declarationUuid='" + declarationUuid + '\'' +
-                ", projectEntityUuid='" + projectEntityUuid + '\'' +
-                ", businessEntityUuid='" + businessEntityUuid + '\'' +
                 '}';
     }
 }

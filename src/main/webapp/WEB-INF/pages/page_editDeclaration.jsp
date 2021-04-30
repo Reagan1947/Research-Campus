@@ -32,7 +32,7 @@
                         <h1>
                             公告编辑
                             <span style="margin-left: 5px; display: inline-block; text-decoration:underline; font-size: 15px;">
-                                    <a href="${pageContext.request.contextPath}/businessEntityDetail?businessEntityUuid=${businessEntity.businessEntityUuid}">← 返回${businessEntity.businessEntityName}</a></span>
+                                    <a href="${pageContext.request.contextPath}/businessEntity?businessEntityUuid=${businessEntity.businessEntityUuid}">← 返回${businessEntity.businessEntityName}</a></span>
                         </h1>
                     </div>
                     <div class="col-sm-6">
@@ -62,20 +62,20 @@
                                         <label for="declarationName">公告名称</label>
                                         <input type="text" class="form-control" id="declarationName"
                                                placeholder="Declaration Name"
-                                               v-model="declarationDetail.declarationName">
+                                               v-model="declarationData.declarationName">
                                     </div>
                                     <div class="form-group">
                                         <label>公告概览</label>
                                         <textarea class="form-control" rows="3" placeholder="Declaration Overview"
                                                   id="declarationOverview"
-                                                  v-model="declarationDetail.declarationOverview"
+                                                  v-model="declarationData.declarationOverview"
                                                   name="declarationOverview"></textarea>
                                     </div>
                                     <div class="form-group">
-                                        <label>公告正文</label>
+                                        <label>公告信息</label>
                                         <textarea class="form-control" rows="5" placeholder="Declaration Announcement"
                                                   id="declarationAnnouncement"
-                                                  v-model="declarationDetail.declarationAnnouncement"
+                                                  v-model="declarationData.declarationAnnouncement"
                                                   name="declarationAnnouncement"></textarea>
                                     </div>
                                     <div class="form-group">
@@ -96,11 +96,11 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">
-                                    {{ declarationDetail.declarationName }}
+                                    {{ declarationData.declarationName }}
                                 </h3>
                             </div>
                             <!-- /.card-header -->
-                            <div class="card-body" v-html="declarationDetail.declarationAnnouncement">
+                            <div class="card-body" v-html="declarationData.declarationAnnouncement">
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
@@ -141,123 +141,88 @@
 <!-- axios -->
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-    var vue_data = {
-        declarationDetail: {
-            declarationAnnouncement: "请输入公告正文...",
-            declarationName: "请输入公告名称...",
-            declarationOverview: "请输入公告概览...",
+    var out_data = {
+        declarationData: {
+            id: -1,
+            declarationName: "公告名称",
+            projectBodyInformationUrl: "",
+            declarationAnnouncement: "公告信息",
+            declarationOverview: "公告概览",
+            declarationUuid: "",
         },
-        declarationDetailHtml: '',
-    };
-
-    $(document).ready(function () {
+        declarationPage: "",
+    }
+    $(function () {
         $('#summernote').summernote();
 
-        // 初始化DeclarationDetail 数据
-        vue_data.declarationDetail["projectEntityUuid"] = '${projectEntity.projectEntityUuid}'
-        vue_data.declarationDetail["businessEntityUuid"] = '${businessEntity.businessEntityUuid}'
-        vue_data.declarationDetail["processDefineId"] = '${processDefineId}'
-
-        var json_data = {
-            projectEntityUuid: '${projectEntity.projectEntityUuid}',
-            businessEntityUuid: '${businessEntity.businessEntityUuid}'
-        }
+        var json_data = {proBusUuid: '${proBusUuid.toString()}'};
         $.ajax({
-            type: 'post',
-            url: '${pageContext.request.contextPath }/getDeclarationDetail',
-            contentType: 'application/json;charset=utf-8',
-            dataType: 'json',
-            async: false, //同步传输，并添加返回值，返回值应为已定义的全局变量 如a
+            //发送请求URL，可使用相对路径也可使用绝对路径
+            url: "${pageContext.request.contextPath}/getDeclaration",
+            //发送方式为GET，也可为POST，需要与后台对应
+            type: 'POST',
             data: JSON.stringify(json_data),
-            success: function (data) {//返回json结果
-                if (data.hasOwnProperty("declaration")) {
-                    vue_data.declarationDetail = data.declaration;
+            dataType: 'json',
+            contentType: "application/json;charset=utf-8",
+            //后台返回成功后处理数据，data为后台返回的json格式数据
+            success: function (data) {
+                if (data.code === 400) {
+                    console.log(data);
+                } else if (data.code === 200) {
+                    console.log(data);
+                    if(data.hasOwnProperty("declaration")) {
+                        out_data.declarationData = data.declaration;
+                        getDeclarationPage();
+                    }
                 }
+            },
+            error: function (e) {
+                console.log(e);
             }
         });
-
-        if (vue_data.declarationDetail.hasOwnProperty("projectBodyInformationUrl")) {
-            $.ajax({
-                type: 'get',
-                url: 'https://${sessionScope.bucketName}.cos.${sessionScope.region}.myqcloud.com/declarationDetail/' + vue_data.declarationDetail.projectBodyInformationUrl + ".html",
-                async: false, //同步传输，并添加返回值，返回值应为已定义的全局变量 如a
-                success: function (data) {//返回json结果
-                    vue_data.declarationDetailHtml = data;
-                }
-            });
-        }
-
-        $('#summernote').summernote('code', vue_data.declarationDetailHtml)
-    });
-
-    var controllerTag = 1;
+    })
 
     Vue.prototype.$http = axios;
-    var app = new Vue({
-        el: '#app',
-        data: vue_data,
+    vm = new Vue({
+        el: "#app",
+        data: out_data,
         methods: {
-            changeDynamicFormInf: function (event) {
-                event.preventDefault();
-
+            saveDeclarationInf: function () {
                 let config = {
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json;character:utf-8',
                     }
                 }
-                this.$http.post('${pageContext.request.contextPath}/applyDynamicFormInfChange', vue_data.dynamicFormInf, config).then(function (res) {
-                    if (res.code === 200) {
-                        toastr.success("表单信息更改成功！");
-                    } else if (res.code === 400) {
-                        toastr.error("表单信息更改失败！");
-                    }
-                })
-            },
-            saveDeclarationInf: async function (event) {
-                event.preventDefault();
-                // 保存基础信息
-                let declaration = await this.applyDeclarationDetail();
-                // 保存内容详细
-                await this.applyDeclarationDetailHtml(declaration);
-                // 判断是否上传成功
-            },
-            applyDeclarationDetailHtml: async function (declaration) {
-                var declarationBodyInf = {
-                    declarationDetailUrl: vue_data.declarationDetail.projectBodyInformationUrl,
-                    declarationDetailHtml: $('#summernote').summernote('code'),
-                    declarationDetail: JSON.stringify(declaration),
-                }
-
-                let config = {
-                    headers: {
-                        'Content-Type': 'application/json;character:utf-8'
-                    }
-                }
-                this.$http.post('${pageContext.request.contextPath}/applyDeclarationDetailHtml', JSON.stringify(declarationBodyInf), config).then(function (res) {
-                    if (res.code === 400) {
-                        controllerTag = 0;
-                    }
-                })
-            },
-            applyDeclarationDetail: async function () {
-                var declaration = {};
-                let config = {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }
-                await this.$http.post('${pageContext.request.contextPath}/applyDeclarationDetail', vue_data.declarationDetail, config).then(function (res) {
+                out_data.declarationPage =  $('#summernote').summernote('code');
+                var saveData = out_data.declarationData;
+                saveData["declarationPage"] = out_data.declarationPage;
+                saveData["proBusUuid"] = '${proBusUuid.toString()}';
+                this.$http.post('${pageContext.request.contextPath}/applyDeclaration', JSON.stringify(saveData), config).then(function (res) {
                     if (res.status === 200) {
-                        declaration = res.data.declaration;
+                        // declaration = res.data.declaration;
+                        toastr.success("公告信息保存成功！")
                     }
                     if (res.status === 400) {
-                        controllerTag = 0;
+                        toastr.error("公告信息保存失败！")
                     }
                 })
-                return declaration;
+
             }
         }
-    });
+    })
+
+    function getDeclarationPage(){
+        $.ajax({
+            type: 'get',
+            url: 'https://${sessionScope.bucketName}.cos.${sessionScope.region}.myqcloud.com/declarationDetail/' + out_data.declarationData.projectBodyInformationUrl + ".html",
+            async: false, //同步传输，并添加返回值，返回值应为已定义的全局变量 如a
+            success: function (data) {//返回json结果
+                out_data.declarationPage = data;
+                $('#summernote').summernote('code', out_data.declarationPage);
+            }
+        });
+    }
+
 </script>
 </body>
 </html>

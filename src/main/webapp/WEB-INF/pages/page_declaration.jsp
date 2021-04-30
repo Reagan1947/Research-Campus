@@ -97,10 +97,10 @@
                                 </div>
                                 <!-- /.card-body -->
                                 <div class="card-footer">
-                                    <button class="btn btn-primary">详细信息</button>
+                                    <button class="btn btn-primary" onclick="toDeclarationPage('${node.declarationUuid}')">详细信息</button>
                                     <button class="btn btn-default float-right"
                                             declarationName="<c:out value="${node.declarationName}"/>"
-                                            processDefineId="<c:out value="${node.processDefineId}"/>"
+<%--                                            processDefineId="<c:out value="${node.processDefineId}"/>"--%>
                                             declarationUuid="<c:out value="${node.declarationUuid}"/>"
                                             onclick="toDeclaration(this)">
                                         立即申报
@@ -143,22 +143,19 @@
     function toDeclaration(obj) {
         // 增加弹窗信息
         var declarationName = $(obj).attr("declarationName");
-        var processDefineId = $(obj).attr("processDefineId");
         var declarationUuid = $(obj).attr("declarationUuid");
         $('#declarationName').html("是否申请" + declarationName + "?");
         // 弹出模态窗口
         $('#toDeclaration').attr({
-            processDefineId: processDefineId,
-            declarationUuid:declarationUuid
+            declarationUuid: declarationUuid,
         })
         $('#modal-default').modal("show");
     }
 
     function declarationProject(obj){
-        var processDefineId = $(obj).attr("processDefineId");
         var declarationUuid = $(obj).attr("declarationUuid");
 
-        var json_data = {processDefineId: processDefineId, declarationUuid:declarationUuid}
+        var json_data = {declarationUuid:declarationUuid}
         $.ajax({
             //发送请求URL，可使用相对路径也可使用绝对路径
             url: "${pageContext.request.contextPath}/declarationProject",
@@ -183,6 +180,22 @@
                 console.log(e);
             }
         });
+    }
+
+    function getQueryVariable(variable)
+    {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+            var pair = vars[i].split("=");
+            if(pair[0] == variable){return pair[1];}
+        }
+        return(false);
+    }
+
+    function toDeclarationPage(declarationUuid) {
+        var businessEntityUuid = getQueryVariable("businessEntityUuid");
+        window.location.href="${pageContext.request.contextPath}/declarationPage?declarationUuid="+ declarationUuid +"&businessEntityUuid="+ businessEntityUuid +"";
     }
 
 </script>

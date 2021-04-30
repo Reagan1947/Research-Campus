@@ -100,7 +100,7 @@
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clearForm()">关闭
                         </button>
-                        <button type="button" class="btn btn-primary" id="addPBEDetail" data-dismiss="modal">
+                        <button type="button" class="btn btn-primary" id="addProBus" data-dismiss="modal">
                             添加${businessEntity.businessEntityName}配置
                         </button>
                     </div>
@@ -111,7 +111,7 @@
         </div>
 
 
-        <div class="modal fade" id="modal-changeInformation" style="display: none;" aria-hidden="true">
+        <div class="modal fade" id="modal-changeProBus" style="display: none;" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content" id="app">
                     <div class="modal-header">
@@ -125,13 +125,12 @@
                         <form id="changeInformation">
                             <div class="form-group">
                                 <label>项目主体</label>
-                                <select class="form-control" name="projectEntityUuid" id="changeProjectEntity">
-                                </select>
+                                <input class="form-control" name="proBus_projectEntity" id="proBus_projectEntity" disabled>
                             </div>
                             <div class="form-group">
                                 <label>业务主体UUID(自动填充，无需更改)</label>
                                 <input type="text" class="form-control" placeholder="Entity Name" id="changeBusinessEntityUuid"
-                                       name="businessEntityUuid" value='${businessEntity.businessEntityUuid}'>
+                                       name="businessEntityUuid" value='${businessEntity.businessEntityUuid}' disabled>
                             </div>
                             <div class="form-group">
                                 <label>流程定义</label>
@@ -143,7 +142,7 @@
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        <button type="button" class="btn btn-primary" id="subChangeInformation"
+                        <button type="button" class="btn btn-primary" id="changeProBusInformation"
                                data-dismiss="modal">更改配置
                         </button>
                     </div>
@@ -265,18 +264,15 @@
 <script>
 
     var vue_data = {
-        information: {
-            id: 0,
+        proBusInformation: {
+            proBusUUid: 0,
         },
     };
 
     var app = new Vue({
         el: '#app',
         data: vue_data,
-        methods: {
-            changeInformation: function () {
-            }
-        }
+        methods: {},
     });
 
     new ClipboardJS('#copyIt');
@@ -358,14 +354,12 @@
 
             controller: {
                 loadData: function (filter) {
-
                     return $.ajax({
                         type: "GET",
-                        url: "${pageContext.request.contextPath}/getPbpInformation?businessEntityUuid=${businessEntity.businessEntityUuid}",
+                        url: "${pageContext.request.contextPath}/getProBusDetail?businessEntityUuid=${businessEntity.businessEntityUuid}",
                         data: filter,
                         dataType: "JSON"
                     })
-
                 }
             },
 
@@ -376,6 +370,7 @@
                 {name: "projectEntity.projectEntityUuid", type: "text", width: 150, title: "项目主体UUID"},
                 {name: "processDefineName", type: "text", width: 150, title: "流程定义名称"},
                 {name: "processDefineId", type: "text", width: 150, title: "流程定义Id"},
+                {name: "proBusUuid", type: "text", width: 150, title: "proBusUuid"},
 
                 {
                     type: "control", width: 100, editButton: false, deleteButton: false,
@@ -384,7 +379,7 @@
                         // 添加公告设置方法
                         var $editDeclaration = $("<button>").attr({class: "btn btn-default btn-flat suspensionState_" + item.suspensionState + ""}).append($("<i></i>").attr({class: "far fa-comment-alt"}))
                             .click(function (e) {
-                                toEditDeclaration(item.projectEntity.projectEntityUuid, item.processDefineId);
+                                editDeclaration(item.proBusUuid, item.businessEntityUuid);
                                 e.stopPropagation();
                             });
 
@@ -392,14 +387,14 @@
                         // 添加信息编辑方法
                         var $editInformation = $("<button>").attr({class: "btn btn-default btn-flat"}).append($("<i></i>").attr({class: "far fa-edit"}))
                             .click(function (e) {
-                                toChangeInformation(item.id, item.processDefineId, item.projectEntity.projectEntityUuid);
+                                changeProBus(item.projectEntity.projectEntityName, item.processDefineId, item.proBusUuid);
                                 e.stopPropagation();
                             });
 
                         // 添加删除方法
                         var $deleteInformation = $("<button>").attr({class: "btn btn-default btn-flat"}).append($("<i></i>").attr({class: "far fa-trash-alt"}))
                             .click(function (e) {
-                                toDeleteInformation(item.id, item.projectEntity.projectEntityUuid, item.processDefineId);
+                                deleteProBusConnect(item.proBusUuid);
                                 e.stopPropagation();
                             });
 
@@ -446,10 +441,10 @@
         $('#bpmnForm').get(0).reset();
     }
 
-    $("#addPBEDetail").click(function () {
+    $("#addProBus").click(function () {
         toastr.info('正在添加配置信息')
         $.ajax({
-            url: "${pageContext.request.contextPath}/addPBEDetail",
+            url: "${pageContext.request.contextPath}/addProBus",
             type: "POST",
             data: new FormData($("#bpmnForm")[0]),
             processData: false, //告诉ajax不要处理和编码这些数据，直接提交
@@ -472,12 +467,12 @@
         $("#bpmnForm")[0].reset();
     });
 
-    $("#subChangeInformation").click(function () {
+    $("#changeProBusInformation").click(function () {
         var formData = new FormData($("#changeInformation")[0]);
-        formData.append("id", vue_data.information.id);
+        formData.append("proBusUuid", vue_data.proBusInformation.proBusUUid);
 
         $.ajax({
-            url: "${pageContext.request.contextPath}/changePBInformation",
+            url: "${pageContext.request.contextPath}/changeProBusInformation",
             type: "POST",
             data: formData,
             processData: false, //告诉ajax不要处理和编码这些数据，直接提交
@@ -500,30 +495,10 @@
     });
 
 
-    function toChangeInformation(id, processDefineId, projectEntityUuid) {
-        $('#changeProjectEntity').find("option").remove();
-        $.ajax({
-            type: "GET",
-            url: "${pageContext.request.contextPath}/getProjectEntity",
-            dataType: "JSON",
-            success: function (data) {
-                if (data !== "" && data !== null) {
-                    console.log(data);
-                    for (var i = 0; i < data.length; i++) {
-                        if(data[i].projectEntityUuid === projectEntityUuid) {
-                            $("#changeProjectEntity").append("<option selected = 'selected' value='" + data[i].projectEntityUuid + "'>" + data[i].projectEntityName + "</option>");
-                        }else {
-                            $("#changeProjectEntity").append("<option value='" + data[i].projectEntityUuid + "'>" + data[i].projectEntityName + "</option>");
-                        }
-                    }
-                }
-
-            },
-            error: function (e) {
-                console.log(e);
-            }
-        })
+    function changeProBus(projectEntityName, processDefineId, proBusUUid) {
+        $('#proBus_projectEntity').attr("value",projectEntityName);
         $('#changeProcessDefineId').find("option").remove();
+        vue_data.proBusInformation.proBusUUid = proBusUUid;
         $.ajax({
             type: "GET",
             url: "${pageContext.request.contextPath}/getImplementBPMN",
@@ -539,21 +514,20 @@
                         }
                     }
                 }
-
             },
             error: function (e) {
                 console.log(e);
             }
         })
-        vue_data.information.id = id;
-        $('#modal-changeInformation').modal("show");
+        // vue_data.information.id = id;
+        $('#modal-changeProBus').modal("show");
     }
 
-    function toDeleteInformation(id, projectEntityUuid, processDefineId) {
-        var json_data = {id: id, projectEntityUuid: projectEntityUuid, processDefineId: processDefineId}
+    function deleteProBusConnect(proBudUuid) {
+        var json_data = {proBusUuid: proBudUuid}
         $.ajax({
             type: 'post',
-            url: '${pageContext.request.contextPath }/deletePBInformation',
+            url: '${pageContext.request.contextPath }/deleteProBusConnect',
             contentType: 'application/json;charset=utf-8',
             dataType: 'json',
             data: JSON.stringify(json_data),
@@ -578,8 +552,8 @@
         toastr.success("动态表单列表已刷新");
     }
 
-    function toEditDeclaration(projectEntityUuid, processDefineId){
-        window.location = "${pageContext.request.contextPath}/declarationEdit?PeUuid=" +  projectEntityUuid + "&BeUuid=" + "${businessEntity.businessEntityUuid}" + "&processDefineId=" + processDefineId;
+    function editDeclaration(proBusUuid, businessEntityUuid){
+        window.location = "${pageContext.request.contextPath}/editDeclaration?proBusUuid=" +  proBusUuid + "&businessEntityUuid=" +  businessEntityUuid + "";
     }
 
 </script>

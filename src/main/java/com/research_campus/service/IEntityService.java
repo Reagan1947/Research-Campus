@@ -1,7 +1,6 @@
 package com.research_campus.service;
 
 import com.research_campus.domain.*;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -41,7 +40,7 @@ public interface IEntityService {
      * @return pbp pojo
      * @param businessEntityUuid 业务主体Uuid
      */
-    List<PbpInformation> getPbpInformationByBeUuid(String businessEntityUuid);
+    List<ProBusDetail> findProBusDetailByBusinessEntityUuid(String businessEntityUuid);
 
     /**
      * 根据UUID 获得 projectEntity信息
@@ -67,33 +66,57 @@ public interface IEntityService {
 
     /**
      * 添加 pbep 信息
-     * @param pbep pbep pojo
+     * @param proBus pbep pojo
      */
-    void addPBEDetail(Pbep pbep);
+    void addProBus(ProBus proBus);
 
     /**
      * 更改pbep信息
-     * @param pbep pbep pojo
-     * @param id pbep id
+     * @param proBus pbep pojo
      */
-    void modifyPbep(Pbep pbep, String id);
+    void modifyProBus(ProBus proBus);
 
     /**
      * 根据Id删除PBIformation
      * @param id PBInformation id
      */
-    void deletePBInformationById(Integer id);
-
-    /**
-     * 根据projectEntityUuid、processDefineId 删除 Declaration
-     * @param projectEntityUuid project Entity Uuid
-     * @param processDefineId process Define Id
-     */
-    void deleteDeclaration(String projectEntityUuid, String processDefineId);
+    void delete(Integer id);
 
     /**
      * 伴随businessEntity内容的更改 projectdeclarationform 表单信息更改
-     * @param pbep pbep pojo
+     * @param proBus pbep pojo
      */
-    void projectDeclarationForm(Pbep pbep);
+    void projectDeclarationForm(ProBus proBus);
+
+    /**
+     * 根据 ProBusUuid 删除 proBusUuid
+     * @param proBusUuid proBusUuid
+     */
+    void removeProBusByProBusUuid(String proBusUuid);
+
+    /**
+     * 根据 proBusUuid 查询 declarationUuid
+     * @param proBusUuid proBusUuid
+     * @return String declarationUuid
+     */
+    String findDeclarationUuidByProBusUuid(String proBusUuid);
+
+    /**
+     * 根据 declarationUuid 查询 declarationPageUuid
+     * @param declarationUuid declarationUuid
+     * @return String declarationPageUuid
+     */
+    String findProjectBodyInformationUrlByDeclarationUuid(String declarationUuid);
+
+    /**
+     * 根据 DeclarationUuid 删除 Declaration
+     * @param declarationUuid declarationUuid
+     */
+    void removeDeclarationByDeclarationUuid(String declarationUuid);
+
+    /**
+     * 根据 proBusUuid 删除 proBus 与 declaration 关系维护表信息
+     * @param proBusUuid proBusUuid
+     */
+    void removeDeclarationProBusConnect(String proBusUuid);
 }

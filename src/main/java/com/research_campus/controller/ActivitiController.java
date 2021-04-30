@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.qcloud.cos.model.COSObjectInputStream;
 import com.qcloud.cos.model.PutObjectResult;
 import com.research_campus.domain.BpmnList;
-import com.research_campus.domain.Declaration;
 import com.research_campus.service.IActivitiService;
 import com.research_campus.service.IDeclarationService;
 import com.research_campus.utils.activiti.ActivitiMapTool;
@@ -81,13 +80,6 @@ public class ActivitiController {
     }
 
 
-    IDeclarationService declarationService;
-
-    @Autowired
-    public void setDeclarationService(IDeclarationService declarationService) {
-        this.declarationService = declarationService;
-    }
-
     /**
      * 获取已经部署的流程列表
      * @return 返回list\<ProcessDefinition\>
@@ -121,47 +113,6 @@ public class ActivitiController {
      * 上传BPMN文件，并进行部署
      * @param response 上传文件对象
      */
-
-//    @RequestMapping(value = "/uploadAndDepBPMN")
-//    @ResponseBody
-//    public void deploymentProcessDefinitionClasspath(MultipartFile uploadBpmn, MultipartFile uploadPng, String processName, HttpServletResponse response) throws IOException {
-//        // 获取ClasspathResource 并进行部署
-//        System.out.println(processName);
-//        Deployment deployment = null;
-//        JSONObject json = new JSONObject();
-//
-//        // bpmn上传
-//        String resourceNameBpmn = uploadBpmn.getOriginalFilename();
-//        InputStream inputStreamBpmn = uploadBpmn.getInputStream();
-//
-//        // png上传文件名
-//         String resourceNamePng = uploadPng.getOriginalFilename();
-//         InputStream inputStreamPng = uploadPng.getInputStream();
-//
-//
-//        try {
-//            deployment = processEngine.getRepositoryService()
-//                    .createDeployment()
-//                    .name("流程定义")
-//                    .addInputStream(resourceNameBpmn, inputStreamBpmn)
-//                    .addInputStream(resourceNamePng, inputStreamPng)
-//                    .deploy();
-//        }catch (Exception e){
-//            json.put("code", 400);
-//            json.put("Msg", "创建失败");
-//            e.printStackTrace();
-//        }
-//
-//        json.put("code", 200);
-//        json.put("Msg", "创建成功");
-//        assert deployment != null;
-//        System.out.println("部署ID："+deployment.getId());
-//        System.out.println("部署名称:"+deployment.getName());
-//        response.setCharacterEncoding("UTF-8");
-//        response.setContentType("text/html;charset=UTF-8");
-//        response.getWriter().print(json.toJSONString());
-//    }
-
     @RequestMapping(value = "/uploadBPMN")
     @ResponseBody
     public void uploadBPMN(MultipartFile uploadBpmn, MultipartFile uploadSvg, String processName, String processDesc, HttpServletResponse response, HttpServletRequest request) throws IOException {
@@ -610,18 +561,5 @@ public class ActivitiController {
 
 
         return "page_formCommon";
-    }
-
-    @RequestMapping("/toDeclarationPage")
-    public ModelAndView directToDeclaration(String businessEntityUuid) throws Exception{
-
-        List<Declaration> declarations = declarationService.getDeclarationByBusinessEntityUuid(businessEntityUuid);
-
-        ModelAndView mv = new ModelAndView();
-        //添加模型数据 可以是任意的POJO对象
-        mv.addObject(declarations);
-        mv.setViewName("page_declaration");
-
-        return mv;
     }
 }

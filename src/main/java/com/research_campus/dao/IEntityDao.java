@@ -54,17 +54,18 @@ public interface IEntityDao {
      * @param businessEntityUuid 业务主体uuid
      * @return PbpInformation pojo
      */
-    @Select("SELECT * FROM pb_entity_processdefine WHERE businessEntityUuid= #{businessEntityUuid}")
+    @Select("SELECT * FROM probus WHERE businessEntityUuid= #{businessEntityUuid}")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(column = "businessEntityUuid", property = "businessEntityUuid"),
             @Result(column = "processDefineId", property = "processDefineId"),
+            @Result(column = "proBusUuid", property = "proBusUuid"),
             @Result(column = "projectEntityUuid", property = "projectEntityUuid"),
             @Result(property = "businessEntity", column = "businessEntityUuid", javaType = com.research_campus.domain.BusinessEntity.class, one = @One(select = "com.research_campus.dao.IEntityDao.selectBusinessEntityByUuid")),
             @Result(property = "projectEntity", column = "projectEntityUuid", javaType = com.research_campus.domain.ProjectEntity.class, one = @One(select = "com.research_campus.dao.IEntityDao.selectProjectEntityByUuid")),
             @Result(property = "processDefineName", column = "processDefineId", javaType =  java.lang.String.class, one = @One(select = "com.research_campus.dao.IBpmnListDao.getProcessDefineNameByPdId")),
     })
-    List<PbpInformation> getPbpInformation(@Param("businessEntityUuid") String businessEntityUuid);
+    List<ProBusDetail> selectProBusDetailByBusinessEntityUuid(@Param("businessEntityUuid") String businessEntityUuid);
 
     /**
      *  根据uuid 查询 project entity
@@ -94,29 +95,28 @@ public interface IEntityDao {
 
 
     /**
-     * 添加PBEP 信息
-     * @param pbep pbep pojo //projectEntity businessEntity processDefine Id
+     * 添加 proBus 信息
+     * @param proBus proBus 类
      */
-    @Insert("INSERT INTO pb_entity_processdefine (projectEntityUuid, businessEntityUuid, processDefineId)" +
-            "VALUES (#{projectEntityUuid}, #{businessEntityUuid}, #{processDefineId})")
-    void addPBEDetail(Pbep pbep);
+    @Insert("INSERT INTO probus (projectEntityUuid, businessEntityUuid, processDefineId, proBusUuid)" +
+            "VALUES (#{projectEntityUuid}, #{businessEntityUuid}, #{processDefineId}, #{proBusUuid})")
+    void addProBus(ProBus proBus);
 
     /**
-     * 更改pbep信息
-     * @param pbep pbep pojo
-     * @param id pbep id
+     * 更改 proBus 信息
+     * @param proBus proBus 类
      */
-    @Update("UPDATE pb_entity_processdefine " +
-            " SET projectEntityUuid=#{pbep.projectEntityUuid}, businessEntityUuid=#{pbep.businessEntityUuid}, processDefineId=#{pbep.processDefineId}" +
-            " WHERE id=#{id}")
-    void modifyPbep(@Param("pbep")Pbep pbep, @Param("id")String id);
+    @Update("UPDATE probus " +
+            " SET processDefineId=#{proBus.processDefineId}" +
+            " WHERE proBusUuid=#{proBus.proBusUuid}")
+    void modifyProBus(@Param("proBus") ProBus proBus);
 
     /**
      * 根据Id删除PBInformation
-     * @param id PBInformation Id
+     * @param proBusUuid proBusUuid
      */
-    @Delete("DELETE FROM pb_entity_processdefine WHERE id=#{id}")
-    void deletePBInformationById(@Param("id")Integer id);
+    @Delete("DELETE FROM proBus WHERE proBusUuid=#{proBusUuid}")
+    void deleteProBusByProBusUuid(@Param("proBusUuid")String proBusUuid);
 
     /**
      * 根据projectEntityUuid、processDefineId删除Declaration公告
@@ -129,10 +129,18 @@ public interface IEntityDao {
 
     /**
      * 根据业务主体id 更新 projectDeclarationForm
-     * @param pbep pbep 实体
+     * @param proBus pbep 实体
      */
     @Update("UPDATE projectdeclarationform " +
             "SET businessEntityUuid=#{pbep.businessEntityUuid}, processDefineId=#{pbep.processDefineId}" +
             "WHERE projectEntityUuid=#{pbep.projectEntityUuid}")
-    void projectDeclarationForm(@Param("pbep")Pbep pbep);
+    void projectDeclarationForm(@Param("pbep") ProBus proBus);
+
+    /**
+     * 根据 proBusUuid 查询 proBus
+     * @param proBusUuid proBusUuid
+     * @return ProBus Pojo
+     */
+    @Select("SELECT * FROM probus WHERE proBusUuid=#{proBusUuid}")
+    ProBus selectProBusByProBusUuid(@Param("proBusUuid") String proBusUuid);
 }

@@ -81,7 +81,7 @@
         console.log("url Name 是：" + getUrlname(window.location.href))
         console.log("参数为：" + getUrlname(window.location.href))
 
-        if((getUrlname(window.location.href) === "businessEntityDetail" || getUrlname(window.location.href) === "toDeclarationPage") && getQueryVariable("businessEntityUuid") !== false){
+        if((getUrlname(window.location.href) === "businessEntity" || getUrlname(window.location.href) === "toDeclarationPage") && getQueryVariable("businessEntityUuid") !== false){
             url = window.location.href;
         } else {
             url = deleteParagram();

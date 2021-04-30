@@ -9,7 +9,9 @@ import com.research_campus.utils.activiti.IDGenerator;
 import com.research_campus.utils.tencentCloudCos.CosClientTool;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,7 +27,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 业务主体与项目主体管理
@@ -70,8 +71,16 @@ public class EntityController {
         this.runtimeService = runtimeService;
     }
 
+
+    TaskService taskService;
+
+    @Autowired
+    public void setTaskService(TaskService taskService) {
+        this.taskService = taskService;
+    }
+
     @RequestMapping("/projectEntityManager")
-    public String directToProjectEntityManager() throws Exception{
+    public String directToProjectEntityManager() throws Exception {
 
         // 定位到pageEntity 主体管理界面界面
 
@@ -106,7 +115,7 @@ public class EntityController {
 
             entityService.addProjectEntity(projectEntity);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             code = 400;
             msg = "项目主体添加失败";
             e.printStackTrace();
@@ -131,7 +140,7 @@ public class EntityController {
             // 从数据库中删除ProjectEntity信息 根据UUID
             entityService.deleteProjectEntityByUuid(projectEntityUuid);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             code = 400;
             msg = "删除项目实体失败！";
             e.printStackTrace();
@@ -143,18 +152,18 @@ public class EntityController {
         response.getWriter().print(json.toJSONString());
     }
 
-    @RequestMapping("/businessEntityDetail")
-    public ModelAndView toBusinessEntityDetail(String businessEntityUuid) throws Exception{
+    @RequestMapping("/businessEntity")
+    public ModelAndView toBusinessEntity(String businessEntityUuid) throws Exception {
         BusinessEntity businessEntity = new BusinessEntity();
         try {
             businessEntity = entityService.getBusinessEntityByUuid(businessEntityUuid);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         ModelAndView mv = new ModelAndView();
         //添加模型数据 可以是任意的POJO对象
-        mv.addObject("businessEntity",  businessEntity);
-        mv.setViewName("page_businessEntityDetail");
+        mv.addObject("businessEntity", businessEntity);
+        mv.setViewName("page_businessEntity");
 
         return mv;
     }
@@ -165,10 +174,10 @@ public class EntityController {
         return entityService.getAllProjectEntity();
     }
 
-    @RequestMapping(value = "/getPbpInformation")
+    @RequestMapping(value = "/getProBusDetail")
     @ResponseBody
-    public List<PbpInformation> getPbpInformation(String businessEntityUuid) throws IOException {
-        return entityService.getPbpInformationByBeUuid(businessEntityUuid);
+    public List<ProBusDetail> getProBusDetail(String businessEntityUuid) {
+        return entityService.findProBusDetailByBusinessEntityUuid(businessEntityUuid);
     }
 
     @RequestMapping(value = "/getProjectEntityByUuid")
@@ -212,9 +221,9 @@ public class EntityController {
             // 更改项目主体信息
             entityService.modifyProjectEntityInf(projectEntity);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             code = 400;
-            msg= "项目主体信息更改失败！";
+            msg = "项目主体信息更改失败！";
             e.printStackTrace();
         }
 
@@ -225,73 +234,27 @@ public class EntityController {
         response.getWriter().print(json.toJSONString());
     }
 
-    @RequestMapping("/declarationEdit")
-    public ModelAndView toDeclarationEdit(String PeUuid, String BeUuid, String processDefineId) throws Exception{
-        BusinessEntity businessEntity = new BusinessEntity();
-        ProjectEntity projectEntity = new ProjectEntity();
-
-        try {
-            businessEntity = entityService.getBusinessEntityByUuid(BeUuid);
-            projectEntity = entityService.getProjectEntityByUuid(PeUuid);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        ModelAndView mv = new ModelAndView();
-
-        mv.addObject("businessEntity",  businessEntity);
-        mv.addObject("projectEntity",  projectEntity);
-        mv.addObject("processDefineId", processDefineId);
-
-        mv.setViewName("page_declarationEdit");
-
-        return mv;
-    }
-
-    @RequestMapping(value = "/getDeclarationDetail", method = RequestMethod.POST)
+    @RequestMapping(value = "/addProBus")
     @ResponseBody
-    public void getDeclarationDetail(@RequestBody HashMap<String, String> map, HttpServletResponse response, HttpServletRequest request) throws Exception {
-        // 删除数据库中的UUID
-        String projectEntityUuid = map.get("projectEntityUuid");
-        String businessEntityUuid = map.get("businessEntityUuid");
-        Declaration declaration = new Declaration();
-        JSONObject json = new JSONObject();
-        int code = 200;
-
-        try {
-            // 更改项目主体信息
-            declaration = entityService.getDeclarationDetail(businessEntityUuid, projectEntityUuid);
-
-        }catch (Exception e){
-            code = 400;
-            e.printStackTrace();
-        }
-
-        json.put("code", code);
-        json.put("declaration", declaration);
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html;charset=UTF-8");
-        response.getWriter().print(json.toJSONString());
-    }
-
-    @RequestMapping(value = "/addPBEDetail")
-    @ResponseBody
-    public void addPBEDetail(String projectEntityUuid, String businessEntityUuid, String processDefineId, HttpServletResponse response, HttpServletRequest request) throws Exception {
+    public void addPBEDetail(String projectEntityUuid, String businessEntityUuid, String processDefineId, HttpServletResponse response) throws Exception {
 
         JSONObject json = new JSONObject();
+        String uuid = IDGenerator.getUuid();
 
         int code = 200;
         String msg = "配置信息添加成功！";
 
         // 在数据库中保存BPMN数据
         try {
-            Pbep pbep = new Pbep();
-            pbep.setBusinessEntityUuid(businessEntityUuid);
-            pbep.setProjectEntityUuid(projectEntityUuid);
-            pbep.setProcessDefineId(processDefineId);
+            ProBus proBus = new ProBus();
+            proBus.setBusinessEntityUuid(businessEntityUuid);
+            proBus.setProjectEntityUuid(projectEntityUuid);
+            proBus.setProcessDefineId(processDefineId);
+            proBus.setProBusUuid(uuid);
 
-            entityService.addPBEDetail(pbep);
+            entityService.addProBus(proBus);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             code = 400;
             msg = "配置信息添加失败！";
             e.printStackTrace();
@@ -304,49 +267,46 @@ public class EntityController {
     }
 
 
-    @RequestMapping(value = "/applyDeclarationDetail", method = RequestMethod.POST)
-    @ResponseBody
-    public void applyDeclarationDetail(@RequestBody HashMap<String, String> map, HttpServletResponse response, HttpServletRequest request) throws Exception {
-        JSONObject json = new JSONObject();
-        int code = 200;
-
-        // 获取declarationUuid
-        String declarationUuid = map.get("declarationUuid");
-        Declaration declaration = new Declaration();
-        declaration.setDeclarationName(map.get("declarationName"));
-        declaration.setDeclarationAnnouncement(map.get("declarationAnnouncement"));
-        declaration.setDeclarationOverview(map.get("declarationOverview"));
-        declaration.setBusinessEntityUuid(map.get("businessEntityUuid"));
-        declaration.setProjectEntityUuid(map.get("projectEntityUuid"));
-        declaration.setProcessDefineId(map.get("processDefineId"));
-
-        if(declarationUuid == null){
-            String uuid = IDGenerator.getUuid();
-            declaration.setDeclarationUuid(uuid);
-            try {
-                // 增加公告信息主体信息
-                declarationService.addDeclaration(declaration);
-
-            }catch (Exception e){
-                code = 400;
-                e.printStackTrace();
-            }
-        } else {
-            try {
-                declaration.setDeclarationUuid(declarationUuid);
-                declarationService.modifyDeclaration(declaration);
-            } catch (Exception e) {
-                code = 400;
-                e.printStackTrace();
-            }
-        }
-
-        json.put("code", code);
-        json.put("declaration", declaration);
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html;charset=UTF-8");
-        response.getWriter().print(json.toJSONString());
-    }
+//    @RequestMapping(value = "/applyDeclarationDetail", method = RequestMethod.POST)
+//    @ResponseBody
+//    public void applyDeclarationDetail(@RequestBody HashMap<String, String> map, HttpServletResponse response, HttpServletRequest request) throws Exception {
+//        JSONObject json = new JSONObject();
+//        int code = 200;
+//
+//        // 获取declarationUuid
+//        String declarationUuid = map.get("declarationUuid");
+//        Declaration declaration = new Declaration();
+//        declaration.setDeclarationName(map.get("declarationName"));
+//        declaration.setDeclarationAnnouncement(map.get("declarationAnnouncement"));
+//        declaration.setDeclarationOverview(map.get("declarationOverview"));
+//
+//        if(declarationUuid == null){
+//            String uuid = IDGenerator.getUuid();
+//            declaration.setDeclarationUuid(uuid);
+//            try {
+//                // 增加公告信息主体信息
+//                declarationService.addDeclaration(declaration);
+//
+//            }catch (Exception e){
+//                code = 400;
+//                e.printStackTrace();
+//            }
+//        } else {
+//            try {
+//                declaration.setDeclarationUuid(declarationUuid);
+//                declarationService.modifyDeclaration(declaration);
+//            } catch (Exception e) {
+//                code = 400;
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        json.put("code", code);
+//        json.put("declaration", declaration);
+//        response.setCharacterEncoding("UTF-8");
+//        response.setContentType("text/html;charset=UTF-8");
+//        response.getWriter().print(json.toJSONString());
+//    }
 
     @RequestMapping(value = "/applyDeclarationDetailHtml", method = RequestMethod.POST)
     @ResponseBody
@@ -360,7 +320,7 @@ public class EntityController {
         String declarationDetailUrl = map.get("declarationDetailUrl");
         String declarationUuid = map.get("declarationDetail.declarationUuid");
 
-        if(declarationDetailUrl == null){
+        if (declarationDetailUrl == null) {
             String uuid = IDGenerator.getUuid();
             declarationDetailHtml = new String(declarationDetailHtml.getBytes("GBK"));
 
@@ -370,7 +330,7 @@ public class EntityController {
                 // 向数据库添加信息
                 declarationService.addDeclarationUrlByDeclarationUuid(uuid, declarationUuid);
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 code = 400;
                 e.printStackTrace();
             }
@@ -393,9 +353,9 @@ public class EntityController {
         response.getWriter().print(json.toJSONString());
     }
 
-    @RequestMapping(value = "/changePBInformation")
+    @RequestMapping(value = "/changeProBusInformation")
     @ResponseBody
-    public void changePBInformation(String projectEntityUuid, String businessEntityUuid, String processDefineId, String id, HttpServletResponse response, HttpServletRequest request) throws Exception {
+    public void changeProBusInformation(String projectEntityUuid, String businessEntityUuid, String processDefineId, String proBusUuid, HttpServletResponse response) throws Exception {
 
         JSONObject json = new JSONObject();
 
@@ -404,17 +364,15 @@ public class EntityController {
 
         // 在数据库中保存BPMN数据
         try {
-            Pbep pbep = new Pbep();
-            pbep.setBusinessEntityUuid(businessEntityUuid);
-            pbep.setProjectEntityUuid(projectEntityUuid);
-            pbep.setProcessDefineId(processDefineId);
+            ProBus proBus = new ProBus();
+            proBus.setBusinessEntityUuid(businessEntityUuid);
+            proBus.setProjectEntityUuid(projectEntityUuid);
+            proBus.setProcessDefineId(processDefineId);
+            proBus.setProBusUuid(proBusUuid);
 
-            entityService.modifyPbep(pbep, id);
+            entityService.modifyProBus(proBus);
 
-            // projectDeclarationForm中也需要修改
-            entityService.projectDeclarationForm(pbep);
-
-        }catch (Exception e){
+        } catch (Exception e) {
             code = 400;
             msg = "配置信息更改失败！";
             e.printStackTrace();
@@ -426,26 +384,34 @@ public class EntityController {
         response.getWriter().print(json.toJSONString());
     }
 
-    @RequestMapping(value = "/deletePBInformation", method = RequestMethod.POST)
+    @RequestMapping(value = "/deleteProBusConnect", method = RequestMethod.POST)
     @ResponseBody
     public void deletePBInformation(@RequestBody HashMap<String, String> map, HttpServletResponse response) throws Exception {
-        // 根据 id 删除 pb_entity_processDefine
-        Integer id = Integer.parseInt(map.get("id"));
-        String projectEntityUuid = map.get("projectEntityUuid");
-        String processDefineId = map.get("processDefineId");
-
+        String proBusUuid = map.get("proBusUuid");
         JSONObject json = new JSONObject();
         int code = 200;
         String msg = "删除项目实体成功！";
 
         try {
-            // 根据ID删除pb_entity_processdefine数据
-            entityService.deletePBInformationById(id);
+            // 根据 proBusUuid 删除 proBus 信息
+            entityService.removeProBusByProBusUuid(proBusUuid);
 
-            // 根据projectEntityUuid和processDefineId删除projectdeclarationform
-            entityService.deleteDeclaration(projectEntityUuid, processDefineId);
+            // 根据 proBusUuid 查找 declarationUuid
+            String declarationUuid = entityService.findDeclarationUuidByProBusUuid(proBusUuid);
 
-        }catch (Exception e){
+            // 根据 declarationUuid 查找 declarationPage 公告详细PageUuid
+            String projectBodyInformationUrl = entityService.findProjectBodyInformationUrlByDeclarationUuid(declarationUuid);
+
+            // 根据declarationPageUuid 删除存储与COS的内容
+            clientTool.deleteObjectByUuid(projectBodyInformationUrl, "html");
+
+            // 删除 declaration
+            entityService.removeDeclarationByDeclarationUuid(declarationUuid);
+
+            // 删除 proBus 与 declaration 关系维护表
+            entityService.removeDeclarationProBusConnect(proBusUuid);
+
+        } catch (Exception e) {
             code = 400;
             msg = "删除项目实体失败！";
             e.printStackTrace();
@@ -460,38 +426,44 @@ public class EntityController {
     @RequestMapping(value = "/declarationProject", method = RequestMethod.POST)
     @ResponseBody
     public void declarationProject(@RequestBody HashMap<String, String> map, HttpServletResponse response, HttpServletRequest request) throws Exception {
-        String processDefineId = map.get("processDefineId");
         String declarationUuid = map.get("declarationUuid");
-
         HttpSession session = request.getSession();
         String userUuid = (String) session.getAttribute("uuid");
-
         JSONObject json = new JSONObject();
+        UserProcessAction userProcessAction = new UserProcessAction();
+        ProBus proBus = new ProBus();
         int code = 200;
-        String msg = "删除项目实体成功！";
+        String msg = "项目流程实例创建成功";
 
-        // 是否要填入初始化用户信息？ ↓ 存入用户uuid
-        HashMap<String, Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("userUuid", userUuid);
-//
-//        ProcessInstance processInstance = runtimeService
-//                .startProcessInstanceById(processDefinition.getId(), map);
-
-        ProcessInstance processInstance = runtimeService
-                .startProcessInstanceById(processDefineId, hashMap);
-        // 动作数据 存入 user process action 表中
-        // 返回表单数据
-        // 根据Activiti
         try {
+            // 根据 declarationUuid 查询 proBus 信息
+            proBus = declarationService.findProBusByDeclarationUuid(declarationUuid);
 
+            // 获取 processDefineId
+            String processDefineId = proBus.getProcessDefineId();
 
-        }catch (Exception e){
+            // user 信息 Map
+            HashMap<String, Object> userMap = new HashMap<String, Object>();
+            userMap.put("userUuid", userUuid);
+
+            // 添加 userUuid 信息并启动流程
+            ProcessInstance processInstance = runtimeService.startProcessInstanceById(processDefineId, userMap);
+
+            // 动作数据 存入 user process action 表中
+            String processInstanceId = processInstance.getProcessInstanceId();
+
+            userProcessAction.setUserUuid(userUuid);
+            userProcessAction.setProcessInstanceId(processInstanceId);
+            userProcessAction.setProcessDefineId(processDefineId);
+            userProcessAction.setBusinessEntityUuid(proBus.getBusinessEntityUuid());
+            userProcessAction.setProjectEntityUuid(proBus.getProjectEntityUuid());
+
+            declarationService.addUserProcessAction(userProcessAction);
+        } catch (Exception e) {
             code = 400;
-            msg = "删除项目实体失败！";
+            msg = "项目流程实例创建失败";
             e.printStackTrace();
         }
-
-        LOGGER.info("processInstance = {}, process'key = {}, process'name = {}");
 
         json.put("code", code);
         json.put("msg", msg);
@@ -499,4 +471,20 @@ public class EntityController {
         response.setContentType("text/html;charset=UTF-8");
         response.getWriter().print(json.toJSONString());
     }
+
+    @RequestMapping("/myResearchProject")
+    public ModelAndView directToMyResearchProject(HttpServletRequest request) throws Exception {
+        ModelAndView mv = new ModelAndView();
+
+        HttpSession session = request.getSession();
+        String assignee = (String) session.getAttribute("uuid");
+        List<Task> taskList = taskService.createTaskQuery().taskAssignee(assignee).list();
+
+        mv.addObject("taskList", taskList);
+
+        mv.setViewName("page_myResearchProject");
+
+        return mv;
+    }
+
 }
