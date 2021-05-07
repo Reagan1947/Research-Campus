@@ -19,10 +19,7 @@ import org.activiti.engine.task.Task;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -38,6 +35,7 @@ import java.util.Map;
 
 /**
  * 处理表格相关业务
+ *
  * @author buwan
  */
 @Controller
@@ -118,7 +116,7 @@ public class DynamicFormController {
 
             dynamicFormService.addDynamicFormInf(dynamicForm);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             code = 400;
             msg = "创建失败";
             e.printStackTrace();
@@ -131,7 +129,7 @@ public class DynamicFormController {
     }
 
     @RequestMapping("/formBuilder")
-    public String directToFormBuilder() throws Exception{
+    public String directToFormBuilder() throws Exception {
 
         // 定位到buildBPMN界面
 
@@ -150,7 +148,7 @@ public class DynamicFormController {
         try {
             dynamicForm = dynamicFormService.getDynamicFormJsonByUuid(dynamicFormUuid);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             code = 400;
             e.printStackTrace();
         }
@@ -174,7 +172,7 @@ public class DynamicFormController {
             // 从数据库中删除DynamicForm信息 根据UUID
             dynamicFormService.deleteDynamicFormInfByUuid(dynamicFormUuid);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             code = 400;
             msg = "动态表单删除失败！";
             e.printStackTrace();
@@ -203,7 +201,7 @@ public class DynamicFormController {
 
             dynamicFormService.modifyFormStatus(dynamicFormUuid, 1);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             code = 400;
             msg = "表单应用失败！";
             e.printStackTrace();
@@ -225,7 +223,7 @@ public class DynamicFormController {
         LOGGER.info("动态表单tableFiles控件Map：" + tableFields);
 
         // 使用AutoCreate创建数据表
-        dynamicFormService.autoCreateTask(tableName,tableFields);
+        dynamicFormService.autoCreateTask(tableName, tableFields);
 
         json.put("code", code);
         json.put("msg", msg);
@@ -235,12 +233,12 @@ public class DynamicFormController {
     }
 
     @RequestMapping("/dynamicFormPreview")
-    public ModelAndView dynamicFormPreview(String uuid) throws Exception{
+    public ModelAndView dynamicFormPreview(String uuid) throws Exception {
         // 根据uuid查询流程图的具体信息
         DynamicForm dynamicForm = new DynamicForm();
         try {
             dynamicForm = dynamicFormService.getDynamicFormJsonByUuid(uuid);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         ModelAndView mv = new ModelAndView();
@@ -274,9 +272,9 @@ public class DynamicFormController {
             // 更改表单内容
             dynamicFormService.modifyFormInf(dynamicForm);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             code = 400;
-            msg= "信息更改失败！";
+            msg = "信息更改失败！";
             e.printStackTrace();
         }
 
@@ -288,7 +286,7 @@ public class DynamicFormController {
     }
 
     @RequestMapping("/toBusinessEntityDynamicForm")
-    public ModelAndView toBusinessEntityDynamicForm(String taskId) throws Exception{
+    public ModelAndView toBusinessEntityDynamicForm(String taskId) throws Exception {
         // 通过 Activiti formService 获取 formKey
         FormService formService = processEngine.getFormService();
         TaskService taskService = processEngine.getTaskService();
@@ -321,7 +319,7 @@ public class DynamicFormController {
             // 根据 projectUuid 查询 projectEntity
             projectEntity = entityService.getProjectEntityByUuid(proBus.getProjectEntityUuid());
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         ModelAndView mv = new ModelAndView();
@@ -331,9 +329,144 @@ public class DynamicFormController {
         mv.addObject("businessEntity", businessEntity);
         mv.addObject("task", task);
         mv.addObject("projectEntity", projectEntity);
+        mv.addObject("dynamicFormUuid", dynamicForm.getUuid());
 
         mv.setViewName("page_showDynamicForm");
 
         return mv;
+    }
+
+    @RequestMapping(value = "/addTableData", method = RequestMethod.POST)
+    @ResponseBody
+    public void addTableData(@RequestBody JSONObject jsonObject, HttpServletResponse response) throws IOException {
+        // 将tableName存入tableData中
+        String tableName = "" + jsonObject.get("tableName");
+        Map<String, Object> tableData = new HashMap<>();
+        tableData.put("tableName", tableName);
+        Integer auditResult = (Integer) jsonObject.get("auditResult");
+
+        JSONObject json = new JSONObject();
+        String taskId = (String) jsonObject.get("taskId");
+        TaskService taskService = processEngine.getTaskService();
+
+        // 自动生成32位UUID存入表的字段映射中，确保insert操作
+        String uuid = IDGenerator.getUuid();
+        Map<String, String> tableFieldMap = new HashMap();
+        tableFieldMap.put("id", uuid);
+        // processId, 将processId存入表的字段映射中
+        String processId = (String) jsonObject.get("processId");
+        tableFieldMap.put("processId", processId);
+        // 组装字段数据到字段映射中
+        Map<String, String> map = (Map) jsonObject.get("tableFiled");
+        tableFieldMap.putAll(map);
+        int code = 200;
+        String msg = "动态表单数据添加成功";
+
+        try {
+            // 再将table的字段映射map存入tableData中
+            tableData.put("tableFieldMap", tableFieldMap);
+            dynamicFormService.addTableData(tableData);
+
+            if(auditResult != null){
+                taskService.setVariable(taskId, "auditResult", auditResult);
+            }
+        } catch (Exception e) {
+            code = 400;
+            msg = "动态表单数据添加失败";
+            e.printStackTrace();
+        }
+
+        // 完成该任务
+        taskService.complete(taskId);
+
+        json.put("code", code);
+        json.put("msg", msg);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        response.getWriter().print(json.toJSONString());
+    }
+
+    @RequestMapping("/toEaDynamicForm")
+    public ModelAndView toEaDynamicForm(String taskId) throws Exception {
+        // 通过 Activiti formService 获取 formKey
+        FormService formService = processEngine.getFormService();
+        TaskService taskService = processEngine.getTaskService();
+        TaskFormData formData = formService.getTaskFormData(taskId);
+        String formKey = formData.getFormKey();
+
+        // split form key
+        String[] formKeyList = formKey.split("\\-");
+        Declaration declaration = new Declaration();
+        BusinessEntity businessEntity = new BusinessEntity();
+        ProBus proBus = new ProBus();
+        ProjectEntity projectEntity = new ProjectEntity();
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+
+        // 根据uuid查询流程图的具体信息
+        DynamicForm dynamicForm = new DynamicForm();
+        DynamicForm dynamicFormPre = new DynamicForm();
+
+        try {
+            dynamicForm = dynamicFormService.getDynamicFormJsonByUuid(formKeyList[1]);
+            dynamicFormPre = dynamicFormService.getDynamicFormJsonByUuid(formKeyList[0]);
+
+            // 获取 proBusUuid
+            String proBusUuid = (String) taskService.getVariable(taskId, "proBusUuid");
+
+            // 根据 proBusUuid 查询 proBus
+            proBus = entityService.selectProBusByProBusUuid(proBusUuid);
+
+            // 根据 businessEntityUuid 查询 businessEntity
+            businessEntity = entityService.getBusinessEntityByUuid(proBus.getBusinessEntityUuid());
+
+            // 根据 proBusUuid 查询 declaration
+            declaration = declarationService.getDeclarationByProBusUuid(proBusUuid);
+
+            // 根据 projectUuid 查询 projectEntity
+            projectEntity = entityService.getProjectEntityByUuid(proBus.getProjectEntityUuid());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ModelAndView mv = new ModelAndView();
+        //添加模型数据 可以是任意的POJO对象
+        mv.addObject("dynamicForm", JSON.toJSONString(dynamicForm.getFormJson()));
+        mv.addObject("dynamicFormPre", JSON.toJSONString(dynamicFormPre.getFormJson()));
+        mv.addObject("dynamicFormPreKey", formKeyList[0]);
+        mv.addObject("declaration", declaration);
+        mv.addObject("businessEntity", businessEntity);
+        mv.addObject("task", task);
+        mv.addObject("projectEntity", projectEntity);
+        mv.addObject("dynamicFormUuid", dynamicForm.getUuid());
+
+        mv.setViewName("page_eaDynamicForm");
+
+        return mv;
+    }
+
+    @RequestMapping(value = "/getDynamicFormInf", method = RequestMethod.POST)
+    @ResponseBody
+    public void getDynamicFormInf(@RequestBody HashMap<String, String> map, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        JSONObject json = new JSONObject();
+        String preDynamicFormKey = map.get("preDynamicFormKey");
+        String processInstanceId = map.get("processInstanceId");
+        Map<String, Object> formInfMap = new HashMap<>();
+
+        int code = 200;
+
+        try {
+            // 根据信息查询动态表单内容
+            formInfMap = dynamicFormService.getDynamicFormInfByPp(preDynamicFormKey, processInstanceId);
+
+        } catch (Exception e) {
+            code = 400;
+            e.printStackTrace();
+        }
+
+        json.put("code", code);
+        json.put("formInfMap", formInfMap);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        response.getWriter().print(json.toJSONString());
     }
 }

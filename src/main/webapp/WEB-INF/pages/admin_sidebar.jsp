@@ -189,15 +189,21 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="${pageContext.request.contextPath}/formBuilder" class="nav-link">
+                            <a href="${pageContext.request.contextPath}/toResearchSecretary" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>科研秘书用户组管理</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="${pageContext.request.contextPath}/formBuilder" class="nav-link">
+                            <a href="${pageContext.request.contextPath}/toResearchDepartmentGroup" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>科研处用户组管理</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="${pageContext.request.contextPath}/toProfessorGroup" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>专家(审批)用户组管理</p>
                             </a>
                         </li>
                     </ul>
@@ -307,6 +313,44 @@
                     <a href="${pageContext.request.contextPath}/allResearchProjectSearch" class="nav-link">
                         <i class="nav-icon fas fa-poll-h"></i>
                         <p>机构科研项目查询</p>
+                    </a>
+                </li>
+
+                <li class="nav-header">科研审批</li>
+<%--                <li class="nav-item">--%>
+<%--                    <a href="${pageContext.request.contextPath}/examineAndApprove" class="nav-link">--%>
+<%--                        <i class="nav-icon fas fa-mail-bulk"></i>--%>
+<%--                        <p>科研项目审批</p>--%>
+<%--                    </a>--%>
+<%--                </li>--%>
+
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-mail-bulk"></i>
+                        <p>科研项目审批
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="${pageContext.request.contextPath}/examineAndApprove" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>待认领审批项目</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="${pageContext.request.contextPath}/claimExamineAndApprove" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>已认领审批项目</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="${pageContext.request.contextPath}/" class="nav-link">
+                        <i class="nav-icon fas fa-archive"></i>
+                        <p>审批记录</p>
                     </a>
                 </li>
 

@@ -1,7 +1,6 @@
 package com.research_campus.service;
 
 import com.research_campus.domain.UserInfo;
-import org.springframework.stereotype.Service;
 
 /**
  * @author buwan

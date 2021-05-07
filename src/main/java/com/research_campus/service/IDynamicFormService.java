@@ -55,4 +55,18 @@ public interface IDynamicFormService {
      * @param dynamicForm 表单更改后的信息
      */
     void modifyFormInf(DynamicForm dynamicForm);
+
+    /**
+     * 动态添加自定义表单填入的数据。
+     * @param tableData Map<String, Object>
+     */
+    void addTableData(Map<String, Object> tableData);
+
+    /**
+     * 根据 formKey 和 processInstanceId 查询表单内容
+     * @param preDynamicFormKey formKey
+     * @param processInstanceId processInstanceId
+     * @return Map
+     */
+    Map<String, Object> getDynamicFormInfByPp(String preDynamicFormKey, String processInstanceId);
 }

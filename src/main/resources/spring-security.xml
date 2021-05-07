@@ -26,6 +26,8 @@
     <security:http pattern="/layer/**" security="none"/>
     <security:http pattern="/vendor/**" security="none"/>
     <security:http pattern="/formBuilder/**" security="none"/>
+    <security:http pattern="/jquery-transfer/**" security="none"/>
+
 
     <!--    <security:http pattern="/images/**" security="none"/>-->
 <!--    <security:http pattern="/js/**" security="none"/>-->
@@ -42,7 +44,7 @@
                              authentication-failure-forward-url="/login.fail"
                     default-target-url="/login.success"
                     authentication-failure-url="/login.html?error=true" />
-        <security:logout logout-success-url="/login.html" />
+        <security:logout logout-success-url="/index.jsp" logout-url="/logout"/>
     </security:http>
 
 

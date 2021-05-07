@@ -64,6 +64,9 @@
     <mvc:resources location="/formBuilder/css/" mapping="/formBuilder/css/**"/>
     <mvc:resources location="/formBuilder/fonts/" mapping="/formBuilder/fonts/**"/>
     <mvc:resources location="/formBuilder/js/" mapping="/formBuilder/js/**"/>
-
+    <mvc:resources location="/jquery-transfer/css/" mapping="/jquery-transfer/css/**"/>
+    <mvc:resources location="/jquery-transfer/js/" mapping="/jquery-transfer/js/**"/>
+    <mvc:resources location="/jquery-transfer/icon_font/css/" mapping="/jquery-transfer/icon_font/css/**"/>
+    <mvc:resources location="/jquery-transfer/icon_font/font/" mapping="/jquery-transfer/icon_font/font/**"/>
 
 </beans>

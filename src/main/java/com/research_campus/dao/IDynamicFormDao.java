@@ -65,4 +65,18 @@ public interface IDynamicFormDao {
             " SET formName=#{formName}, formJson=#{formJson}, createBy=#{createBy}, updateBy=#{updateBy}, updateTime=now(), formDesc=#{formDesc}" +
             " WHERE UUID=#{uuid}")
     void modifyFormInf(DynamicForm dynamicForm);
+
+    /**
+     * 动态添加自定义表单填入的数据。
+     * @param tableData Map<String, Object>
+     */
+    void addTableData(Map<String, Object> tableData);
+
+    /**
+     * 根据 formKey 和 processInstanceId 查询表单内容
+     * @param tableName 动态表单表名
+     * @param processInstanceId processInstanceId
+     * @return Map
+     */
+    Map<String, Object> queryTableByProcessId(@Param("tableName") String tableName, @Param("processInstanceId") String processInstanceId);
 }

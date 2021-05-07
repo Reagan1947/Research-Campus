@@ -54,7 +54,7 @@ public interface IBpmnListDao {
      * @param deploymentId 实例 deploymentId
      */
     @Insert("INSERT INTO bpmnlist_actinstance (bpmnUUID, deploymentId) " +
-            "values (#{bpmnUuid}, #{deploymentId})")
+            "VALUES (#{bpmnUuid}, #{deploymentId})")
     void addDataToInstanceBpmnList(@Param("deploymentId") String deploymentId, @Param("bpmnUuid") String bpmnUuid);
 
     /**

@@ -121,10 +121,34 @@
                 <a href="#" class="dropdown-item dropdown-footer">查看所有通知</a>
             </div>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-                <i class="fas fa-th-large"></i>
+<%--        <li class="nav-item">--%>
+<%--            <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">--%>
+<%--                <i class="fas fa-th-large"></i>--%>
+<%--            </a>--%>
+<%--        </li>--%>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#">
+                <i class="far fa-bookmark"></i>
+<%--                <span class="badge badge-warning navbar-badge">15</span>--%>
             </a>
+            <div class="dropdown-menu dropdown-menu dropdown-menu-right">
+<%--                <span class="dropdown-item dropdown-header">用户操作</span>--%>
+<%--                <div class="dropdown-divider"></div>--%>
+                <a href="${pageContext.request.contextPath }/logout" class="dropdown-item">
+                    <i class="fas fa-person-booth mr-2 fa-fw"></i> 退出账户
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">
+                    <i class="far fa-id-badge mr-2 fa-fw"></i> 账户信息
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">
+                    <i class="fas fa-key mr-2 fa-fw"></i> 锁定账户
+                </a>
+<%--                <div class="dropdown-divider"></div>--%>
+<%--                <a href="#" class="dropdown-item dropdown-footer">查看所有通知</a>--%>
+            </div>
         </li>
     </ul>
 </nav>

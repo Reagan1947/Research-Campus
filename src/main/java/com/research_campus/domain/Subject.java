@@ -1,5 +1,7 @@
 package com.research_campus.domain;
 
+import org.activiti.engine.identity.Group;
+
 import java.util.List;
 
 /**
@@ -44,4 +46,6 @@ public class Subject {
     public void setUsers(List<UserInfo> users) {
         this.users = users;
     }
+
+
 }

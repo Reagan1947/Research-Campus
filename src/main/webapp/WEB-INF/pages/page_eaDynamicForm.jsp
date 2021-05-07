@@ -6,7 +6,7 @@
     <jsp:include page="admin_head.jsp"/>
 
     <!-- 设置每个页面的Title -->
-    <title>${businessEntity.businessEntityName}表单</title>
+    <title>${businessEntity.businessEntityName}审核表单</title>
 
     <style>
         .formitem-style {
@@ -24,6 +24,10 @@
         span.el-input-number__increase > i {
             line-height: 30px;
         }
+
+        /*.el-form-item__content {*/
+        /*    margin-left: 18px;*/
+        /*}*/
     </style>
 </head>
 
@@ -44,7 +48,7 @@
                 <div class="row mb-2">
                     <div class="col-sm-6">
                         <h1>
-                            ${businessEntity.businessEntityName}表单
+                            ${businessEntity.businessEntityName}审核表单
                         </h1>
                     </div>
                     <div class="col-sm-6">
@@ -58,19 +62,84 @@
             </div><!-- /.container-fluid -->
         </section>
 
-        <section class="content" id="formContent">
+        <section class="content">
             <div class="container-fluid">
                 <div class="row">
                     <!-- left column -->
-                    <div class="col-md-6">
+                    <div class="col-md-6" id="declarationInformation">
                         <!-- general form elements -->
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">${projectEntity.projectEntityName}表单</h3>
+                                <h3 class="card-title">${projectEntity.projectEntityName}申报表单</h3>
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <div class="card-body">
+                            <div class="card-body" style="margin: 0 20px 0 20px;">
+                                <form role="form">
+                                    <div class="row">
+                                        <!-- 项目概况 -->
+
+                                        <div v-if="eleList">
+                                            <!-- 表单生成器 -->
+                                            <el-form
+                                                    v-if="eleList.list.length > 0"
+                                                    :size="eleList.config.size"
+                                                    :label-position="eleList.config.labelPosition"
+                                                    :label-width="eleList.config.labelWidth + 'px'"
+                                                    ref="c_form"
+                                            >
+                                                <!-- 循环显示表单信息 -->
+                                                <div
+                                                        v-for="(item, index) in eleList.list"
+                                                        :key="index"
+                                                        class="formitem-style"
+                                                >
+                                                    <el-form-item :label="item.name" :required="item.options.required">
+                                                        <dialogformitems
+                                                                :ele-item="item"
+                                                                :ele-config="eleList.config"
+                                                        ></dialogformitems>
+                                                    </el-form-item>
+                                                </div>
+                                            </el-form>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- 通用card-foot -->
+<%--                            <div class="card-footer">--%>
+<%--&lt;%&ndash;                                <button type="submit" class="btn btn-primary float-right" @click="submitFormData($event)">提交信息</button>&ndash;%&gt;--%>
+
+<%--                                <div class="btn-group float-right">--%>
+<%--                                    <button type="button" class="btn btn-primary" @click="submitFormData($event)">提交信息</button>--%>
+<%--                                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">--%>
+<%--                                        <span class="sr-only">下拉切换</span>--%>
+<%--                                        <div class="dropdown-menu" role="menu" style="">--%>
+<%--                                            <a class="dropdown-item" href="#">驳回申请</a>--%>
+<%--                                            <a class="dropdown-item" href="#">转交申请</a>--%>
+<%--                                            <a class="dropdown-item" href="#">暂存</a>--%>
+<%--                                            <div class="dropdown-divider"></div>--%>
+<%--                                            <a class="dropdown-item" href="#">淘汰项目</a>--%>
+<%--                                        </div>--%>
+<%--                                    </button>--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
+                        </div>
+                        <!-- /.card -->
+                    </div>
+
+
+                    <!-- right column -->
+                    <div class="col-md-6" id="formContent">
+                        <!-- general form elements -->
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">${projectEntity.projectEntityName}审批表单</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <!-- form start -->
+                            <div class="card-body" style="margin: 0 20px 0 20px;">
                                 <form role="form">
                                     <div class="row">
                                         <!-- 项目概况 -->
@@ -105,84 +174,27 @@
 
                             <!-- 通用card-foot -->
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary float-right" @click="submitFormData($event)">提交信息</button>
+                                <%--                                <button type="submit" class="btn btn-primary float-right" @click="submitFormData($event)">提交信息</button>--%>
+
+                                <div class="btn-group float-right">
+                                    <button type="button" class="btn btn-primary" @click="submitFormData($event)">提交信息</button>
+                                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+                                        <span class="sr-only">下拉切换</span>
+                                        <div class="dropdown-menu" role="menu" style="">
+                                            <a class="dropdown-item" onclick="dealDeclaration(0)">驳回申请</a>
+                                            <a class="dropdown-item" href="#">转交申请</a>
+                                            <a class="dropdown-item" href="#">暂存</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" onclick="dealDeclaration(2)">淘汰项目</a>
+                                        </div>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         <!-- /.card -->
                     </div>
 
-                    <!-- 时间线 -->
-                    <div class="col-md-4">
-                        <div class="card card-primary">
-                            <div class="card-header">
-                                <h3 class="card-title">${businessEntity.businessEntityName}概况</h3>
-                            </div>
-                            <!-- /.card-header -->
-                            <!-- form start -->
-                            <div class="card-body">
-                                <div class="col-md-12">
-                                    <!-- The time line -->
-                                    <div class="timeline">
-                                        <!-- timeline time label -->
-                                        <div class="time-label">
-                                            <span class="bg-red">开始${businessEntity.businessEntityName}</span>
-                                        </div>
-                                        <!-- /.timeline-label -->
-                                        <!-- timeline item -->
-                                        <div>
-                                            <i class="fas fa-graduation-cap bg-blue"></i>
-                                            <div class="timeline-item">
-                                                <h3 class="timeline-header"><a href="#">${businessEntity.businessEntityName}信息</a><br>
-                                                    ${projectEntity.projectEntityName}
-                                                </h3>
 
-                                                <div class="timeline-body">
-                                                    ${declaration.declarationOverview}
-                                                </div>
-                                                <div class="timeline-footer">
-                                                    <a class="btn btn-primary btn-sm" onclick="toDeclarationDetail()">阅读详细</a>
-                                                    <%--                                        <a class="btn btn-danger btn-sm">Delete</a>--%>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="time-label">
-                                            <span class="bg-green">填写${businessEntity.businessEntityName}申报信息</span>
-                                        </div>
-                                        <!-- END timeline item -->
-                                        <!-- timeline item -->
-                                        <div>
-                                            <i class="fas fa-user bg-green"></i>
-                                            <div class="timeline-item">
-                                                <span class="time"><i class="fas fa-clock"></i> Now </span>
-                                                <h3 class="timeline-header no-border"><a href="#">${task.name}</a></h3>
-                                                <div class="timeline-body">
-                                                    ${projectEntity.projectEntityName}-${businessEntity.businessEntityName}表单
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- END timeline item -->
-                                        <!-- timeline item -->
-<%--                                        <div>--%>
-<%--                                            <i class="fas fa-pencil-alt bg-yellow"></i>--%>
-<%--                                            <div class="timeline-item">--%>
-<%--                                                <h3 class="timeline-header"><a href="#">填写成员表单</a></h3>--%>
-<%--                                                <div class="timeline-body">--%>
-<%--                                                    科研项目成员信息表--%>
-<%--                                                </div>--%>
-<%--                                            </div>--%>
-<%--                                        </div>--%>
-                                        <!-- END timeline item -->
-                                        <!-- END timeline item -->
-                                        <div>
-                                            <i class="fas fa-clock bg-gray"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 时间线结束 -->
                 </div>
             </div>
         </section>
@@ -462,13 +474,13 @@
                         tableFiled: that.formsVal,
                         processId: '${task.processInstanceId}',
                         taskId: '${task.id}',
+                        auditResult: 1,
                     };
                     $.ajax({
                         url : '${pageContext.request.contextPath}/addTableData',
                         type : 'post',
-                        async: false,
-                        dataType: 'json',
                         data : JSON.stringify(json_data),
+                        dataType: 'json',
                         contentType : 'application/json;charset=utf-8',   //中文需要加上charset=utf-8才正确
                         success: function (data) {
                             if (data.code === 400) {
@@ -487,6 +499,77 @@
             },
         }
     });
+
+    var preData = {
+        eleList: JSON.parse(${dynamicFormPre}),
+        labelPosition: 'top',
+        formsVal: {},
+        preDeclaration: {},
+    };
+
+    var vmPre = new Vue({
+        el: '#declarationInformation',
+        data: preData,
+        components: {
+            'dialogformitems': dialogformitems,
+        },
+        methods: {
+            toRecallData: function () {
+                const that = this
+                for (const key of that.eleList.list) {
+                    var keyInItem = key.key;
+                    if(key.options.type === "daterange"){
+                        var datePicker = that.preDeclaration[keyInItem].split(',');
+                        key.options.defaultValue = [datePicker[0].toString(), datePicker[1].toString()];
+                    } else if(key.options.type === "date") {
+                        var d = new Date(that.preDeclaration[keyInItem]);
+                        key.options.defaultValue = (d.getFullYear()) + "-" +
+                            (d.getMonth() + 1) + "-" +
+                            (d.getDate());
+                    }
+                    else {
+                        key.options.defaultValue = that.preDeclaration[keyInItem];
+                    }
+
+                    key.options.disabled = true;
+                }
+            }
+        },
+    });
+
+    $(function(){
+        // get Pre Declaration Information
+        var preDynamicFormKey = '${dynamicFormPreKey}'
+        var processInstanceId = '${task.processInstanceId}'
+
+        var json_data = {
+            preDynamicFormKey: preDynamicFormKey,
+            processInstanceId: processInstanceId,
+        }
+
+        $.ajax({
+            url : '${pageContext.request.contextPath}/getDynamicFormInf',
+            type : 'post',
+            data : JSON.stringify(json_data),
+            contentType : 'application/json;charset=utf-8',
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                if (data.code === 400) {
+                    console.log(data);
+                } else if (data.code === 200) {
+                    console.log(data);
+                    preData.preDeclaration = data.formInfMap;
+                }
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+        vmPre.$forceUpdate();
+        vmPre.toRecallData();
+    });
+
 </script>
 
 <script>

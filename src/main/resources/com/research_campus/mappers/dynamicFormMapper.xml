@@ -6,14 +6,14 @@
         `id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键ID',
         <foreach collection="tableFields" index="key" item="_value">
             <choose>
-                <when test=" key == 'inputNumber' or key == 'rate' or key == 'slider'">
-                    `${_value}` int NULL DEFAULT NULL COMMENT '数字输入框或评分或滑块',
+                <when test=" key == 'number' or key == 'rate'">
+                    `${_value}` int NULL DEFAULT NULL COMMENT '数字输入框',
                 </when>
-                <when test=" key == 'radio' or key == 'checkbox' or key == 'select'">
-                    `${_value}` int NULL DEFAULT NULL COMMENT '单选框组或多选框组或下拉框(单选、多选)',
+                <when test=" key == 'switch' ">
+                    `${_value}` int NULL DEFAULT NULL COMMENT '单选框',
                 </when>
-                <when test=" key == 'timePicker' or key == 'datePicker'">
-                    `${_value}` DATETIME NULL DEFAULT NULL COMMENT '日期选择器或时间选择器',
+                <when test=" key == 'date' or key == 'time'">
+                    `${_value}` DATETIME NULL DEFAULT NULL COMMENT '日期选择器',
                 </when>
                 <otherwise>
                     `${_value}` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '控件',
@@ -24,4 +24,20 @@
         PRIMARY KEY (`id`) USING BTREE
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8
     </update>
+
+    <insert id="addTableData" parameterType="map">
+        insert into ${tableName}
+        (
+        <foreach collection="tableFieldMap" index="key" item="_value" separator=",">
+            `${key}`
+        </foreach>)
+        values (
+        <foreach collection="tableFieldMap" index="key" item="_value" separator=",">
+            #{_value}
+        </foreach>)
+    </insert>
+
+    <select id="queryTableByProcessId"  parameterType="map" resultType="java.util.Map">
+        select * from ${tableName} where ${tableName}.processId = #{processInstanceId}
+    </select>
 </mapper>

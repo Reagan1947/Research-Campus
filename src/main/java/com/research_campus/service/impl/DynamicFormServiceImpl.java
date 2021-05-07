@@ -58,4 +58,15 @@ public class DynamicFormServiceImpl implements IDynamicFormService {
     public void modifyFormInf(DynamicForm dynamicForm) {
         iDynamicFormDao.modifyFormInf(dynamicForm);
     }
+
+    @Override
+    public void addTableData(Map<String, Object> tableData) {
+        iDynamicFormDao.addTableData(tableData);
+    }
+
+    @Override
+    public Map<String, Object> getDynamicFormInfByPp(String preDynamicFormKey, String processInstanceId) {
+        String tableName = "dynamic_" + preDynamicFormKey;
+        return iDynamicFormDao.queryTableByProcessId(tableName, processInstanceId);
+    }
 }

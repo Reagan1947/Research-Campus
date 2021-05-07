@@ -78,15 +78,15 @@
     $(function () {
         var url = "";
         // 如果地址是businessEntityDetail 并且有businessEntityUuid参数
-        console.log("url Name 是：" + getUrlname(window.location.href))
-        console.log("参数为：" + getUrlname(window.location.href))
+        console.log("INFO URL-Name：" + getUrlname(window.location.href))
+        console.log("INFO URL-参数：" + getUrlname(window.location.href))
 
         if((getUrlname(window.location.href) === "businessEntity" || getUrlname(window.location.href) === "toDeclarationPage") && getQueryVariable("businessEntityUuid") !== false){
             url = window.location.href;
         } else {
             url = deleteParagram();
         }
-        console.log("当前URL：" + url)
+        console.log("INFO 当前URL：" + url)
         // for single sidebar menu
         $('ul.nav-sidebar a').filter(function () {
                 if(this.href == url){

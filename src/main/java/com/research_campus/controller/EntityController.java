@@ -1,5 +1,6 @@
 package com.research_campus.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.qcloud.cos.model.PutObjectResult;
 import com.research_campus.domain.*;
@@ -8,9 +9,11 @@ import com.research_campus.service.IEntityService;
 import com.research_campus.utils.activiti.IDGenerator;
 import com.research_campus.utils.activiti.TaskMore;
 import com.research_campus.utils.tencentCloudCos.CosClientTool;
+import org.activiti.engine.IdentityService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.identity.Group;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.log4j.Logger;
@@ -29,6 +32,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 业务主体与项目主体管理
@@ -93,6 +98,38 @@ public class EntityController {
     @ResponseBody
     public List<ProjectEntity> getAllDynamicFormInf() throws IOException {
         return entityService.getAllProjectEntity();
+    }
+
+    @RequestMapping(value = "/getAllProjectEntitySelect")
+    @ResponseBody
+    public void getAllDynamicFormInfSelect(HttpServletResponse response) throws IOException {
+        JSONObject json = new JSONObject();
+        List<ProjectEntity> projectEntityList = new ArrayList<>();
+        JSONArray jsonArray = new JSONArray();
+
+        try {
+            projectEntityList = entityService.getAllProjectEntity();
+
+            for(ProjectEntity projectEntity : projectEntityList) {
+                JSONObject templeObject = new JSONObject();
+                templeObject.put("id", projectEntity.getProjectEntityUuid());
+                templeObject.put("text", projectEntity.getProjectEntityName());
+                jsonArray.add(templeObject);
+            }
+
+            // 增加无项目主体限制的通用群组
+            JSONObject templeObject = new JSONObject();
+            templeObject.put("id", "generate");
+            templeObject.put("text", "不区分项目主体");
+            jsonArray.add(templeObject);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        json.put("results", jsonArray);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        response.getWriter().print(json.toJSONString());
     }
 
     @RequestMapping(value = "/addProjectEntity")
@@ -483,6 +520,19 @@ public class EntityController {
         HttpSession session = request.getSession();
         String assignee = (String) session.getAttribute("uuid");
         List<Task> taskList = taskService.createTaskQuery().taskAssignee(assignee).list();
+//        List<Task> tasks = taskService.createTaskQuery().taskCandidateUser(assignee).list();
+
+//        for (Task task : tasks) {
+//            System.out.println("taskId：" + task.getId());
+//            System.out.println("taskName：" + task.getName());
+//            System.out.println("办理人：" + task.getAssignee());
+//            System.out.println("任务创建时间:" + task.getCreateTime());
+//            System.out.println("流程实例ID：" + task.getProcessInstanceId());
+//            System.out.println("执行对象ID：" + task.getExecutionId());
+//            System.out.println("流程定义ID：" + task.getProcessDefinitionId());
+//            System.out.println("---------------------------------------------------------------------");
+//        }
+
 
         for(Task task: taskList){
            TaskMore taskMore = new TaskMore();
