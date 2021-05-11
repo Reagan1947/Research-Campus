@@ -59,7 +59,7 @@
                 <!-- 使用 .nav-icon 类添加图标，
                      或使用 font-awesome 或其他任何图标字体库 -->
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="${pageContext.request.contextPath}/overviewPage" class="nav-link">
                         <i class="nav-icon fas fa-poll-h"></i>
                         <p>
                             总览

@@ -259,12 +259,12 @@ public class DynamicFormController {
         HttpSession session = request.getSession();
         JSONObject json = new JSONObject();
         DynamicForm dynamicForm = new DynamicForm();
-        dynamicForm.setFormName(map.get("dynamicFormName"));
+        dynamicForm.setFormName(map.get("formName"));
         dynamicForm.setCreateBy(Integer.parseInt(map.get("createBy")));
-        dynamicForm.setFormDesc(map.get("dynamicFormDescInf"));
+        dynamicForm.setFormDesc(map.get("formDesc"));
         dynamicForm.setUpdateBy((Integer) session.getAttribute("userId"));
         dynamicForm.setUuid(dynamicFormUuid);
-        dynamicForm.setFormJson(map.get("dynamicFormJson"));
+        dynamicForm.setFormJson(map.get("formJson"));
         int code = 200;
         String msg = "表单信息更改成功";
 

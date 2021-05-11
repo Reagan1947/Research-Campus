@@ -1,7 +1,10 @@
 package com.research_campus.dao;
 
+import com.research_campus.domain.Subject;
 import com.research_campus.domain.UserInfo;
 import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 /**
  * @author buwan
@@ -47,4 +50,21 @@ public interface IUserDao {
             @Result(property = "roles", column = "id", javaType = java.util.List.class, many = @Many(select = "com.research_campus.dao.IRoleDao.findRoleByUserId"))
     })
     UserInfo findUserByUserNameBase(String username);
+
+    /**
+     * 查询所有用户信息
+     * @return userInf List
+     */
+    @Select("SELECT * FROM users")
+    List<UserInfo> selectAllUserInfo();
+
+    /**
+     * 根据 UserId 查询所在二级部门
+     * @param id UserId
+     * @return List Subject 用户可能在多个部门
+     */
+    @Select("SELECT id, subjectName, subjectDesc FROM (SELECT * FROM " +
+            " user_subject LEFT JOIN subject " +
+            " ON user_subject.subjectId = subject.id WHERE userId = #{id}) subject_user_result ")
+    List<Subject> selectSubjectByUserId(@Param("id") Integer id);
 }

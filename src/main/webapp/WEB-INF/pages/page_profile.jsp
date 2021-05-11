@@ -12,6 +12,7 @@
     <!-- 页面Head信息 -->
     <jsp:include page="admin_head.jsp"/>
     <!-- 页面Head信息 / -->
+    <title>个人与活动</title>
 
     <style>
         #profile-photo-fade {
@@ -69,6 +70,10 @@
             border-radius: 50%; /*设置为圆形*/
         }
 
+        .link-black:focus, .link-black:hover {
+            color: #1672ce!important;
+        }
+
     </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -101,17 +106,17 @@
                                 </span>
                             </label>
 
-<%--                            <label class="btn btn-primary btn-upload" style="margin-top: 10px; width: auto;"--%>
-<%--                                   id="uploadImage"--%>
-<%--                                   title="Upload image file">--%>
-<%--                                <span class="docs-tooltip" data-toggle="tooltip" title="Import image with Blob URLs">--%>
-<%--                                    <span class="fa fa-upload">--%>
-<%--                                        <span style="font-weight: normal;"> 上传头像</span></span>--%>
-<%--                                </span>--%>
-<%--                                <div class="valid-tooltip">--%>
-<%--                                    Looks good!--%>
-<%--                                </div>--%>
-<%--                            </label>--%>
+                            <%--                            <label class="btn btn-primary btn-upload" style="margin-top: 10px; width: auto;"--%>
+                            <%--                                   id="uploadImage"--%>
+                            <%--                                   title="Upload image file">--%>
+                            <%--                                <span class="docs-tooltip" data-toggle="tooltip" title="Import image with Blob URLs">--%>
+                            <%--                                    <span class="fa fa-upload">--%>
+                            <%--                                        <span style="font-weight: normal;"> 上传头像</span></span>--%>
+                            <%--                                </span>--%>
+                            <%--                                <div class="valid-tooltip">--%>
+                            <%--                                    Looks good!--%>
+                            <%--                                </div>--%>
+                            <%--                            </label>--%>
 
                             <div class="spinner-border spinner-border-sm text-primary" role="status" style="position:
                             relative; top: 2px;display: none" id="image-uploading">
@@ -134,7 +139,7 @@
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
-                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary" id="uploadImage" data-dismiss="modal">保存设置</button>
             </div>
         </div>
@@ -197,7 +202,7 @@
 
 
                                 <h3 class="profile-username text-center">
-                                    ${sessionScope.username} / ${userInfo.chineseName}
+                                    ${sessionScope.username} &nbsp; ${userInfo.chineseName}
                                 </h3>
                                 <p class="text-muted text-center">
                                     <span>${userInfo.competent.competentDesc}</span>
@@ -214,7 +219,7 @@
                                     </li>
                                 </ul>
 
-                                <a href="#" class="btn btn-primary btn-block"><b>粉我</b></a>
+                                <a href="#" class="btn btn-primary btn-block disabled"><b>关注</b></a>
                             </div>
                         </div>
 
@@ -225,18 +230,19 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <strong><i class="fas fa-building mr-1"></i> 所属部门</strong>
-                                <p class="text-muted">重庆工程学院 软件学院 软件工程</p>
+                                <strong><i class="fas fa-building mr-1"></i> 所属二级部门</strong>
+                                <c:forEach items="${userInfo.subject}" var="subject">
+                                    <p class="text-muted">${subject.subjectDesc}</p>
+                                </c:forEach>
 
                                 <hr>
 
                                 <strong><i class="fas fa-id-card-alt mr-1"></i> 所属角色</strong>
                                 <p class="text-muted">
                                     <c:forEach items="${userInfo.roles }" var="role">
-                                        <span>${role.roleDesc}</span>
+                                        <span class="badge badge-info bg-gray">${role.roleDesc}</span>
                                     </c:forEach>
                                 </p>
-
                                 <hr>
 
                                 <strong><i class="fas fa-quote-right mr-1"></i> 说明</strong>
@@ -249,7 +255,7 @@
                         <!-- /.card -->
                     </div>
                     <!-- /.col -->
-                    <div class="col-md-9">
+                    <div class="col-md-9" id="app">
                         <div class="card">
                             <div class="card-header p-2">
                                 <ul class="nav nav-pills">
@@ -265,122 +271,39 @@
                             <div class="card-body">
                                 <div class="tab-content">
                                     <div class="active tab-pane" id="activity">
-                                        <!-- Post -->
+
                                         <div class="post">
-                                            <div class="user-block">
-                                                <img class="img-circle img-bordered-sm"
-                                                     src="../../dist/img/user1-128x128.jpg" alt="用户头像">
-                                                <span class="username">
-                          <a href="#">Jonathan Burke Jr.</a>
-                          <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                        </span>
-                                                <span class="description">公开分享 - 今天下午7:30</span>
+                                            <div class="form-group">
+                                                <label>科研动态</label>
+                                                <textarea class="form-control" rows="2" placeholder="科研动态信息 ..."
+                                                          id="publishText" @focus="expandTextarea()" @blur="closeTextarea()"></textarea>
                                             </div>
-                                            <!-- /.user-block -->
-                                            <p>
-                                                Lorem ipsum 代表了设计师、排版师们的长期坚持。
-                                                一些人憎恨它，并为它的消亡而争辩，
-                                                但另一些人对此不屑一顾。因为他们创建的文本填充工具
-                                                帮助了从培根爱好者到
-                                                Charlie Sheen 的粉丝。
-                                            </p>
-
-                                            <p>
-                                                <a href="#" class="link-black text-sm mr-2"><i
-                                                        class="fas fa-share mr-1"></i> 分享</a>
-                                                <a href="#" class="link-black text-sm"><i
-                                                        class="far fa-thumbs-up mr-1"></i> 喜欢</a>
-                                                <span class="float-right">
-                          <a href="#" class="link-black text-sm">
-                            <i class="far fa-comments mr-1"></i> 评论 (5)
-                          </a>
-                        </span>
-                                            </p>
-
-                                            <input class="form-control form-control-sm" type="text" placeholder="输入评论">
-                                        </div>
-                                        <!-- /.post -->
-
-                                        <!-- Post -->
-                                        <div class="post clearfix">
-                                            <div class="user-block">
-                                                <img class="img-circle img-bordered-sm"
-                                                     src="../../dist/img/user7-128x128.jpg" alt="用户头像">
-                                                <span class="username">
-                          <a href="#">Sarah Ross</a>
-                          <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                        </span>
-                                                <span class="description">给你发了消息 - 3天前</span>
-                                            </div>
-                                            <!-- /.user-block -->
-                                            <p>
-                                                Lorem ipsum 代表了设计师、排版师们的长期坚持。
-                                                一些人憎恨它，并为它的消亡而争辩，
-                                                但另一些人对此不屑一顾。因为他们创建的文本填充工具
-                                                帮助了从培根爱好者到
-                                                Charlie Sheen 的粉丝。
-                                            </p>
-
-                                            <form class="form-horizontal">
-                                                <div class="input-group input-group-sm mb-0">
-                                                    <input class="form-control form-control-sm" placeholder="响应">
-                                                    <div class="input-group-append">
-                                                        <button type="submit" class="btn btn-danger">发送</button>
-                                                    </div>
+                                            <div class="row" style="height: 36px;">
+                                                <div class="col-md-2">
+                                                    <button type="submit" class="btn btn-default"
+                                                            @mousedown="publishDataFunction($event)">发布动态
+                                                    </button>
                                                 </div>
-                                            </form>
-                                        </div>
-                                        <!-- /.post -->
-
-                                        <!-- Post -->
-                                        <div class="post">
-                                            <div class="user-block">
-                                                <img class="img-circle img-bordered-sm"
-                                                     src="../../dist/img/user6-128x128.jpg" alt="用户头像">
-                                                <span class="username">
-                          <a href="#">Adam Jones</a>
-                          <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                        </span>
-                                                <span class="description">发布图片 - 5天前</span>
-                                            </div>
-                                            <div class="row mb-3">
-                                                <div class="col-sm-6">
-                                                    <img class="img-fluid" src="../../dist/img/photo1.png" alt="照片">
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="row">
-                                                        <div class="col-sm-6">
-                                                            <img class="img-fluid mb-3" src="../../dist/img/photo2.png"
-                                                                 alt="照片">
-                                                            <img class="img-fluid" src="../../dist/img/photo3.jpg"
-                                                                 alt="照片">
-                                                        </div>
-                                                        <!-- /.col -->
-                                                        <div class="col-sm-6">
-                                                            <img class="img-fluid mb-3" src="../../dist/img/photo4.jpg"
-                                                                 alt="照片">
-                                                            <img class="img-fluid" src="../../dist/img/photo1.png"
-                                                                 alt="照片">
-                                                        </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <select class="form-control" id="publishAccess">
+                                                            <option value="1">所有人可见</option>
+                                                            <option value="2">仅好友可见</option>
+                                                            <option value="3">仅自己可见</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <p>
-                                                <a href="#" class="link-black text-sm mr-2"><i
-                                                        class="fas fa-share mr-1"></i> 分享</a>
-                                                <a href="#" class="link-black text-sm"><i
-                                                        class="far fa-thumbs-up mr-1"></i> 喜欢</a>
-                                                <span class="float-right">
-                          <a href="#" class="link-black text-sm">
-                            <i class="far fa-comments mr-1"></i> 评论 (5)
-                          </a>
-                        </span>
-                                            </p>
-
-                                            <input class="form-control form-control-sm" type="text" placeholder="输入评论">
                                         </div>
-                                        <!-- /.post -->
+
+                                        <component-post
+                                                v-for="publishdata in publishData"
+                                                v-bind:key="publishdata.id"
+                                                v-bind:publishdata="publishdata"
+                                                v-bind:cosinf="cosInf"
+                                        ></component-post>
+
+
                                     </div>
                                     <!-- /.tab-pane -->
                                     <div class="tab-pane" id="timeline">
@@ -541,11 +464,11 @@
 
 </div>
 
-    <!-- 页面footer -->
-    <jsp:include page="admin_footer.jsp"/>
+<!-- 页面footer -->
+<jsp:include page="admin_footer.jsp"/>
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
     <!-- 控制侧边栏内容在这里 -->
 </aside>
 <!-- /.control-sidebar -->
@@ -554,7 +477,9 @@
 <!-- 页面js -->
 <jsp:include page="admin_foot.jsp"/>
 <!-- 页面jsr / -->
-
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!-- axios -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script>
     window.addEventListener('DOMContentLoaded', function () {
@@ -666,8 +591,615 @@
             })
         })
     })
+
+    // $('#publishText').focus(function () {
+    //     $('#publishText').attr("rows", 4)
+    // });
+    //
+    // $('#publishText').blur(function () {
+    //     $('#publishText').attr("rows", 2)
+    // });
+
+    var ComponentReplySecond = {
+        props: {
+            publishdata: Object,
+            cosinf: Object,
+            publishReply: Object,
+        },
+        template: `
+            <div class="card-comment">
+            <img class="img-circle img-sm"
+                :src="'https://' + cosinf.bucketName + '.cos.' + cosinf.region +'.myqcloud.com/' + publishReply.fromUuid"
+                alt="用户头像" style="height: 1.2rem; width: 1.2rem;">
+            <div class="comment-text" style="margin-left: 28px;">
+                <span class="username" style="line-height: initial;">
+                    {{ publishReply.fromUserInfo.userName }}
+
+                    <div class="float-right btn-tool" style="position: relative; right: -20px;">
+                        <button class="btn btn-link" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            ...
+                        </button>
+                        <div class="dropdown-menu dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="javascript:void(0)" @click="makeReply">回复此人</a>
+                            <a class="dropdown-item" href="#">收藏动态</a>
+                            <a class="dropdown-item" href="#">投诉或对此有疑问</a>
+                        </div>
+                    </div>
+                </span>
+                <span>{{ childCoverTimeStamp(publishReply.replyDate) }}</span><br>
+                <div style="margin-top: 5px;">
+                    回复@<a href="javascript:void(0)">{{ publishReply.toUserInfo.userName }}</a>：{{ publishReply.content }}
+                </div>
+            </div>
+            <component-reply-second v-for="publishReply in publishReply.publishReplyList" v-bind:key="publishReply.id"
+                    v-bind:publishReply="publishReply" v-bind:publishdata="publishdata" v-bind:cosinf="cosinf">
+                </component-reply-second>
+        </div>`,
+        name: 'component-reply-second',
+        created() {
+            this.updateCount();
+        },
+        methods: {
+            childCoverTimeStamp: function(timeStamp) {
+                return this.$parent.childCoverTimeStamp(timeStamp);
+            },
+            updateCount: function() {
+                this.$parent.updateCount();
+            },
+            setReplyDefault: function(replyDefault) {
+                this.$parent.setReplyDefault(replyDefault);
+            },
+            makeReply: function() {
+                var replyObject =  {
+                        type: "reply", // comment or reply
+                        content: "",
+                        fromUuid: "",
+                        toUuid: this.publishReply.fromUuid,
+                        replyType: "forReply",
+                        aimId: this.publishReply.id,
+                        toUserName: this.publishReply.fromUserInfo.userName,
+                        originalContent: this.publishReply.content,
+                        display: "display: block;",
+                        placeholderString: "回复@" + this.publishReply.fromUserInfo.userName,
+                };
+                console.log(this);
+                this.setReplyDefault(replyObject);
+            },
+        },
+    }
+
+    var ComponentReply = {
+        props: {
+            publishdata: Object,
+            cosinf: Object,
+            publishReply: Object,
+        },
+        template: `
+        <div class="card-footer card-comments" style="padding: 10px 0 0 5px;!important;">
+            <div class="card-comment">
+                <img class="img-circle img-sm"
+                    :src="'https://' + cosinf.bucketName + '.cos.' + cosinf.region +'.myqcloud.com/' + publishReply.fromUuid"
+                    alt="用户头像" style="height: 1.2rem; width: 1.2rem;">
+                <div class="comment-text" style="margin-left: 28px;">
+                    <span class="username" style="line-height: initial;">
+                        {{ publishReply.fromUserInfo.userName }}
+                        <div class="float-right btn-tool" style="position: relative; right: -20px;">
+                            <button class="btn btn-link" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                ...
+                            </button>
+                            <div class="dropdown-menu dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="javascript:void(0)" @click="makeReply">回复此人</a>
+                                <a class="dropdown-item" href="#">收藏动态</a>
+                                <a class="dropdown-item" href="#">投诉或对此有疑问</a>
+                            </div>
+                        </div>
+                    </span>
+                    <span>{{ childCoverTimeStamp(publishReply.replyDate) }}</span><br>
+                    <div style="margin-top: 5px;">
+                        {{ publishReply.content }}
+                    </div>
+                </div>
+                <component-reply-second v-for="publishReply in publishReply.publishReplyList" v-bind:key="publishReply.id"
+                    v-bind:publishReply="publishReply" v-bind:publishdata="publishdata" v-bind:cosinf="cosinf">
+                </component-reply-second>
+            </div>
+        </div>`,
+        created() {
+            this.updateCount();
+        },
+        methods: {
+            childCoverTimeStamp: function(timeStamp) {
+                return this.$parent.childCoverTimeStamp(timeStamp);
+            },
+            updateCount: function() {
+                this.$parent.updateCount();
+            },
+            setReplyDefault: function(replyDefault) {
+                this.$parent.setReplyDefault(replyDefault);
+            },
+            makeReply: function() {
+                var replyObject =  {
+                    type: "reply", // comment or reply
+                    content: "",
+                    fromUuid: "",
+                    toUuid: this.publishReply.fromUuid,
+                    replyType: "forReply",
+                    aimId: this.publishReply.id,
+                    toUserName: this.publishReply.fromUserInfo.userName,
+                    originalContent: this.publishReply.content,
+                    display: "display: block;",
+                    placeholderString: "回复@" + this.publishReply.fromUserInfo.userName,
+                };
+                console.log(this);
+                this.setReplyDefault(replyObject);
+            },
+        },
+        components: {
+            'component-reply-second': ComponentReplySecond,
+        },
+    }
+
+    var ComponentComment = {
+        props: {
+            publishdata: Object,
+            cosinf: Object,
+            comment: Object,
+
+        },
+        template: `
+            <div class="card-footer card-comments" style="padding-bottom: 0!important;">
+                <div class="card-comment" style="padding-bottom: 0!important;">
+                    <img class="img-circle img-sm" :src="'https://' + cosinf.bucketName + '.cos.' + cosinf.region +'.myqcloud.com/' + comment.fromUserUuid" alt="用户头像">
+                    <div class="comment-text">
+                        <span class="username">
+                        {{ comment.userInfo.userName }}
+                            <div class="float-right btn-tool" style="position: relative; right: -20px;">
+                    <button class="btn btn-link" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            ...
+                    </button>
+                    <div class="dropdown-menu dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="javascript:void(0)" @click="makeReply">回复评论</a>
+                        <a class="dropdown-item" href="#">收藏动态</a>
+                        <a class="dropdown-item" href="#">投诉或对此有疑问</a>
+                    </div>
+                </div>
+                        </span>
+                        <span>{{ childCoverTimeStamp(comment.commentDate) }}</span><br>
+                        <div style="margin-top: 8px; margin-bottom: 8px;">
+                        {{ comment.commentContent }}
+                        </div>
+
+                        <component-reply
+                            v-for="publishReply in comment.publishReplyList"
+                            v-bind:key="publishReply.id"
+                            v-bind:publishReply="publishReply"
+                            v-bind:publishdata="publishdata"
+                            v-bind:cosinf="cosinf"
+                        ></component-reply>
+
+                    </div>
+                </div>
+            </div>`,
+        created() {
+            this.updateCount();
+        },
+        methods: {
+            childCoverTimeStamp: function(timeStamp) {
+                return this.$parent.coverTimeStampToString(timeStamp);
+            },
+            updateCount: function() {
+                this.$parent.updateCount();
+            },
+            setReplyDefault: function(replyDefault) {
+                this.$parent.setReplyDefault(replyDefault);
+            },
+            makeReply: function() {
+                var replyObject =  {
+                    type: "reply", // comment or reply
+                    content: "",
+                    fromUuid: "",
+                    toUuid: this.comment.fromUserUuid,
+                    replyType: "forComment",
+                    aimId: this.comment.id,
+                    toUserName: this.comment.userInfo.userName,
+                    originalContent: this.comment.commentContent,
+                    display: "display: block;",
+                    placeholderString: "回复@" + this.comment.userInfo.userName,
+                };
+                console.log(this);
+                this.setReplyDefault(replyObject);
+            },
+        },
+        components: {
+            'component-reply': ComponentReply,
+        },
+    }
+
+
+    var ComponentPost = {
+        props: {
+            publishdata: Object,
+            cosinf: Object,
+        },
+        data: function (){
+            var result = {};
+            if(this.publishdata.isLike === 0){
+                result = {
+                    likeActionClass: "far fa-thumbs-up mr-1",
+                    likeStyle: "",
+                    comments: [],
+                    countForComment: 0,
+                    replyDefault: {
+                        type: "comment", // comment or reply
+                        content: "",
+                        fromUuid: "",
+                        toUuid: "",
+                        replyType: "",
+                        aimId: this.publishdata.id,
+                        fromUserName: "",
+                        originalContent: "",
+                        display: "display:none;",
+                        placeholderString: "写回复...",
+                    }
+                }
+            } else if(this.publishdata.isLike === 1) {
+                result = {
+                    likeActionClass: "fas fa-thumbs-up mr-1",
+                    likeStyle: "color: #007bff;",
+                    comments: [],
+                    countForComment: 0,
+                    replyDefault: {
+                        type: "comment", // comment or reply
+                        content: "",
+                        fromUuid: "",
+                        toUuid: "",
+                        replyType: "",
+                        aimId: this.publishdata.id,
+                        toUserName: "",
+                        originalContent: "",
+                        display: "display:none;",
+                        placeholderString: "写回复...",
+                    }
+                }
+            }
+            return result;
+        },
+        template: `
+        <div class="post">
+        <div class="user-block">
+            <img class="img-circle img-bordered-sm" v-bind:src="'https://' + cosinf.bucketName + '.cos.' + cosinf.region +'.myqcloud.com/' + publishdata.publishUserUuid">
+            <span class="username">
+                <a href="javascript:void(0)" style="display: inline-block;">{{ publishdata.userInfo.userName }}</a>
+                <div class="float-right btn-tool" style="position: relative; bottom: 20px; right: -10px;">
+                    <button class="btn btn-link" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            ...
+                    </button>
+                    <div class="dropdown-menu dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">转发动态</a>
+                        <a class="dropdown-item" href="#">收藏动态</a>
+                        <a class="dropdown-item" href="#">投诉或对此有疑问</a>
+                    </div>
+                </div>
+            </span>
+            <span class="description">{{ publishdata.publishAccessDesc }} - {{ coverTimeStampToString(publishdata.publishDate) }}</span>
+        </div>
+        <p>
+        {{ publishdata.publishContent }}
+        </p>
+        <p>
+            <a href="#" class="link-black text-sm mr-2">
+                <i class="fas fa-share mr-1"></i> 转发
+            </a>
+            <a href="javascript:void(0)" class="link-black text-sm">
+                <i :class="likeActionClass" :style="likeStyle" @click="likePublish($event)"></i> {{ publishdata.likeCount }}
+            </a>
+            <span class="float-right">
+                <a :href="'#publishComment_' + publishdata.id" class="link-black text-sm" data-toggle="collapse" aria-expanded="false"
+                    :aria-controls="'publishComment_' + publishdata.id">
+                    <i class="far fa-comments mr-1"></i> 评论 ({{ countForComment }})
+                </a>
+            </span>
+        </p>
+
+        <div class="publishCommentContain collapse" :id="'publishComment_' + publishdata.id">
+            <component-comment
+                v-for="comment in comments"
+                v-bind:key="comment.id"
+                v-bind:comment="comment"
+                v-bind:publishdata="publishdata"
+                v-bind:cosinf="cosinf"
+            ></component-comment>
+        <div class="card-footer">
+        <div>
+            <div class="img-push">
+                <div :class="replyDefault.displayClass" style="margin: 0 1px 3px 1px; padding: 3px 8px 3px 6px; background-color: #dcdcdc!important; color: #636363!important; font-size: 15px; border-radius: .2rem;" :style="replyDefault.display">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true" @click="makeReplyToDefault">×</button>
+                    <span style="font-weight: bold;">{{ replyDefault.toUserName }}: </span> {{ replyDefault.originalContent }}
+                </div>
+                <input type="text" class="form-control form-control-sm" :placeholder="replyDefault.placeholderString" @keyup.enter="submitComment" v-model="replyDefault.content">
+            </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+  `,
+        created() {
+            this.getPublishComment(this);
+        },
+        components: {
+            'component-comment': ComponentComment,
+        },
+        methods: {
+            coverTimeStampToString: function (timeStamp) {
+                if (timeStamp) {
+                    var time = new Date(timeStamp);
+                    var y = time.getFullYear(); //getFullYear方法以四位数字返回年份
+                    var M = time.getMonth() + 1; // getMonth方法从 Date 对象返回月份 (0 ~ 11)，返回结果需要手动加一
+                    var d = time.getDate(); // getDate方法从 Date 对象返回一个月中的某一天 (1 ~ 31)
+                    var h = time.getHours(); // getHours方法返回 Date 对象的小时 (0 ~ 23)
+                    var m = time.getMinutes(); // getMinutes方法返回 Date 对象的分钟 (0 ~ 59)
+                    var s = time.getSeconds(); // getSeconds方法返回 Date 对象的秒数 (0 ~ 59)
+                    return y + '-' + M + '-' + d + ' ' + h + ':' + m + ':' + s;
+                } else {
+                    return '';
+                }
+            },
+            
+            likePublish: function () {
+                var publishId = this.publishdata.id;
+
+                if(this.likeActionClass === "fas fa-thumbs-up mr-1"){
+                    this.likeActionClass = "far fa-thumbs-up mr-1";
+                    this.likeStyle = "";
+
+                    // 减少
+                    this.$options.methods.changeLikeCount("decrease", publishId)
+
+                    this.publishdata.likeCount = this.publishdata.likeCount - 1;
+
+                } else if(this.likeActionClass === "far fa-thumbs-up mr-1"){
+                    this.likeActionClass = "fas fa-thumbs-up mr-1";
+                    this.likeStyle = "color: #007bff;";
+
+                    // 增加
+                    this.$options.methods.changeLikeCount("increase", publishId);
+
+                    this.publishdata.likeCount = this.publishdata.likeCount + 1;
+                }
+            },
+            updateCount: function() {
+                this.countForComment = this.countForComment + 1;
+            },
+
+            setReplyDefault: function(replyDefault) {
+                this.replyDefault = replyDefault;
+            },
+
+            makeReplyToDefault: function () {
+                var replyDefaultObject = {
+                        type: "comment", // comment or reply
+                        content: "",
+                        fromUuid: "",
+                        toUuid: "",
+                        replyType: "",
+                        aimId: this.publishdata.id,
+                        toUserName: "",
+                        originalContent: "",
+                        display: "display:none;",
+                        placeholderString: "写回复...",
+                    };
+                this.replyDefault = replyDefaultObject;
+            },
+
+            submitComment: function() {
+                // 提交评论数据
+                var json_data = this.replyDefault;
+                const that = this;
+
+                $.ajax({
+                    //发送请求URL，可使用相对路径也可使用绝对路径
+                    url: "${pageContext.request.contextPath}/createComment",
+                    //发送方式为GET，也可为POST，需要与后台对应
+                    type: 'POST',
+                    data: JSON.stringify(json_data),
+                    dataType: 'json',
+                    async: false,
+                    contentType: "application/json;charset=utf-8",
+                    //后台返回成功后处理数据，data为后台返回的json格式数据
+                    success: function (data) {
+                        if (data.code === 400) {
+                            console.log(data);
+                        } else if (data.code === 200) {
+                            console.log(data);
+                        }
+                    },
+                    error: function (e) {
+                        console.log(e);
+                    }
+                });
+
+                that.getPublishComment(that);
+            },
+
+            changeLikeCount: function(tag, publishId) {
+                var json_data = {tag: tag, publishId: publishId}
+
+                $.ajax({
+                    //发送请求URL，可使用相对路径也可使用绝对路径
+                    url: "${pageContext.request.contextPath}/changeLikeCount",
+                    //发送方式为GET，也可为POST，需要与后台对应
+                    type: 'POST',
+                    data: JSON.stringify(json_data),
+                    dataType: 'json',
+                    async: false,
+                    contentType: "application/json;charset=utf-8",
+                    //后台返回成功后处理数据，data为后台返回的json格式数据
+                    success: function (data) {
+                        if (data.code === 400) {
+                            console.log(data);
+                        } else if (data.code === 200) {
+                            console.log(data);
+                        }
+                    },
+                    error: function (e) {
+                        console.log(e);
+                    }
+                });
+            },
+            getPublishComment: function (that) {
+                var json_data = {publishId: this.publishdata.id};
+
+                $.ajax({
+                    //发送请求URL，可使用相对路径也可使用绝对路径
+                    url: "${pageContext.request.contextPath}/getPublishComment",
+                    //发送方式为GET，也可为POST，需要与后台对应
+                    type: 'POST',
+                    data: JSON.stringify(json_data),
+                    dataType: 'json',
+                    async: false,
+                    contentType: "application/json;charset=utf-8",
+                    //后台返回成功后处理数据，data为后台返回的json格式数据
+                    success: function (data) {
+                        if (data.code === 400) {
+                            console.log(data);
+                        } else if (data.code === 200) {
+                            console.log(data);
+                            // 重新加载科研动态信息
+                           that.comments = data.commentList;
+                        }
+                    },
+                    error: function (e) {
+                        console.log(e);
+                    }
+                });
+            }
+        }
+    }
+
+    var vue_data = {
+        publishData: [],
+        cosInf: {
+            bucketName: '${sessionScope.bucketName}',
+            region: '${sessionScope.region}',
+            thisUser: '${sessionScope.uuid}'
+        }
+    };
+
+    var vm = new Vue({
+        el: '#app',
+        data: vue_data,
+        components: {
+            'component-post': ComponentPost,
+        },
+        methods: {
+            expandTextarea: function (){
+                $('#publishText').attr("rows", 4)
+            },
+            closeTextarea: function () {
+                $('#publishText').attr("rows", 2)
+            },
+            publishDataFunction: function (event){
+                event.preventDefault();
+                // 获取 textAre 数据
+                var publishContent = $('#publishText').val();
+
+                // 获取权限信息
+                var publishAccess = $('#publishAccess').val();
+
+                var json_data = {publishContent: publishContent, publishAccess: publishAccess};
+
+                $.ajax({
+                    //发送请求URL，可使用相对路径也可使用绝对路径
+                    url: "${pageContext.request.contextPath}/publishData",
+                    //发送方式为GET，也可为POST，需要与后台对应
+                    type: 'POST',
+                    data: JSON.stringify(json_data),
+                    dataType: 'json',
+                    async: false,
+                    contentType: "application/json;charset=utf-8",
+                    //后台返回成功后处理数据，data为后台返回的json格式数据
+                    success: function (data) {
+                        if (data.code === 400) {
+                            console.log(data);
+                            toastr.error("科研动态发布失败!")
+                        } else if (data.code === 200) {
+                            console.log(data);
+                            // 重新加载科研动态信息
+                            // $('#example').DataTable().ajax.reload();
+                            // $('#image-uploading').fadeOut("slow");
+                            toastr.success("科研动态发布成功！")
+                        }
+                    },
+                    error: function (e) {
+                        console.log(e);
+                    }
+                });
+                $('#publishText').val('');
+                getPublishData();
+            }
+        }
+    })
+
+    $(function () {
+        getPublishData();
+    })
+
+    function getPublishData() {
+        $.ajax({
+            type: 'post',
+            url: '${pageContext.request.contextPath }/getPublishData',
+            contentType: 'application/json;charset=utf-8',
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                if (data.code === 400) {
+                    console.log(data);
+                } else if (data.code === 200) {
+                    console.log(data);
+                    vue_data.publishData = data.publishData;
+                }
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+    }
+
+    function getPublishComment(publishId) {
+        var json_data = {publishId: publishId};
+
+        $.ajax({
+            //发送请求URL，可使用相对路径也可使用绝对路径
+            url: "${pageContext.request.contextPath}/getPublishComment",
+            //发送方式为GET，也可为POST，需要与后台对应
+            type: 'POST',
+            data: JSON.stringify(json_data),
+            dataType: 'json',
+            async: false,
+            contentType: "application/json;charset=utf-8",
+            //后台返回成功后处理数据，data为后台返回的json格式数据
+            success: function (data) {
+                if (data.code === 400) {
+                    console.log(data);
+                    toastr.error("科研动态发布失败!")
+                } else if (data.code === 200) {
+                    console.log(data);
+                    // 重新加载科研动态信息
+                    // $('#example').DataTable().ajax.reload();
+                    // $('#image-uploading').fadeOut("slow");
+                    toastr.success("科研动态发布成功！")
+                }
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+    }
 </script>
-
-
 </body>
 </html>

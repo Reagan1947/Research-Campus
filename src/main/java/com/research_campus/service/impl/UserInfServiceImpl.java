@@ -1,10 +1,13 @@
 package com.research_campus.service.impl;
 
 import com.research_campus.dao.IUserDao;
+import com.research_campus.domain.Subject;
 import com.research_campus.domain.UserInfo;
 import com.research_campus.service.IUserInfService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author buwan
@@ -12,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserInfServiceImpl implements IUserInfService {
-
 
     IUserDao userDao;
 
@@ -41,5 +43,15 @@ public class UserInfServiceImpl implements IUserInfService {
             e.printStackTrace();
         }
         return userInfo;
+    }
+
+    @Override
+    public List<UserInfo> findAllUserInfo() {
+        return userDao.selectAllUserInfo();
+    }
+
+    @Override
+    public List<Subject> findUserSubjectByUserId(Integer id) {
+        return userDao.selectSubjectByUserId(id);
     }
 }

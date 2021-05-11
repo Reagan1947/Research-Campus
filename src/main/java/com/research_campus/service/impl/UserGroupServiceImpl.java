@@ -85,4 +85,9 @@ public class UserGroupServiceImpl implements IUserGroupService {
 
         return groupOfResearchDepartmentList;
     }
+
+    @Override
+    public String findGroupOfUserUuid(String type, String projectEntityUuid) {
+        return userGroupDao.selectGroupOfUserUuid(type, projectEntityUuid);
+    }
 }

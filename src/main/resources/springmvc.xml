@@ -58,6 +58,7 @@
     <mvc:resources location="/plugins/bs-custom-file-input/" mapping="/plugins/bs-custom-file-input/**"/>
     <mvc:resources location="/plugins/daterangepicker/" mapping="/plugins/daterangepicker/**"/>
     <mvc:resources location="/plugins/moment/" mapping="/plugins/moment/**"/>
+    <mvc:resources location="/plugins/chart.js/" mapping="/plugins/chart.js/**"/>
     <mvc:resources location="/plugins/select2/js/" mapping="/plugins/select2/js/**"/>
     <mvc:resources location="/plugins/select2/css/" mapping="/plugins/select2/css/**"/>
     <mvc:resources location="/plugins/select2-bootstrap4-theme/" mapping="/plugins/select2-bootstrap4-theme/**"/>

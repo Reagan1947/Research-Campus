@@ -1,6 +1,9 @@
 package com.research_campus.service;
 
+import com.research_campus.domain.Subject;
 import com.research_campus.domain.UserInfo;
+
+import java.util.List;
 
 /**
  * @author buwan
@@ -22,4 +25,16 @@ public interface IUserInfService {
      */
     UserInfo findUserInfByUsernameBase(String username);
 
+    /**
+     * 查询所有用户信息
+     * @return 用户信息 List
+     */
+    List<UserInfo> findAllUserInfo();
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    List<Subject> findUserSubjectByUserId(Integer id);
 }

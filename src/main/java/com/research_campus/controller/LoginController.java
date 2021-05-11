@@ -66,7 +66,7 @@ public class LoginController {
         session.setAttribute("bucketName", PBucketName);
         session.setAttribute("region", PRegion);
 
-        return "test";
+        return "redirect:/overviewPage";
     }
 
 

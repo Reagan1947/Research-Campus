@@ -31,7 +31,7 @@ public interface IUserGroupDao {
      * @param id userUuid
      * @return UserInfo pojo
      */
-    @Select("SELECT id, email, username, phoneNumber, uuid, chineseName, explanatory FROM users WHERE uuid=#{id}")
+    @Select("SELECT id, email, userName, phoneNumber, uuid, chineseName, explanatory FROM users WHERE uuid=#{id}")
     UserInfo selectUserByUuid(@Param("id") String id);
 
     /**
@@ -71,4 +71,13 @@ public interface IUserGroupDao {
             @Result(property = "projectEntity", column = "projectEntityUuid", javaType = com.research_campus.domain.ProjectEntity.class, one = @One(select = "com.research_campus.dao.IEntityDao.selectProjectEntityByUuid")),
     })
     List<GroupOfResearchDepartment> selectGroupOfResearchDepartmentList(@Param("type") String type);
+
+    /**
+     * 查询用户组 项目实体 关系
+     * @param type 用户组种类
+     * @param projectEntityUuid 科研项目主体Uuid
+     * @return
+     */
+    @Select("SELECT groupOfUserUuid FROM group_projectentity WHERE type=#{type} AND projectEntityUuid=#{projectEntityUuid}")
+    String selectGroupOfUserUuid(@Param("type") String type, @Param("projectEntityUuid") String projectEntityUuid);
 }

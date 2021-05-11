@@ -44,4 +44,12 @@ public interface IUserGroupService {
      * @return List GroupOfResearchDepartment pojo
      */
     List<GroupOfResearchDepartment> findGroupOfResearchDepartment(String type);
+
+    /**
+     * 查询用户组 项目实体 关系
+     * @param type 用户组种类
+     * @param projectEntityUuid 科研项目主体Uuid
+     * @return
+     */
+    String findGroupOfUserUuid(String type, String projectEntityUuid);
 }

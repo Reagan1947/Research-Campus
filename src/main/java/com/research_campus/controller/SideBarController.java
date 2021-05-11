@@ -1,5 +1,6 @@
 package com.research_campus.controller;
 
+import com.research_campus.domain.Subject;
 import com.research_campus.domain.UserInfo;
 import com.research_campus.service.IUserInfService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author buwan
@@ -27,16 +29,14 @@ public class SideBarController {
     @RequestMapping("/profile.detail")
     public ModelAndView directToProfileDetail(Authentication authentication, Model model, HttpServletRequest request) throws Exception{
 
-        // 查询用户 所属部门 以及subj 信息
-        // 查询用户所属角色
-        // 查询用户说明内容
         UserInfo userInfo = userInfService.findUserInfByUsernameBase(authentication.getName());
+
+        // 查询部门信息
+        List<Subject> subjectList = userInfService.findUserSubjectByUserId(userInfo.getId());
+        userInfo.setSubject(subjectList);
         ModelAndView modelandview = new ModelAndView();
         modelandview.addObject("userInfo", userInfo);
         modelandview.setViewName("page_profile");
-//        System.out.println("--------------------------------------");
-//        System.out.println(userInfo.getEmail());
-//        System.out.println("--------------------------------------");
 
         return modelandview;
     }
@@ -71,6 +71,13 @@ public class SideBarController {
         // 定位到BpmnList界面
 
         return "page_bpmnList";
+    }
+
+    @RequestMapping("/overviewPage")
+    public String directToOverviewPage(HttpServletRequest request) throws Exception{
+
+        // 重定向
+        return "page_main";
     }
 
 }
