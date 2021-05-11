@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="https://github.com/Reagan1947/Research-Campus/blob/master/src/main/webapp/static/images/icon_03.svg" alt="Research-Campus" width="170">
+  <img src="https://research-campus-1256316910.cos.ap-chongqing.myqcloud.com/researchCampus-icon.svg" alt="Research-Campus" width="170">
 <!--   <br>
   Research Campus
   <br> -->
@@ -9,7 +9,10 @@
 <h4 align="center" font-weight:bold;">Research Manage System Of University
 </br>高校科研项目管理系统</br></h4>
 <p align="center">
-                 
+
+<p align="center">
+<img src="https://raw.githubusercontent.com/Reagan1947/Research-Campus/master/src/main/webapp/custom/img/mainPageFix.png">
+</p>
              
 ## 1. 关于Research-Campus   
 
@@ -17,7 +20,7 @@
 
 Research-Capmus旨创建一个应用于高校科研项目管理的B-S架构服务系统
 
-## 2. 项目依赖
+## 2. 项目依赖(基于SSM Spring-Security Activiti-5)
 
 本项目目前基于以下项目构建：
 
@@ -30,12 +33,17 @@ Research-Capmus旨创建一个应用于高校科研项目管理的B-S架构服�
 
 项目最终构建：
 
-- SpringBoot:
-- VUE:
-- SpringSecurity:
-- Activiti:
+- SpringBoot：基于微服务开发
+- VUE: 前后端分离
+- SpringSecurity
+- Activiti-7 (Activiti-7 已经整合Spring-Security)
 
-## 3. 
+## 3. 基础功能
 
-// 待完善
+1.  流程创建等流程管理操作
+2.  用户权限管理
+3.  动态部署菜单
+4.  站内交流以及基础社交功能
+
+
 
