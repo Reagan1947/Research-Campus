@@ -22,12 +22,12 @@
         }
 
         .transfer-double-content-left {
-            width: 45%;
+            width: 40%;
             height: auto;
         }
 
         .transfer-double-content-right {
-            width: 45%;
+            width: 40%;
             height: auto;
         }
 
@@ -86,7 +86,7 @@
             <div class="container-fluid">
                 <div class="row">
 
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <div class="card card-outline card-primary">
                             <div class="card-header">
                                 <h3 class="card-title">${group.name}组成员管理</h3>
@@ -102,7 +102,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-7">
+                    <div class="col-md-8">
                         <div class="card card-outline card-primary">
                             <div class="card-header">
                                 <h3 class="card-title">更改群组成员</h3>

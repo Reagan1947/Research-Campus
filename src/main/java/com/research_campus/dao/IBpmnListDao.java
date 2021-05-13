@@ -1,6 +1,7 @@
 package com.research_campus.dao;
 
 import com.research_campus.domain.BpmnList;
+import com.research_campus.domain.MyResearchProject;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -80,4 +81,22 @@ public interface IBpmnListDao {
     @Select("SELECT NAME_ FROM act_re_procdef WHERE ID_=#{processDefineId}")
     String getProcessDefineNameByPdId(@Param("processDefineId") String processDefineId);
 
+    /**
+     * 从 user_process_action 表中获取个人项目的详细信息
+     * @return MyResearchProject Pojo Detail
+     * @param userUuid 用户Uuid
+     */
+    @Select("SELECT * FROM (SELECT * FROM user_process_action ORDER BY createDate DESC LIMIT 9999) orderResult WHERE orderResult.userUuid=#{userUuid} GROUP BY orderResult.projectEntityUuid")
+    @Results({
+            @Result(id = true, property = "id", column = "id"),
+            @Result(column = "projectEntityUuid", property = "projectEntityUuid"),
+            @Result(column = "businessEntityUuid", property = "businessEntityUuid"),
+            @Result(column = "processInstanceId", property = "processInstanceId"),
+            @Result(column = "processDefineId", property = "processDefineId"),
+            @Result(column = "userUuid", property = "userUuid"),
+            @Result(column = "createDate", property = "createDate"),
+            @Result(property = "businessEntity", column = "businessEntityUuid", javaType = com.research_campus.domain.BusinessEntity.class, one = @One(select = "com.research_campus.dao.IEntityDao.selectBusinessEntityByUuid")),
+            @Result(property = "projectEntity", column = "projectEntityUuid", javaType = com.research_campus.domain.ProjectEntity.class, one = @One(select = "com.research_campus.dao.IEntityDao.selectProjectEntityByUuid")),
+    })
+    List<MyResearchProject> selectPersonalResearchProjectDetail(@Param("userUuid") String userUuid);
 }

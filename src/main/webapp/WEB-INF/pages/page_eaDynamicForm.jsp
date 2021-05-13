@@ -181,11 +181,11 @@
                                     <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
                                         <span class="sr-only">下拉切换</span>
                                         <div class="dropdown-menu" role="menu" style="">
-                                            <a class="dropdown-item" onclick="dealDeclaration(0)">驳回申请</a>
+                                            <a class="dropdown-item" @click="dealExamine(0, $event)">驳回申请</a>
                                             <a class="dropdown-item" href="#">转交申请</a>
                                             <a class="dropdown-item" href="#">暂存</a>
                                             <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" onclick="dealDeclaration(2)">淘汰项目</a>
+                                            <a class="dropdown-item" @click="dealExamine(2, $event)">淘汰项目</a>
                                         </div>
                                     </button>
                                 </div>
@@ -497,6 +497,34 @@
                     });
                 })
             },
+
+            dealExamine: function (dealTag, event) {
+                event.preventDefault();
+                var json_data = {
+                    processId: '${task.processInstanceId}',
+                    taskId: '${task.id}',
+                    auditResult: dealTag,
+                };
+                $.ajax({
+                    url : '${pageContext.request.contextPath}/dealExamine',
+                    type : 'post',
+                    data : JSON.stringify(json_data),
+                    dataType: 'json',
+                    contentType : 'application/json;charset=utf-8',   //中文需要加上charset=utf-8才正确
+                    success: function (data) {
+                        if (data.code === 400) {
+                            console.log(data);
+                            toastr.error("审批操作成功")
+                        } else if (data.code === 200) {
+                            console.log(data);
+                            toastr.success("审批操作成功")
+                        }
+                    },
+                    error: function (e) {
+                        console.log(e);
+                    }
+                });
+            }
         }
     });
 

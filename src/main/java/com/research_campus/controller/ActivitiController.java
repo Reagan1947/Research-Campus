@@ -3,18 +3,23 @@ package com.research_campus.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.qcloud.cos.model.COSObjectInputStream;
 import com.qcloud.cos.model.PutObjectResult;
-import com.research_campus.domain.BpmnList;
+import com.research_campus.domain.*;
 import com.research_campus.service.IActivitiService;
 import com.research_campus.service.IDeclarationService;
+import com.research_campus.service.IEntityService;
 import com.research_campus.utils.activiti.ActivitiMapTool;
+import com.research_campus.utils.activiti.CommUtils;
 import com.research_campus.utils.activiti.IDGenerator;
 import com.research_campus.utils.stream.ConvertUtil;
 import com.research_campus.utils.tencentCloudCos.CosClientTool;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RepositoryService;
+import org.activiti.engine.history.HistoricVariableInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.repository.ProcessDefinitionQuery;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,10 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.research_campus.utils.SVG.SvgUtils.convert2PNG;
 
@@ -41,6 +43,13 @@ import static com.research_campus.utils.SVG.SvgUtils.convert2PNG;
 @Controller
 public class ActivitiController {
     private static final Logger LOGGER = Logger.getLogger(ActivitiController.class);
+
+    IEntityService entityService;
+
+    @Autowired
+    public void setEntityService(IEntityService entityService) {
+        this.entityService = entityService;
+    }
 
 
     ProcessEngine processEngine;
@@ -77,6 +86,13 @@ public class ActivitiController {
     @Autowired
     public void setConvertUtil(ConvertUtil convertUtil) {
         this.convertUtil = convertUtil;
+    }
+
+    IDeclarationService declarationService;
+
+    @Autowired
+    public void setDeclarationService(IDeclarationService declarationService) {
+        this.declarationService = declarationService;
     }
 
 
@@ -183,6 +199,50 @@ public class ActivitiController {
         mv.addObject(bpmnList);
         //设置逻辑视图名，视图解析器会根据该名字解析到具体的视图页面
         mv.setViewName("page_showBPMN");
+
+        return mv;
+    }
+
+    @RequestMapping("/showDiagramProgress")
+    public ModelAndView showDiagramProgress(String processInstanceId, HttpServletRequest request) throws Exception{
+
+        String proBusUuid = "";
+
+        Date processInstanceStartTime = processEngine.getHistoryService().createHistoricProcessInstanceQuery()
+                .processInstanceId(processInstanceId)
+                .singleResult()
+                .getStartTime();
+
+        ProcessInstance pro = processEngine.getRuntimeService()
+                .createProcessInstanceQuery()
+                .processInstanceId(processInstanceId)
+                .singleResult();
+        if (pro != null) {
+            proBusUuid = (String) processEngine.getRuntimeService().getVariable(processInstanceId,"proBusUuid");
+
+        } else {
+            HistoricVariableInstance vars = processEngine.getHistoryService().createHistoricVariableInstanceQuery().processInstanceId(processInstanceId)
+                    .variableName("proBusUuid").singleResult();
+            proBusUuid = (String) vars.getValue();
+        }
+
+        // 根据 proBusUuid 查询 proBus
+        ProBus proBus = entityService.selectProBusByProBusUuid(proBusUuid);
+
+        // 根据 businessEntityUuid 查询 businessEntity
+        BusinessEntity businessEntity = entityService.getBusinessEntityByUuid(proBus.getBusinessEntityUuid());
+
+        // 根据 projectUuid 查询 projectEntity
+        ProjectEntity projectEntity = entityService.getProjectEntityByUuid(proBus.getProjectEntityUuid());
+
+        ModelAndView mv = new ModelAndView();
+        //添加模型数据 可以是任意的POJO对象
+        mv.addObject("processInstanceId", processInstanceId);
+        mv.addObject("businessEntity", businessEntity);
+        mv.addObject("projectEntity", projectEntity);
+        mv.addObject("processInstanceStartTime", processInstanceStartTime);
+        //设置逻辑视图名，视图解析器会根据该名字解析到具体的视图页面
+        mv.setViewName("page_showDiagramProgress");
 
         return mv;
     }
@@ -561,5 +621,14 @@ public class ActivitiController {
 
 
         return "page_formCommon";
+    }
+
+    @RequestMapping(value = "/getMyResearchProjectDetail")
+    @ResponseBody
+    public List<MyResearchProject> getMyResearchProjectDetail(HttpServletRequest request) throws IOException {
+
+        HttpSession session = request.getSession();
+        String userUuid = (String) session.getAttribute("uuid");
+        return activitiService.getPersonalResearchProjectDetail(userUuid);
     }
 }

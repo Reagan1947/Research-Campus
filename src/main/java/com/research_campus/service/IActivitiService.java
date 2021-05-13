@@ -1,6 +1,7 @@
 package com.research_campus.service;
 
 import com.research_campus.domain.BpmnList;
+import com.research_campus.domain.MyResearchProject;
 import com.research_campus.domain.UserInfo;
 
 import java.util.List;
@@ -59,4 +60,11 @@ public interface IActivitiService {
      * @return 所属流程UUID
      */
     String getUuidByDeploymentId(String deploymentId);
+
+    /**
+     * 查询个人项目的详细信息
+     * @return 项目详细信息 MyResearchProject Pojo
+     * @param userUuid  用户Uuid
+     */
+    List<MyResearchProject> getPersonalResearchProjectDetail(String userUuid);
 }

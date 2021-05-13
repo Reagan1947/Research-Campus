@@ -386,6 +386,39 @@ public class DynamicFormController {
         response.getWriter().print(json.toJSONString());
     }
 
+    @RequestMapping(value = "/dealExamine", method = RequestMethod.POST)
+    @ResponseBody
+    public void dealExamine(@RequestBody JSONObject jsonObject, HttpServletResponse response) throws IOException {
+        Integer auditResult = (Integer) jsonObject.get("auditResult");
+        JSONObject json = new JSONObject();
+        String taskId = (String) jsonObject.get("taskId");
+        TaskService taskService = processEngine.getTaskService();
+
+        int code = 200;
+        String msg = "审批操作成功";
+
+        try {
+
+            taskService.setVariable(taskId, "auditResult", auditResult);
+
+        } catch (Exception e) {
+            code = 400;
+            msg = "审批操作失败";
+            e.printStackTrace();
+        }
+
+        // 完成该任务
+        taskService.complete(taskId);
+
+        json.put("code", code);
+        json.put("msg", msg);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        response.getWriter().print(json.toJSONString());
+    }
+
+
+
     @RequestMapping("/toEaDynamicForm")
     public ModelAndView toEaDynamicForm(String taskId) throws Exception {
         // 通过 Activiti formService 获取 formKey

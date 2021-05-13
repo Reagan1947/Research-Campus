@@ -85,6 +85,7 @@ public class ExamineAndApproveController {
 
             // 获取 proBusUuid
             String proBusUuid = (String) taskService.getVariable(task.getId(), "proBusUuid");
+            String userUuid = (String) taskService.getVariable(task.getId(), "userUuid");
 
             // 根据 proBusUuid 查询 proBus
             ProBus proBus = entityService.selectProBusByProBusUuid(proBusUuid);
@@ -95,7 +96,7 @@ public class ExamineAndApproveController {
             map.put("projectName", projectEntity.getProjectEntityName());
 
             // 获取申请审批用户信息
-            UserInfo userInfo = userGroupService.findUserByUuid(assignee);
+            UserInfo userInfo = userGroupService.findUserByUuid(userUuid);
 
             map.put("userName", userInfo.getUserName());
             map.put("userUuid", userInfo.getUuid());

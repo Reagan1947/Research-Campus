@@ -261,7 +261,7 @@
                         <div class="gap-for"></div>
 
                         <div class="input-group input-group-lg">
-                            <input type="text" class="form-control research-id-input" placeholder="密码" name="password"
+                            <input type="password" class="form-control research-id-input" placeholder="密码" name="password"
                                    aria-label="Dollar amount (with dot and two decimal places)" id="password-input"
                                    required>
                             <span class="input-group-text input-icon"><i class="bi bi-lock"></i></span>

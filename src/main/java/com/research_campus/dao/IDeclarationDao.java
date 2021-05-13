@@ -121,7 +121,7 @@ public interface IDeclarationDao {
      * @param userProcessAction userProcessAction pojo
      */
     @Insert("INSERT INTO user_process_action " +
-            "(businessEntityUuid, userUuid, projectEntityUuid, processDefineId, processInstanceId) " +
-            "VALUES (#{businessEntityUuid}, #{userUuid}, #{projectEntityUuid}, #{processDefineId}, #{processInstanceId})")
+            "(businessEntityUuid, userUuid, projectEntityUuid, processDefineId, processInstanceId, createDate) " +
+            "VALUES (#{businessEntityUuid}, #{userUuid}, #{projectEntityUuid}, #{processDefineId}, #{processInstanceId}, now())")
     void insertUserProcessAction(UserProcessAction userProcessAction);
 }
